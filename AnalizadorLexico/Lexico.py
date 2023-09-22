@@ -1,6 +1,3 @@
-def columna(caracterActual):
-    pass
-
 class Lexico:
     FINAL = 99
     ERROR = 100
@@ -34,8 +31,49 @@ class Lexico:
     [FINAL,    16, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL],  # 16
     ]
 
+    columna = {
+        #'a','b','c','d' etc : 0,
+        #'1', '2', '3' etc : 1,
+        '/': 2,
+        '*': 3,
+        '+': 4,
+        '-': 5,
+        '=': 6,
+        '<': 7,
+        '>': 8,
+        '{': 9,
+        '}': 10,
+        '(': 11,
+        ')': 12,
+        ',': 13,
+        ';': 14,
+        '.': 15,
+        '%': 16,
+        '_': 17,
+        'U': 18,
+        'i': 19,
+        'e': 20,
+        'E': 20,
+        '!': 21
+    }
+
+    # habria que ver como funcionaría con tab nl y espacio
+    def getColumna(self, caracter):
+        if caracter > 64 & caracter < 91 | caracter > 96 & caracter < 123:
+            return 0
+        elif caracter > 47 & caracter < 58:
+            return 1
+        elif caracter == 32 | caracter == 9:
+            return 22
+        elif caracter == 10 | caracter == 13:
+            return 23
+        else:
+            return columna.get(caracter, 24)
+
+
     def __init__(self, programa):
         self.programa = programa
+
     def yyLex(self, programa):
         if self.indice[0] == len(programa):
             return "Fin"
@@ -48,7 +86,7 @@ class Lexico:
                 caracterActual = programa[self.indice[0]]
             if caracterActual == 10:
                 self.nroLinea += 1
-            estadoSig = self.matrizDeTransiciones[estado][columna(caracterActual)]
+            estadoSig = self.matrizDeTransiciones[estado][getColumna(self, caracterActual)]
             #AccionSemantica accion = accionesSemanticas.getAccion(estado,paridad(c));
             #accion.ejecutar(bufferLexema,indice,c);
             estado = estadoSig
@@ -59,5 +97,6 @@ class Lexico:
                 break
         print("TokenActual")
         return "TokenActual"
+
 
     # faltan cosas del Lexico de java
