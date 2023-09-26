@@ -5,5 +5,5 @@ class AddChar(AccionSemantica):
     def __init__(self, lexico: Lexico):
         super().__init__(lexico)
 
-    def ejecutar(self, buffer,caracterActual):
+    def ejecutar(self, buffer, caracterActual):
         buffer.append(caracterActual)

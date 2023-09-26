@@ -1,3 +1,4 @@
+from AnalizadorLexico.Token import Token
 from CodeReader import CodeReader
 import sys
 
@@ -12,3 +13,7 @@ for caracter in generador:
         print(caracter)
 print(codigo.getLast())"""
 
+token = Token("IF")
+token.print()
+token.lexema = "ELSE"
+token.print()
