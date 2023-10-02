@@ -7,7 +7,7 @@ class SimpleChar(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer, caracterActual):
-        buffer.clear()
-        buffer.append(caracterActual)
+        buffer = ""
+        buffer += caracterActual
         self.lexico.setTokenActual(buffer)
-        buffer.clear()
+        buffer = ""

@@ -6,4 +6,4 @@ class AddChar(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer, caracterActual):
-        buffer.append(caracterActual)
+        buffer += caracterActual

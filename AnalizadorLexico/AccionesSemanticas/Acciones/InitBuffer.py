@@ -6,6 +6,5 @@ class InitBuffer(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer,caracterActual):
-        buffer = []
-        buffer.clear()
-        buffer.append(caracterActual)
+        buffer = ""
+        buffer += caracterActual

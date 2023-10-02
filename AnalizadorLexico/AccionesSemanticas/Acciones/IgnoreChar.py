@@ -6,4 +6,4 @@ class IgnoreChar(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer,caracterActual):
-        buffer.clear()
+        buffer = ""

@@ -10,6 +10,12 @@ class IdReturnLast(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer,caracterActual):
+
+        for letra in buffer:
+            if letra.isupper():
+                self.lexico.setTokenActual("error_yacc");
+                self.lexico.escribirError("Identificador contiene mayusculas.")
+                return
         if len(buffer) <= 20: #Esperar respuesta de paula a ver que hago con las letras mayusculas
             self.lexico.setTokenActual(buffer)
         else:

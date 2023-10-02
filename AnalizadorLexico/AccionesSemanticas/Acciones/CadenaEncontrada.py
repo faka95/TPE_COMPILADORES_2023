@@ -6,6 +6,7 @@ class CadenaEncontrada(AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, buffer,caracterActual):
-        buffer.append(caracterActual)
+        buffer += caracterActual
         self.lexico.setTokenActual(buffer)
-        buffer.clear()
+        buffer = ""
+
