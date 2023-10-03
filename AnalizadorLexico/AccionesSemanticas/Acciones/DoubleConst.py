@@ -1,13 +1,13 @@
-from AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas import AccionSemantica
-from AnalizadorLexico.Lexico import Lexico
+import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
+import AnalizadorLexico.Lexico
 
-class DoubleConst(AccionSemantica):
+class DoubleConst(accion.AccionSemantica):
     CONST_HIGHEXP = 38
     CONST_LOWEXP = -38
     CONST_LOWDEC = 1.17549435 * (10 ** CONST_LOWEXP)
     CONST_HIGHDEC = 3.40282347 * (10 ** CONST_HIGHEXP)
 
-    def __init__(self, lexico: Lexico):
+    def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
 
     def ejecutar(self, buffer,caracterActual):

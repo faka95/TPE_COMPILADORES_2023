@@ -1,3 +1,6 @@
+import AnalizadorLexico.Lexico as lex
+import AnalizadorLexico.AccionesSemanticas.Acciones.CharError as char
+
 CONST_16BIT = 2 ** 15
 SUFFIX_16BIT = "_i"
 CONST_UNSIGNED_32BIT = 2 ** 32 - 1
@@ -56,7 +59,7 @@ def ejecutar(buffer, caracterActual):
 
 ejecutar(buffer,"ul")"""
 
-
+"""
 def ejecutar(buffer, caracterActual):
     buffer += caracterActual
     exponente = 0
@@ -94,3 +97,9 @@ def ejecutar(buffer, caracterActual):
 cadena = "-0.16549426"
 ejecutar(cadena,"8")
 print(CONST_LOWDEC)
+"""
+
+lexico = lex.Lexico
+error = char.CharError(lexico)
+error.ejecutar("hola","+")
+

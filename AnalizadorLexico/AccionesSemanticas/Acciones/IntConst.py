@@ -1,12 +1,12 @@
-from AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas import AccionSemantica
-from AnalizadorLexico.Lexico import Lexico
+import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
+import AnalizadorLexico.Lexico
 
-class IntConst(AccionSemantica):
+class IntConst(accion.AccionSemantica):
     CONST_16BIT = 2**15
     SUFFIX_16BIT = "_i"
     CONST_UNSIGNED_32BIT = 2**32 - 1
     SUFFIX_32BIT = "_ul"
-    def __init__(self, lexico: Lexico):
+    def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
     def rango_i(self,numero):
         if (numero >= (self.CONST_16BIT * (-1))) and (numero <= (self.CONST_16BIT - 1)):

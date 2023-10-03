@@ -1,8 +1,8 @@
-from AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas import AccionSemantica
-from AnalizadorLexico.Lexico import Lexico
+import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
+import AnalizadorLexico.Lexico
 
-class AddChar(AccionSemantica):
-    def __init__(self, lexico: Lexico):
+class AddChar(accion.AccionSemantica):
+    def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
 
     def ejecutar(self, buffer, caracterActual):

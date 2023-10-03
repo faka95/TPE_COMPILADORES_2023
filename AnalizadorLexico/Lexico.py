@@ -1,5 +1,4 @@
-from AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas import AccionesSemanticas
-
+import importlib
 
 class Lexico:
     FINAL = 99
@@ -137,7 +136,9 @@ class Lexico:
                 self.nroLinea += 1
             estado_sig = self.matrizDeTransiciones[estado][self.getColumna(caracter_actual)]
             print(estado_sig)
-            accion = AccionesSemanticas.getAccion(estado, self.getColumna(caracter_actual))
+            acciones_mod = importlib.import_module('AccionesSemanticas.Acciones_Semanticas')
+            acciones = getattr(acciones_mod,"AccionesSemanticas")
+            accion = acciones.AccionesSemanticas.getAccion(estado, self.getColumna(caracter_actual))
             accion.ejecutar(self.bufferLexema, caracter_actual)
             estado = estado_sig
             self._indice[0] += 1
