@@ -1,5 +1,8 @@
 import importlib
 
+from AnalizadorLexico.Token import Token
+
+
 class Lexico:
     FINAL = 99
     ERROR = 100
@@ -8,39 +11,23 @@ class Lexico:
     # escribirError
     matrizDeTransiciones = [
         # letra digito    /      *      +      -     =      <       >      {      }      (      )      ,      ;      .     %      _      u      i     e/E     !   Blc/tab   nl    otro   #estado
-        [1, 9, FINAL, 3, FINAL, FINAL, 7, 5, 6, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, 12, 2, 1, 1, 1, 1, 8, 0, 0,
-         ERROR],  # 0
-        [1, 1, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         1, 2, 2, 2, 2, 2, 2, ERROR],  # 1
-        [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, FINAL, 2, 2, 2, 2, 2, 2, 2, ERROR],  # 2
-        [FINAL, FINAL, FINAL, 4, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 3
-        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, 4, ERROR],  # 4
-        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 5
-        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 6
-        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 7
-        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, ERROR, ERROR, ERROR, FINAL, ERROR, ERROR, ERROR],  # 8
-        [ERROR, 9, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, 13, ERROR,
-         10, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 9
-        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, 11, FINAL, ERROR, ERROR, ERROR, ERROR, ERROR],  # 10
-        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, ERROR, FINAL, ERROR, ERROR, ERROR, ERROR, ERROR],  # 11
-        [ERROR, 13, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 12
-        [FINAL, 13, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, 14, FINAL, FINAL, FINAL, ERROR],  # 13
-        [ERROR, ERROR, ERROR, ERROR, 15, 15, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 14
-        [ERROR, 16, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,
-         ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 15
-        [FINAL, 16, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,
-         FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL],  # 16
+        [    1,     9, FINAL,     3, FINAL, FINAL,     7,     5,     6, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,    12,     2,     1,     1,     1,     1,     8, FINAL, FINAL, ERROR],  # 0
+        [    1,     1, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,     1,     1,     1,     1, FINAL, FINAL, FINAL, ERROR],  # 1
+        [    2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2, FINAL,     2,     2,     2,     2,     2,     2,     2, ERROR],  # 2
+        [FINAL, FINAL, FINAL,     4, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 3
+        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,     4, ERROR],  # 4
+        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 5
+        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 6
+        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 7
+        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, FINAL, ERROR, ERROR, ERROR],  # 8
+        [ERROR,     9, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,    13, ERROR,    10, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 9
+        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR,    11, FINAL, ERROR, ERROR, ERROR, ERROR, ERROR],  # 10
+        [ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, FINAL, ERROR, ERROR, ERROR, ERROR, ERROR],  # 11
+        [ERROR,    13, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 12
+        [FINAL,    13, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,    14, FINAL, FINAL, FINAL, ERROR],  # 13
+        [ERROR, ERROR, ERROR, ERROR,    15,    15, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 14
+        [ERROR,    16, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR, ERROR],  # 15
+        [FINAL,    16, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL],  # 16
     ]
 
     columna = {
@@ -122,14 +109,15 @@ class Lexico:
 
     def setBufferLexema(self, value):
         self._bufferLexema = value
-    def setTokenActual(self, token):
-        print("SetTokenActual:", token)
+
     def escribirError(self,error):
         print("Escribir error: ", error)
+
     def yyLex(self, programa):
+        self.tokenActual = None
         import AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas as acc
         if self._indice[0] == len(programa)+1:
-            return "Fin"
+            return Token("FIN")
         estado = 0
         token_actual = None
         while token_actual is None:
@@ -140,20 +128,20 @@ class Lexico:
             if caracter_actual == 10:
                 self.nroLinea += 1
             estado_sig = self.matrizDeTransiciones[estado][self.getColumna(caracter_actual)]
-            print("estado sig: ",estado_sig)
-            print("buffer: ", self._bufferLexema, " CaracterActual", caracter_actual)
+            #print("estado actual: ", estado, "- estado sig: ", estado_sig)
+            #print("buffer: ", self._bufferLexema, " CaracterActual", caracter_actual)
             acciones = acc.AccionesSemanticas(self)
             accion = acciones.getAccion(estado, self.getColumna(caracter_actual))
-            print(str(accion))
+            #print(str(accion))
             accion.ejecutar(caracter_actual)
-            print("----------------------------")
+            #print("----------------------------")
             estado = estado_sig
             self._indice[0] += 1
             if self._indice[0] >= len(programa):
-                print("fin")
-                return "FIN"
+                #print("fin")
+                return Token("FIN")
             if estado_sig == self.FINAL or estado_sig == self.ERROR:
-                print("break")
+                #print("break")
                 break
-        print("TokenActual: " + str(token_actual))
-        return token_actual
+        #print("TokenActual: " + self.tokenActual.getLexema())
+        return self.tokenActual

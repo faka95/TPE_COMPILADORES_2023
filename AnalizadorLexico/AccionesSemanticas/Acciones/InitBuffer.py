@@ -8,4 +8,4 @@ class InitBuffer(accion.AccionSemantica):
     def ejecutar(self,caracterActual):
         self.lexico.bufferClear()
         self.lexico.bufferAdd(caracterActual)
-        print("initbuffer: ", self.lexico.bufferLexema())
+        #print("initbuffer: ", self.lexico.bufferLexema())

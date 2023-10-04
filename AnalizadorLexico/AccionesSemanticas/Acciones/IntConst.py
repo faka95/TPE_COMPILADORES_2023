@@ -11,7 +11,8 @@ class IntConst(accion.AccionSemantica):
     def rango_i(self,numero):
         if (numero >= (self.CONST_16BIT * (-1))) and (numero <= (self.CONST_16BIT - 1)):
             return True
-        else: return False
+        else:
+            return False
 
     def rango_ul(self, numero):
         if (numero >= 0) and (numero <= self.CONST_UNSIGNED_32BIT):

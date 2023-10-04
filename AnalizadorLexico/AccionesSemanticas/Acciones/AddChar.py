@@ -6,6 +6,6 @@ class AddChar(accion.AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self,caracterActual):
-        print("addchar buffer:  ", self.lexico.bufferLexema(), "caracterActual addchar", caracterActual)
-        print("----------------------------")
+        #print("addchar buffer:  ", self.lexico.bufferLexema(), "caracterActual addchar", caracterActual)
+        #print("----------------------------")
         self.lexico.bufferAdd(caracterActual)

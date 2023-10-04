@@ -88,5 +88,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
         self._lexema = value
         self._nro = self.getToken()
 
+    def getLexema(self):
+        return self._lexema
+
     def print(self):
         print("Token [lexema: '" + str(self.lexema) + "' , nro= " + str(self._nro) + "]")
