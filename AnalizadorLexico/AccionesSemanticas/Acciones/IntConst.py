@@ -18,39 +18,39 @@ class IntConst(accion.AccionSemantica):
             return True
         else: return False
 
-    def ejecutar(self, buffer,caracterActual):
-        buffer += caracterActual
+    def ejecutar(self,caracterActual):
+        self.lexico.bufferAdd(caracterActual)
         parte_numerica = ""
 
-        if buffer[0] == "-":
-            parte_numerica += buffer[0]
+        if self.lexico.bufferLexema()[0] == "-":
+            parte_numerica += self.lexico.bufferLexema()[0]
 
-        for caracter in buffer:
+        for caracter in self.lexico.bufferLexema():
             if caracter.isdigit():
                 parte_numerica += caracter
 
-        for letra in buffer:
+        for letra in self.lexico.bufferLexema():
             #Error si el sufijo contiene mayusculas
             if letra.isupper():
                 self.lexico.setTokenActual("error_yacc")
                 self.lexico.escribirError("Sufijo contiene mayusculas.")
                 return
 
-        if buffer.endswith(self.SUFFIX_16BIT):
+        if self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT):
             if not (self.rango_i(int(parte_numerica))):
                 self.lexico.setTokenActual("error_yacc")
-                self.lexico.escribirerror("Constante entera INT fuera de rango", buffer)
+                self.lexico.escribirerror("Constante entera INT fuera de rango", self.lexico.bufferLexema())
                 return
             else:
-                self.lexico.setTokenActual(buffer)
+                self.lexico.setTokenActual(self.lexico.bufferLexema())
 
-        elif buffer.endswith(self.SUFFIX_32BIT):
+        elif self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT):
             if not (self.rango_ul(int(parte_numerica))):
                 self.lexico.setTokenActual("error_yacc")
-                self.lexico.escribirerror("Constante entera ULONG fuera de rango", buffer)
+                self.lexico.escribirerror("Constante entera ULONG fuera de rango", self.lexico.bufferLexema())
                 return
             else:
-                self.lexico.setTokenActual(buffer)
+                self.lexico.setTokenActual(self.lexico.bufferLexema())
 
 
 

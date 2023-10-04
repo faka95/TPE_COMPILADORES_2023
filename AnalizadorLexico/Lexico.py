@@ -66,19 +66,19 @@ class Lexico:
     # habria que ver como funcionaría con tab nl y espacio
     def getColumna(self, caracter):
         ascii = ord(caracter)
-        if ascii == 69 | ascii == 101:  # e/E
+        if ascii == 69 or ascii == 101:  # e/E
             return 20
         elif ascii == 117:  # u
             return 18
         elif ascii == 105:  # i
             return 19
-        elif ascii > 64 & ascii < 91 | ascii > 96 & ascii < 123:  # letras restantes
+        elif ascii > 64 and ascii < 91 or ascii > 96 and ascii < 123:  # letras restantes
             return 0
-        elif ascii > 47 & ascii < 58:  # numeros
+        elif ascii > 47 and ascii < 58:  # numeros
             return 1
-        elif ascii == 32 | ascii == 9:  # espacio/tab
+        elif ascii == 32 or ascii == 9:  # espacio/tab
             return 22
-        elif ascii == 10 | ascii == 13:  # new line/carriage return
+        elif ascii == 10 or ascii == 13:  # new line/carriage return
             return 23
         else:
             return self.columna.get(caracter, 24)  # resto de simbolos
@@ -89,7 +89,10 @@ class Lexico:
         self._indice = [0]
         self._nroLinea = 1
         self._bufferLexema = ""
-
+    def bufferAdd(self,caracterActual):
+        self._bufferLexema += caracterActual
+    def bufferClear(self):
+        self._bufferLexema = ""
     @property
     def tokenActual(self):
         return self._tokenActual
@@ -114,15 +117,17 @@ class Lexico:
     def indice(self, value):
         self._indice = value
 
-    @property
     def bufferLexema(self):
         return self._bufferLexema
 
-    @bufferLexema.setter
-    def bufferLexema(self, value):
+    def setBufferLexema(self, value):
         self._bufferLexema = value
-
+    def setTokenActual(self, token):
+        print("SetTokenActual:", token)
+    def escribirError(self,error):
+        print("Escribir error: ", error)
     def yyLex(self, programa):
+        import AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas as acc
         if self._indice[0] == len(programa)+1:
             return "Fin"
         estado = 0
@@ -135,16 +140,20 @@ class Lexico:
             if caracter_actual == 10:
                 self.nroLinea += 1
             estado_sig = self.matrizDeTransiciones[estado][self.getColumna(caracter_actual)]
-            print(estado_sig)
-            acciones_mod = importlib.import_module('AccionesSemanticas.Acciones_Semanticas')
-            acciones = getattr(acciones_mod,"AccionesSemanticas")
-            accion = acciones.AccionesSemanticas.getAccion(estado, self.getColumna(caracter_actual))
-            accion.ejecutar(self.bufferLexema, caracter_actual)
+            print("estado sig: ",estado_sig)
+            print("buffer: ", self._bufferLexema, " CaracterActual", caracter_actual)
+            acciones = acc.AccionesSemanticas(self)
+            accion = acciones.getAccion(estado, self.getColumna(caracter_actual))
+            print(str(accion))
+            accion.ejecutar(caracter_actual)
+            print("----------------------------")
             estado = estado_sig
             self._indice[0] += 1
             if self._indice[0] >= len(programa):
+                print("fin")
                 return "FIN"
-            if estado_sig == self.FINAL:
+            if estado_sig == self.FINAL or estado_sig == self.ERROR:
+                print("break")
                 break
         print("TokenActual: " + str(token_actual))
         return token_actual

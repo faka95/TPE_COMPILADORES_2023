@@ -5,6 +5,6 @@ class AccionSemantica(ABC):
         self.lexico = lexico
 
     @abstractmethod
-    def ejecutar(self, buffer, caracterActual):
+    def ejecutar(self,caracterActual):
         pass
 

@@ -14,15 +14,15 @@ class DoubleError(accion.AccionSemantica):
         except ValueError:
             return False
 
-    def ejecutar(self, buffer, caracterActual):
-        if not (self.checkFloat(buffer)):
+    def ejecutar(self,caracterActual):
+        if not (self.checkFloat(self.lexico.bufferLexema())):
             self.lexico.setTokenActual("error_yacc")
             self.lexico.escribirError("Contiene letras o no contiene digitos")
         else:
-            if ("e" in buffer or "E" in buffer):
-                if not ("+" in buffer or "-" in buffer):
+            if ("e" in self.lexico.bufferLexema() or "E" in self.lexico.bufferLexema()):
+                if not ("+" in self.lexico.bufferLexema() or "-" in self.lexico.bufferLexema()):
                     self.lexico.setTokenActual("error_yacc")
                     self.lexico.escribirError("Contiene letras o no contiene digitos")
 
-        buffer = ""
+        self.lexico.bufferClear()
 

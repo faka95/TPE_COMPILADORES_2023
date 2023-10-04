@@ -29,6 +29,9 @@ class AccionesSemanticas:
         self.E2 = CharError.CharError(self.lexico)
         self.E3 = FaltaError.FaltaError(self.lexico)
         self.E4 = DoubleError.DoubleError(self.lexico)
+
+    @property
+    def matrizAccionesSemanticas(self):
         self._matrizAccionesSemanticas = [
     #   letra       digito          /          *           +           -            =          <           >           {            }         (          )           ,               ;       .             %           _           u          i          e/E          !        Blc/tab       nl         otro   #estado
     [  self.AS1,   self.AS1,   self.AS8,   self.AS1,   self.AS8,   self.AS8,   self.AS1,   self.AS1,   self.AS1,   self.AS8,   self.AS8,   self.AS8,   self.AS8,   self.AS8,   self.AS8,   self.AS1,   self.AS1,   self.AS1,   self.AS1,   self.AS1,   self.AS1,   self.AS1,   self.AS0,   self.AS0, self.E2],  # 0
@@ -40,7 +43,7 @@ class AccionesSemanticas:
     [  self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS4,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3, self.E2],  # 6
     [  self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS4,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3,   self.AS3, self.E2],  # 6
     [   self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,    self.E3,   self.AS4,    self.E3,    self.E3, self.E2],  # 8
-    [   self.E1,    self.E1,   self.AS2,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,   self.AS2,    self.E1,   self.AS2,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1, self.E2],  # 9
+    [   self.E1,    self.AS2,   self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,   self.AS2,    self.E1,   self.AS2,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1, self.E2],  # 9
     [   self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,   self.AS2,   self.AS5,    self.E1,    self.E1,    self.E1,    self.E1, self.E2],  # 10
     [   self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,    self.E1,   self.AS5,    self.E1,    self.E1,    self.E1,    self.E1, self.E2],  # 11
     [   self.E1,    self.E4,   self.AS2,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4, self.E2],  # 12
@@ -49,11 +52,8 @@ class AccionesSemanticas:
     [   self.E4,   self.AS2,    self.E4,    self.E4,   self.AS2,   self.AS2,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4,    self.E4, self.E2],  # 15
     [  self.AS6,   self.AS2,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS6,   self.AS2,   self.AS6,   self.AS6,   self.AS6, self.E2],  # 13
     ]
-
-    @property
-    def matrizAccionesSemanticas(self):
         return self._matrizAccionesSemanticas
 
-    @classmethod
-    def getAccion(cls, fila, columna):
-        return cls.matrizAccionesSemanticas[fila][columna]
+    #@classmethod
+    def getAccion(self, fila, columna):
+        return self.matrizAccionesSemanticas[fila][columna]

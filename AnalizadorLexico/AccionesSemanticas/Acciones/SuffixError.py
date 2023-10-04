@@ -8,9 +8,9 @@ class SuffixError(accion.AccionSemantica):
     def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
 
-    def ejecutar(self, buffer, caracterActual):
-        if not (buffer.endswith(self.SUFFIX_32BIT) or buffer.endswith(self.SUFFIX_16BIT)):
+    def ejecutar(self,caracterActual):
+        if not (self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT) or self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT)):
             self.lexico.setTokenActual("error_yacc")
             self.lexico.escribirError("Entero no contiene Sufijo")
 
-        buffer = ""
+        self.lexico.bufferClear()

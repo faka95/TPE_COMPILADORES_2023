@@ -9,15 +9,15 @@ class IdConsumeLast(accion.AccionSemantica):
     def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
 
-    def ejecutar(self, buffer,caracterActual):
-        buffer += caracterActual
-        for letra in buffer:
+    def ejecutar(self, caracterActual):
+        self.lexico.bufferAdd(caracterActual)
+        for letra in self.lexico.bufferLexema():
             if letra.isupper():
                 self.lexico.setTokenActual("error_yacc");
                 self.lexico.escribirError("Identificador contiene mayusculas.")
                 return
-        if len(buffer) <= 20: #Esperar respuesta de paula a ver que hago con las letras mayusculas
-            self.lexico.setTokenActual(buffer)
+        if len(self.lexico.bufferLexema()) <= 20: #Esperar respuesta de paula a ver que hago con las letras mayusculas
+            self.lexico.setTokenActual(self.lexico.bufferLexema())
         else:
-            self.lexico.setTokenActual(buffer[:20])  # Se trunca el lexema
+            self.lexico.setTokenActual(self.lexico.bufferLexema()[:20])  # Se trunca el lexema
             self.lexico.escribirError("Lexema supera el tamaño máximo de 20")
