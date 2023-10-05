@@ -11,11 +11,11 @@ class Lexico:
     # escribirError
     matrizDeTransiciones = [
         # letra digito    /      *      +      -     =      <       >      {      }      (      )      ,      ;      .     %      _      u      i     e/E     !   Blc/tab   nl    otro   #estado
-        [    1,     9, FINAL,     3, FINAL, FINAL,     7,     5,     6, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,    12,     2,     1,     1,     1,     1,     8, FINAL, FINAL, ERROR],  # 0
+        [    1,     9, FINAL,     3, FINAL, FINAL,     7,     5,     6, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,    12,     2,     1,     1,     1,     1,     8,     0,     0, ERROR],  # 0
         [    1,     1, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,     1,     1,     1,     1, FINAL, FINAL, FINAL, ERROR],  # 1
         [    2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,     2, FINAL,     2,     2,     2,     2,     2,     2,     2, ERROR],  # 2
         [FINAL, FINAL, FINAL,     4, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 3
-        [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL,     4, ERROR],  # 4
+        [    4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4,     4, FINAL, ERROR],  # 4
         [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 5
         [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 6
         [FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, FINAL, ERROR],  # 7
@@ -88,6 +88,10 @@ class Lexico:
     def tokenActual(self, value):
         self._tokenActual = value
 
+    @tokenActual.getter
+    def tokenActual(self):
+        return self._tokenActual
+
     @property
     def nroLinea(self):
         return self._nroLinea
@@ -110,7 +114,7 @@ class Lexico:
     def setBufferLexema(self, value):
         self._bufferLexema = value
 
-    def escribirError(self,error):
+    def escribirError(self, error):
         print("Escribir error: ", error)
 
     def yyLex(self, programa):
@@ -119,13 +123,12 @@ class Lexico:
         if self._indice[0] == len(programa)+1:
             return Token("FIN")
         estado = 0
-        token_actual = None
-        while token_actual is None:
+        while self.tokenActual is None:
             caracter_actual = programa[self._indice[0]]
-            if caracter_actual == 13:
+            """if ord(caracter_actual) == 13:
                 self._indice[0] += 1
-                caracter_actual = programa[self._indice[0]]
-            if caracter_actual == 10:
+                caracter_actual = programa[self._indice[0]]"""
+            if ord(caracter_actual) == 10:
                 self.nroLinea += 1
             estado_sig = self.matrizDeTransiciones[estado][self.getColumna(caracter_actual)]
             #print("estado actual: ", estado, "- estado sig: ", estado_sig)
@@ -138,7 +141,6 @@ class Lexico:
             estado = estado_sig
             self._indice[0] += 1
             if self._indice[0] >= len(programa):
-                #print("fin")
                 return Token("FIN")
             if estado_sig == self.FINAL or estado_sig == self.ERROR:
                 #print("break")

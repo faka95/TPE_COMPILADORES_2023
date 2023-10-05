@@ -11,7 +11,8 @@ lex = lexico.Lexico(contenido_str)
 while True:
     token = lex.yyLex(contenido_str)
     if token is not None:
-        print(token.getLexema())
-    if token == 100:
+        print("LEXEMA: ", token.getLexema(), " - Nro: ", token.getToken())
+    if token.getToken() == 200:
         break
+print("Generacion de token finalizada")
 
