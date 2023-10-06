@@ -25,5 +25,5 @@ ts.addSimbolo("+",3)
 ts.addSimbolo("-",4)
 ts.addSimbolo("/",5)
 ts.addSimbolo("!!",6)
-print(ts.getSimbolo("+"))
+priSnt(ts.getSimbolo("+"))
 """

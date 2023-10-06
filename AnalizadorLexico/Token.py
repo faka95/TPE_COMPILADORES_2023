@@ -68,6 +68,10 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return self.FLOAT
         elif lexema == 'error_yacc':
             return self.ERROR
+        elif lexema == 'WHILE':
+            return self.WHILE
+        elif lexema == 'DO':
+            return self.DO
         else:
             return self.ID
 

@@ -13,7 +13,7 @@ class IdReturnLast(accion.AccionSemantica):
     def ejecutar(self, caracterActual):
         lexema = self.lexico.bufferLexema()
         self.lexico.indice[0] -= 1
-        palabras = ["IF", "ELSE", "END_IF", "INT", "ULONG", "FLOAT", "VOID", "PRINT", "CLASS", "<=", ">=", "!!"]
+        palabras = ["IF", "ELSE", "END_IF", "INT", "ULONG", "FLOAT", "VOID", "PRINT", "CLASS", "<=", ">=", "!!","WHILE","DO"]
         if lexema in palabras:
             self.lexico.tokenActual = Token(lexema)
             self.lexico.bufferClear()

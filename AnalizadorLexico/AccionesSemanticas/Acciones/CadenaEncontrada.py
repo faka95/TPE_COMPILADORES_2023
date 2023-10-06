@@ -1,5 +1,7 @@
 import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
 import AnalizadorLexico.Lexico
+from AnalizadorLexico.Token import Token
+
 
 class CadenaEncontrada(accion.AccionSemantica):
     def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
@@ -7,6 +9,7 @@ class CadenaEncontrada(accion.AccionSemantica):
 
     def ejecutar(self, caracterActual):
         self.lexico.bufferAdd(caracterActual)
-        self.lexico.setTokenActual(self.lexico.bufferLexema())
+        lexema = self.lexico.bufferLexema()
+        self.lexico.tokenActual = Token(lexema)
         self.lexico.bufferClear()
 

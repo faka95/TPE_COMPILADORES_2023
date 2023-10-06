@@ -1,5 +1,6 @@
 import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
 import AnalizadorLexico.Lexico
+from AnalizadorLexico.Token import Token
 
 
 class FaltaError(accion.AccionSemantica):
@@ -9,7 +10,7 @@ class FaltaError(accion.AccionSemantica):
 
     def ejecutar(self,caracterActual):
         if not (caracterActual == "!"):
-            self.lexico.setTokenActual("error_yacc")
+            self.lexico.tokenActual = Token("error_yacc")
             self.lexico.escribirError("Falta !")
         self.lexico.bufferClear()
 

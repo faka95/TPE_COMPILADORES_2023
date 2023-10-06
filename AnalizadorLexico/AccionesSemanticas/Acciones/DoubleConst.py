@@ -1,5 +1,7 @@
 import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
 import AnalizadorLexico.Lexico
+from AnalizadorLexico.Token import Token
+
 
 class DoubleConst(accion.AccionSemantica):
     CONST_HIGHEXP = 38
@@ -26,21 +28,23 @@ class DoubleConst(accion.AccionSemantica):
             entero_decimal = float(self.lexico.bufferLexema())
 
         if (abs(exponente) > self.CONST_HIGHEXP):
-            self.lexico.setTokenActual("error_yacc")
-            self.lexico.escribirerror("Constante de tipo flotante FLOAT con exponente fuera de rango", self.lexico.bufferLexema())
+            self.lexico.tokenActual = Token("error_yacc")
+            self.lexico.escribirError("Constante de tipo flotante FLOAT con exponente fuera de rango")
         else:
             exponencial = float(10 ** exponente)
             resultado = float(entero_decimal * exponencial)
             if (resultado == 0.0):
-                self.lexico.setTokenActual(self.lexico.bufferLexema())
+                lexema = self.lexico.bufferLexema()
+                self.lexico.tokenActual = Token(lexema)
             else:
                 if (resultado <= self.CONST_LOWDEC):
-                    self.lexico.setTokenActual("error_yacc")
-                    self.lexico.escribirerror("Constante de tipo flotante FLOAT fuera de rango", self.lexico.bufferLexema())
+                    self.lexico.tokenActual = Token("error_yacc")
+                    self.lexico.escribirError("Constante de tipo flotante FLOAT fuera de rango")
                 elif (resultado >= self.CONST_HIGHDEC):
-                    self.lexico.setTokenActual("error_yacc")
-                    self.lexico.escribirerror("Constante de tipo flotante FLOAT fuera de rango", self.lexico.bufferLexema())
+                    self.lexico.tokenActual = Token("error_yacc")
+                    self.lexico.escribirError("Constante de tipo flotante FLOAT fuera de rango")
                 else:
                     #print(buffer)
-                    self.lexico.setTokenActual(self.lexico.bufferLexema())
+                    lexema = self.lexico.bufferLexema()
+                    self.lexico.tokenActual = Token(lexema)
 

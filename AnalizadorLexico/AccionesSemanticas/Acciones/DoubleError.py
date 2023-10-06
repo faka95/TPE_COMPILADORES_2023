@@ -1,5 +1,6 @@
 import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
 import AnalizadorLexico.Lexico
+from AnalizadorLexico.Token import Token
 
 
 class DoubleError(accion.AccionSemantica):
@@ -16,12 +17,12 @@ class DoubleError(accion.AccionSemantica):
 
     def ejecutar(self,caracterActual):
         if not (self.checkFloat(self.lexico.bufferLexema())):
-            self.lexico.setTokenActual("error_yacc")
+            self.lexico.tokenActual = Token("error_yacc")
             self.lexico.escribirError("Contiene letras o no contiene digitos")
         else:
             if ("e" in self.lexico.bufferLexema() or "E" in self.lexico.bufferLexema()):
                 if not ("+" in self.lexico.bufferLexema() or "-" in self.lexico.bufferLexema()):
-                    self.lexico.setTokenActual("error_yacc")
+                    self.lexico.tokenActual = Token("error_yacc")
                     self.lexico.escribirError("Contiene letras o no contiene digitos")
 
         self.lexico.bufferClear()

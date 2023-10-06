@@ -1,5 +1,7 @@
 import AnalizadorLexico.AccionesSemanticas.AccionSemantica as accion
 import AnalizadorLexico.Lexico
+from AnalizadorLexico.Token import Token
+
 
 class IntConst(accion.AccionSemantica):
     CONST_16BIT = 2**15
@@ -33,25 +35,27 @@ class IntConst(accion.AccionSemantica):
         for letra in self.lexico.bufferLexema():
             #Error si el sufijo contiene mayusculas
             if letra.isupper():
-                self.lexico.setTokenActual("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc")
                 self.lexico.escribirError("Sufijo contiene mayusculas.")
                 return
 
         if self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT):
             if not (self.rango_i(int(parte_numerica))):
-                self.lexico.setTokenActual("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc")
                 self.lexico.escribirerror("Constante entera INT fuera de rango", self.lexico.bufferLexema())
                 return
             else:
-                self.lexico.setTokenActual(self.lexico.bufferLexema())
+                lexema = self.lexico.bufferLexema()
+                self.lexico.tokenActual = Token(lexema)
 
         elif self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT):
             if not (self.rango_ul(int(parte_numerica))):
-                self.lexico.setTokenActual("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc")
                 self.lexico.escribirerror("Constante entera ULONG fuera de rango", self.lexico.bufferLexema())
                 return
             else:
-                self.lexico.setTokenActual(self.lexico.bufferLexema())
+                lexema = self.lexico.bufferLexema()
+                self.lexico.tokenActual = Token(lexema)
 
 
 
