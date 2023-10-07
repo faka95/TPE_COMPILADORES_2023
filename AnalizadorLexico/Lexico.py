@@ -146,6 +146,9 @@ class Lexico:
             self._indice[0] += 1
             if self._indice[0] >= len(programa):
                 if self._indice[0] == len(programa):
+                    if estado == 2:
+                        self.escribirError("Cadena no cerrada")
+                        return Token("error_yac")
                     return self.tokenActual
                 return Token("FIN")
             if estado_sig == self.FINAL or estado_sig == self.ERROR:

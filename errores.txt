@@ -1,1 +1,1 @@
-Error lexico : Caracter no soportado, en linea nro 2
+Error lexico : Cadena no cerrada, en linea nro 17

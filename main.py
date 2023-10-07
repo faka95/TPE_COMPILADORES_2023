@@ -12,7 +12,7 @@ with open(sys.argv[1], 'r') as file:
 #print(contenido_str)
 
 lex = lexico.Lexico(contenido_str, archivo_errores)
-analizador_sintactico = sintactico.yacc()
+#analizador_sintactico = sintactico.yacc()
 while True:
     token = lex.yyLex(contenido_str)
     if token is not None:
