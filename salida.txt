@@ -1,0 +1,13 @@
+LEXEMA: INT - Nro: 6
+LEXEMA: numero1 - Nro: 14
+LEXEMA: , - Nro: 44
+LEXEMA: IF - Nro: 0
+LEXEMA: ( - Nro: 43
+LEXEMA: numero1 - Nro: 14
+LEXEMA: !! - Nro: 13
+LEXEMA: numero1 - Nro: 14
+LEXEMA: ) - Nro: 43
+LEXEMA: error_yacc - Nro: 15
+LEXEMA: END_IF - Nro: 2
+LEXEMA: , - Nro: 44
+LEXEMA: FIN - Nro: 200

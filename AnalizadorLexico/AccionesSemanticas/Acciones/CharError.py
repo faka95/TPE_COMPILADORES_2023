@@ -11,6 +11,6 @@ class CharError(accion.AccionSemantica):
     def ejecutar(self,caracterActual):
         if (not caracterActual.isalpha()) and not (caracterActual in self.lexico.columna.keys()):
             self.lexico.tokenActual = Token("error_yacc")
-            self.lexico.escribirError("Caractero no soportado")
+            self.lexico.escribirError("Caracter no soportado")
         self.lexico.bufferClear()
 

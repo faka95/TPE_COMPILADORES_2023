@@ -62,9 +62,9 @@ class Lexico:
             return 19
         elif ascii == 108:
             return 25
-        elif ascii > 64 and ascii < 91 or ascii > 96 and ascii < 123:  # letras restantes
+        elif 64 < ascii < 91 or 96 < ascii < 123:  # letras restantes
             return 0
-        elif ascii > 47 and ascii < 58:  # numeros
+        elif 47 < ascii < 58:  # numeros
             return 1
         elif ascii == 32 or ascii == 9:  # espacio/tab
             return 22
@@ -73,12 +73,13 @@ class Lexico:
         else:
             return self.columna.get(caracter, 24)  # resto de simbolos
 
-    def __init__(self, programa):
+    def __init__(self, programa, archivo_errores):
         self._programa = programa
         self._tokenActual = None
         self._indice = [0]
         self._nroLinea = 1
         self._bufferLexema = ""
+        self._archivo_errores = archivo_errores
     def bufferAdd(self,caracterActual):
         self._bufferLexema += caracterActual
     def bufferClear(self):
@@ -118,7 +119,7 @@ class Lexico:
         self._bufferLexema = value
 
     def escribirError(self, error):
-        print("Escribir error: ", error)
+        self._archivo_errores.write("Error lexico : " + error + ", en linea nro " + str(self.nroLinea) + "\n")
 
     def yyLex(self, programa):
         self.tokenActual = None

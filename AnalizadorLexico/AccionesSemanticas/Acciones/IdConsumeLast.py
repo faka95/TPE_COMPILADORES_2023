@@ -23,7 +23,7 @@ class IdConsumeLast(accion.AccionSemantica):
         for letra in self.lexico.bufferLexema():
             if letra.isupper():
                 self.lexico.tokenActual = Token("error_yacc")
-                self.lexico.escribirError("Identificador contiene mayusculas.")
+                self.lexico.escribirError("Identificador contiene mayusculas")
                 return
         if len(self.lexico.bufferLexema()) <= 20: #Esperar respuesta de paula a ver que hago con las letras mayusculas
             self.lexico.tokenActual = Token(lexema)
