@@ -75,7 +75,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
         else:
             return self.ID
 
-    def __init__(self, lexema):
+    def __init__(self, lexema, nrolinea):
+        self._lineno = nrolinea
         self._lexema = lexema
         self._nro = self.getToken()
 
@@ -84,13 +85,25 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
         return self._lexema
 
     @property
-    def nro(self):
-        return self._nro
+    def value(self):
+        return self._lexema
+
+    @property
+    def lineno(self):
+        return self._lineno
+
+    @lineno.setter
+    def lineno(self, nro):
+        self.lineno = nro
 
     @lexema.setter
     def lexema(self, value):
         self._lexema = value
         self._nro = self.getToken()
+
+    @property
+    def type(self):
+        return self.getToken()
 
     def getLexema(self):
         return self._lexema

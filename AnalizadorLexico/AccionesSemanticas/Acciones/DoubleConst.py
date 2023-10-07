@@ -28,23 +28,23 @@ class DoubleConst(accion.AccionSemantica):
             entero_decimal = float(self.lexico.bufferLexema())
 
         if (abs(exponente) > self.CONST_HIGHEXP):
-            self.lexico.tokenActual = Token("error_yacc")
+            self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
             self.lexico.escribirError("Constante de tipo flotante FLOAT con exponente fuera de rango")
         else:
             exponencial = float(10 ** exponente)
             resultado = float(entero_decimal * exponencial)
             if (resultado == 0.0):
                 lexema = self.lexico.bufferLexema()
-                self.lexico.tokenActual = Token(lexema)
+                self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)
             else:
                 if (resultado <= self.CONST_LOWDEC):
-                    self.lexico.tokenActual = Token("error_yacc")
+                    self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                     self.lexico.escribirError("Constante de tipo flotante FLOAT fuera de rango")
                 elif (resultado >= self.CONST_HIGHDEC):
-                    self.lexico.tokenActual = Token("error_yacc")
+                    self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                     self.lexico.escribirError("Constante de tipo flotante FLOAT fuera de rango")
                 else:
                     #print(buffer)
                     lexema = self.lexico.bufferLexema()
-                    self.lexico.tokenActual = Token(lexema)
+                    self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)
 

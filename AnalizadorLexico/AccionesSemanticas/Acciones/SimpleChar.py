@@ -10,5 +10,5 @@ class SimpleChar(accion.AccionSemantica):
     def ejecutar(self, caracterActual):
         self.lexico.bufferClear()
         self.lexico.bufferAdd(caracterActual)
-        self.lexico.tokenActual = Token(self.lexico.bufferLexema())
+        self.lexico.tokenActual = Token(self.lexico.bufferLexema(), self.lexico.nroLinea)
         self.lexico.bufferClear()

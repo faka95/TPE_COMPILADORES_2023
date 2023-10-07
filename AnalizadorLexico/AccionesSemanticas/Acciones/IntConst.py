@@ -35,27 +35,27 @@ class IntConst(accion.AccionSemantica):
         for letra in self.lexico.bufferLexema():
             #Error si el sufijo contiene mayusculas
             if letra.isupper():
-                self.lexico.tokenActual = Token("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                 self.lexico.escribirError("Sufijo contiene mayusculas.")
                 return
 
         if self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT):
             if not (self.rango_i(int(parte_numerica))):
-                self.lexico.tokenActual = Token("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                 self.lexico.escribirError("Constante entera INT fuera de rango" + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()
-                self.lexico.tokenActual = Token(lexema)
+                self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)
 
         elif self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT):
             if not (self.rango_ul(int(parte_numerica))):
-                self.lexico.tokenActual = Token("error_yacc")
+                self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                 self.lexico.escribirError("Constante entera ULONG fuera de rango" + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()
-                self.lexico.tokenActual = Token(lexema)
+                self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)
 
 
 

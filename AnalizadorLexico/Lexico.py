@@ -124,9 +124,9 @@ class Lexico:
     def yyLex(self, programa):
         self.tokenActual = None
         import AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas as acc
-        print(self._indice[0], len(programa))
+        #print(self._indice[0], len(programa))
         if self._indice[0] == len(programa):
-            return Token("FIN")
+            return Token("FIN", self.nroLinea)
         estado = 0
         while self.tokenActual is None:
             caracter_actual = programa[self._indice[0]]
@@ -150,7 +150,7 @@ class Lexico:
                         self.escribirError("Cadena no cerrada")
                         return Token("error_yac")
                     return self.tokenActual
-                return Token("FIN")
+                return Token("FIN", self.nroLinea)
             if estado_sig == self.FINAL or estado_sig == self.ERROR:
                 #print("break")
                 break

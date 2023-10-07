@@ -10,6 +10,6 @@ class CadenaEncontrada(accion.AccionSemantica):
     def ejecutar(self, caracterActual):
         self.lexico.bufferAdd(caracterActual)
         lexema = self.lexico.bufferLexema()
-        self.lexico.tokenActual = Token(lexema)
+        self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)
         self.lexico.bufferClear()
 

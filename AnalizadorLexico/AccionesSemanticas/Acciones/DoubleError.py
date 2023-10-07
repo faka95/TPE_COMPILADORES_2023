@@ -17,12 +17,12 @@ class DoubleError(accion.AccionSemantica):
 
     def ejecutar(self,caracterActual):
         if not (self.checkFloat(self.lexico.bufferLexema())):
-            self.lexico.tokenActual = Token("error_yacc")
+            self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
             self.lexico.escribirError("Contiene letras o no contiene digitos")
         else:
             if ("e" in self.lexico.bufferLexema() or "E" in self.lexico.bufferLexema()):
                 if not ("+" in self.lexico.bufferLexema() or "-" in self.lexico.bufferLexema()):
-                    self.lexico.tokenActual = Token("error_yacc")
+                    self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
                     self.lexico.escribirError("Contiene letras o no contiene digitos")
 
         self.lexico.bufferClear()

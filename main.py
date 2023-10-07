@@ -16,7 +16,7 @@ lex = lexico.Lexico(contenido_str, archivo_errores)
 while True:
     token = lex.yyLex(contenido_str)
     if token is not None:
-        archivo_salida.write(str("LEXEMA: " + token.getLexema() + " - Nro: " + str(token.getToken()) + "\n"))
+        archivo_salida.write(str("LEXEMA: " + token.getLexema() + " - TOKEN: " + str(token.getToken()) + "\n"))
     if token.getToken() == 200:
         break
 archivo_salida.close()

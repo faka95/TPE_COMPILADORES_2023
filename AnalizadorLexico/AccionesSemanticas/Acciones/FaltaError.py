@@ -10,7 +10,7 @@ class FaltaError(accion.AccionSemantica):
 
     def ejecutar(self,caracterActual):
         if not (caracterActual == "!"):
-            self.lexico.tokenActual = Token("error_yacc")
+            self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
             self.lexico.escribirError("Falta !")
         self.lexico.bufferClear()
 
