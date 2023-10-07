@@ -42,7 +42,7 @@ class IntConst(accion.AccionSemantica):
         if self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT):
             if not (self.rango_i(int(parte_numerica))):
                 self.lexico.tokenActual = Token("error_yacc")
-                self.lexico.escribirerror("Constante entera INT fuera de rango", self.lexico.bufferLexema())
+                self.lexico.escribirError("Constante entera INT fuera de rango" + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()
@@ -51,7 +51,7 @@ class IntConst(accion.AccionSemantica):
         elif self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT):
             if not (self.rango_ul(int(parte_numerica))):
                 self.lexico.tokenActual = Token("error_yacc")
-                self.lexico.escribirerror("Constante entera ULONG fuera de rango", self.lexico.bufferLexema())
+                self.lexico.escribirError("Constante entera ULONG fuera de rango" + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()

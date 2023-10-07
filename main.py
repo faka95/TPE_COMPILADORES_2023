@@ -1,5 +1,6 @@
 from AnalizadorLexico.Token import Token
 import AnalizadorLexico.Lexico as lexico
+import AnalizadorSintactico.yacc as sintactico
 from CodeReader import CodeReader
 import sys
 with open(sys.argv[1], 'r') as file:
@@ -7,9 +8,11 @@ with open(sys.argv[1], 'r') as file:
     contenido_str = file.read()
     archivo_salida = open("salida.txt", "w")
     archivo_errores = open("errores.txt", "w")
+    archivo_tabla = open("tabla_de_simbolos.txt", "w")
 #print(contenido_str)
 
 lex = lexico.Lexico(contenido_str, archivo_errores)
+analizador_sintactico = sintactico.yacc()
 while True:
     token = lex.yyLex(contenido_str)
     if token is not None:
@@ -18,5 +21,6 @@ while True:
         break
 archivo_salida.close()
 archivo_errores.close()
+archivo_tabla.close()
 print("Generacion de token finalizada")
 

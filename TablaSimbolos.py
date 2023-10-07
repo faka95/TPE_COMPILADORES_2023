@@ -1,6 +1,7 @@
 class TablaDeSimbolos:
-    def __init__(self):
+    def __init__(self, archivo_tabla):
         self.simbolos = {}
+        self.archivo_tabla = archivo_tabla
 
     def addSimbolo(self, lexema, id):
         if lexema not in self.simbolos:
@@ -16,9 +17,9 @@ class TablaDeSimbolos:
         return lexema in self.simbolos
 
     def imprimirTabla(self):
-        print("Tabla de Simbolos: ")
+        self.archivo_tabla.write("Tabla de Simbolos: " + "\n")
         for lexema, id in self.simbolos.items():
-            print("Lexema: {} ID: {}".format(lexema, id))
+            self.archivo_tabla.write("Lexema: {} ID: {}".format(lexema, id) + "\n")
 """
 ts = TablaDeSimbolos()
 ts.addSimbolo("+",3)
