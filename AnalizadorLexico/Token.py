@@ -15,6 +15,7 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     DISTINTO = 13
     ID = 14
     ERROR = 15
+    CADENA = 16
 
     def getToken(self):
         lexema = self.lexema
@@ -72,6 +73,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return self.WHILE
         elif lexema == 'DO':
             return self.DO
+        elif str(lexema).startswith("%") and str(lexema).endswith("%"):
+            return self.CADENA
         else:
             return self.ID
 
