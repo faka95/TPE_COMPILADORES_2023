@@ -23,8 +23,6 @@ declaracion_var: tipo lista_variable ',' { "agregar al/los ids el tipo"}
 
 lista_variable: ID { "agregar id a la tabla" }
                 | lista_variable ';' ID { "agregar id a la tabla" }
-                | lista_variable ID  { error("falta ';'") }
-                | ERROR ';' lista_variable { error ("se espera un id")}
 ;
 
 declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a la tabla con tipo func" }
