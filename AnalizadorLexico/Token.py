@@ -22,6 +22,7 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     NUM_INT = 17
     NUM_ULONG = 18
     NUM_FLOAT = 19
+    RETURN = 20
 
     def getToken(self):
         lexema = self.lexema
@@ -34,17 +35,17 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
         elif lexema == ',':
             return 44
         elif lexema == '/':
-            return 43
+            return 47
         elif lexema == '*':
-            return 43
+            return 42
         elif lexema == '(':
-            return 43
+            return 40
         elif lexema == ')':
-            return 43
+            return 41
         elif lexema == '<':
-            return 43
+            return 60
         elif lexema == '>':
-            return 43
+            return 62
         elif lexema == ';':
             return 59
         elif lexema == '=':
@@ -79,6 +80,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return self.WHILE
         elif lexema == 'DO':
             return self.DO
+        elif lexema == "RETURN":
+            return self.RETURN
         elif str(lexema).startswith("%") and str(lexema).endswith("%"):
             return self.CADENA
         elif str(lexema).endswith("_i"):

@@ -1,10 +1,11 @@
-%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR  NUM_INT NUM_ULONG NUM_FLOAT
+%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR NUM_INT NUM_ULONG NUM_FLOAT RETURN CADENA
 
 %start programa
 
 %%
 
-programa:  { cuerpo }
+programa:  '{' cuerpo '}'
+;
 
 cuerpo: declaracion
         | cuerpo declaracion
@@ -28,12 +29,21 @@ lista_variable: ID { "agregar id a la tabla" }
 
 declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a la tabla con tipo func" }
                   | VOID ID '(' ')' '{' cuerpo_func '}'
+;
 
 parametro: tipo ID {"agregar el parametro a la tabla"}
 ;
 
-cuerpo_func: cuerpo ejecucuion_retorno
-             | ejecucion_retorno //provisorio
+cuerpo_func: cuerpo ejecucion_retorno
+             | ejecucion_retorno
+;
+
+ejecucion_retorno: control_retorno
+                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ','
+                    | sentencia_return
+;
+
+sentencia_return: RETURN ','
 ;
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
@@ -41,37 +51,49 @@ declaracion_clase: CLASS ID '{' componentes_clase '}' ','
 
 componentes_clase: declaracion_var
                     | declaracion_func
-                    | ID ',' // chequear que id sea una clase (herencia)
-                    | componetes_clase declaracion_var
+                    | ID ','
+                    | componentes_clase declaracion_var
                     | componentes_clase declaracion_func
-                    | componentes_clase ID ',' // igual que arriba
+                    | componentes_clase ID ','
 ;
 
+cuerpo_ejecucion: cuerpo_ejecucion ejecucion
+                  | ejecucion
+;
 
-ejecucion: asginacion ','
+ejecucion: asignacion ','
            | invocacion ','
            | seleccion ','
            | print ','
-           | control ','
+           | seleccion ','
            | while ','
-           | error ','
+           | ERROR ','
 ;
 
-asignacion: ID expresion
+asignacion: ID '=' expresion
+;
 
 invocacion: ID '(' expresion ')'
             | ID '(' ')'
 ;
 
-selecion: IF '(' condicion ')' bloque_control ENDIF
-          | IF '(' condicion ')' bloque_control ELSE bloque_control ENDIF
+seleccion: if_condicion bloque_control END_IF
+          | if_condicion bloque_control ELSE bloque_control END_IF
 ;
 
-bloque_control: '{' cuerpo_control '}'
+if_condicion: IF '(' condicion ')'
 ;
 
-cuerpo_control: ejecucion
-                | cuerpo_control ejecucion
+control_retorno: if_condicion '{' sentencia_return '}' END_IF ','
+                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
+                | if_condicion '{' sentencia_return '}' ELSE '{' sentencia_return '}' END_IF ','
+                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE  '{' sentencia_return '}' END_IF ','
+                | if_condicion '{' sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
+                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
+;
+
+bloque_control: '{' cuerpo_ejecucion '}'
+;
 
 condicion: expresion comparador expresion
 ;
@@ -85,32 +107,42 @@ comparador: '<'
 ;
 
 print: PRINT CADENA
+;
 
-while: WHILE '(' condicion ')' DO bloque_ejecutable
+while: WHILE '(' condicion ')' DO bloque_control
+;
+
+tipo: INT
+       | ULONG
+       | FLOAT
+;
 
 expresion:  expresion '+' termino
             | expresion '-' termino
             | termino
+;
 
 termino: termino '*' factor
-        |termino '/' factor
+        | termino '/' factor
         | factor
+;
 
 factor: NUM_INT {chequear rango en todos menos ULONG e ID}
         | '-' NUM_INT
         | NUM_ULONG
         | NUM_FLOAT
-        | ID
-        | ID '-' '-'
-        | invocacion // agrupar invocacion e ID???
-        | uso_clase
+        | referencia
         | ERROR {error("se espera una cosntante o id")}
+;
+
+referencia: ID
+            | ID '-' '-'
+            | uso_clase
+;
 
 uso_clase: ID '.' ID
-            | ID '.' invocacion
-
-//seguir acá
-
+            | ID '.' ID '(' ')'
+;
 
 %%
 
