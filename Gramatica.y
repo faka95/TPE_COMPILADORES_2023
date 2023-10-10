@@ -1,4 +1,4 @@
-%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR
+%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR  NUM_INT NUM_ULONG NUM_FLOAT
 
 %start programa
 
@@ -34,6 +34,19 @@ parametro: tipo ID {"agregar el parametro a la tabla"}
 
 cuerpo_func: cuerpo ejecucuion_retorno
              | ejecucion_retorno //provisorio
+;
+
+declaracion_clase: CLASS ID '{' componentes_clase '}' ','
+;
+
+componentes_clase: declaracion_var
+                    | declaracion_func
+                    | ID ',' // chequear que id sea una clase (herencia)
+                    | componetes_clase declaracion_var
+                    | componentes_clase declaracion_func
+                    | componentes_clase ID ',' // igual que arriba
+;
+
 
 ejecucion: asginacion ','
            | invocacion ','
@@ -72,6 +85,29 @@ comparador: '<'
 ;
 
 print: PRINT CADENA
+
+while: WHILE '(' condicion ')' DO bloque_ejecutable
+
+expresion:  expresion '+' termino
+            | expresion '-' termino
+            | termino
+
+termino: termino '*' factor
+        |termino '/' factor
+        | factor
+
+factor: NUM_INT {chequear rango en todos menos ULONG e ID}
+        | '-' NUM_INT
+        | NUM_ULONG
+        | NUM_FLOAT
+        | ID
+        | ID '-' '-'
+        | invocacion // agrupar invocacion e ID???
+        | uso_clase
+        | ERROR {error("se espera una cosntante o id")}
+
+uso_clase: ID '.' ID
+            | ID '.' invocacion
 
 //seguir acá
 

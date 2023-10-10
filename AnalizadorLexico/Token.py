@@ -1,3 +1,6 @@
+import numbers
+
+
 class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     IF = 0
     ELSE = 1
@@ -16,6 +19,9 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     ID = 14
     ERROR = 15
     CADENA = 16
+    NUM_INT = 17
+    NUM_ULONG = 18
+    NUM_FLOAT = 19
 
     def getToken(self):
         lexema = self.lexema
@@ -75,6 +81,12 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return self.DO
         elif str(lexema).startswith("%") and str(lexema).endswith("%"):
             return self.CADENA
+        elif str(lexema).endswith("_i"):
+            return self.NUM_INT
+        elif str(lexema).endswith("_ul"):
+            return self.NUM_ULONG
+        elif str(lexema).__contains__("."):
+            return self.NUM_FLOAT
         else:
             return self.ID
 
