@@ -1,4 +1,4 @@
-%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR NUM_INT NUM_ULONG NUM_FLOAT RETURN CADENA
+%token IF ELSE END_IF PRINT CLASS VOID INT ULONG FLOAT WHILE DO MENORIGUAL MAYORIGUAL DISTINTO ID ERROR NUM_INT NUM_ULONG NUM_FLOAT RETURN CADENA COMPIGUAL
 
 %start programa
 
@@ -22,8 +22,8 @@ declaracion_var: tipo lista_variable ',' { "agregar al/los ids el tipo"}
 ;
 
 lista_variable: ID { "agregar id a la tabla" }
-                | ID ';' lista_variable { "agregar id a la tabla" }
-                | ID lista_variable { error("falta ';'") }
+                | lista_variable ';' ID { "agregar id a la tabla" }
+                | lista_variable ID  { error("falta ';'") }
                 | ERROR ';' lista_variable { error ("se espera un id")}
 ;
 
@@ -34,7 +34,7 @@ declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a 
 parametro: tipo ID {"agregar el parametro a la tabla"}
 ;
 
-cuerpo_func: cuerpo ejecucion_retorno
+cuerpo_func: cuerpo_func ejecucion_retorno
              | ejecucion_retorno
 ;
 
@@ -65,7 +65,6 @@ ejecucion: asignacion ','
            | invocacion ','
            | seleccion ','
            | print ','
-           | seleccion ','
            | while ','
            | ERROR ','
 ;
@@ -100,10 +99,10 @@ condicion: expresion comparador expresion
 
 comparador: '<'
             | '>'
-            | '='
             | MENORIGUAL
             | MAYORIGUAL
             | DISTINTO
+            | COMPIGUAL
 ;
 
 print: PRINT CADENA
@@ -131,6 +130,7 @@ factor: NUM_INT {chequear rango en todos menos ULONG e ID}
         | '-' NUM_INT
         | NUM_ULONG
         | NUM_FLOAT
+        | '-' NUM_FLOAT
         | referencia
         | ERROR {error("se espera una cosntante o id")}
 ;

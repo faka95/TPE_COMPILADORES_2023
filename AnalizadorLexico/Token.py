@@ -2,32 +2,33 @@ import numbers
 
 
 class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
-    IF = 0
-    ELSE = 1
-    END_IF = 2
-    PRINT = 3
-    CLASS = 4
-    VOID = 5
-    INT = 6
-    ULONG = 7
-    FLOAT = 8
-    WHILE = 9
-    DO = 10
-    MENORIGUAL = 11
-    MAYORIGUAL = 12
-    DISTINTO = 13
-    ID = 14
-    ERROR = 15
-    CADENA = 16
-    NUM_INT = 17
-    NUM_ULONG = 18
-    NUM_FLOAT = 19
-    RETURN = 20
+    IF = 300
+    ELSE = 301
+    END_IF = 302
+    PRINT = 303
+    CLASS = 304
+    VOID = 305
+    INT = 306
+    ULONG = 307
+    FLOAT = 308
+    WHILE = 309
+    DO = 310
+    MENORIGUAL = 311
+    MAYORIGUAL = 312
+    DISTINTO = 313
+    ID = 314
+    ERROR = 315
+    CADENA = 316
+    NUM_INT = 317
+    NUM_ULONG = 318
+    NUM_FLOAT = 319
+    RETURN = 320
+    COMPIGUAL = 321
 
     def getToken(self):
         lexema = self.lexema
         if lexema == 'FIN':
-            return 200
+            return 400
         elif lexema == '+':
             return 43
         elif lexema == '-':
@@ -56,6 +57,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return self.MAYORIGUAL
         elif lexema == '!!':
             return self.DISTINTO
+        elif lexema == '==':
+            return self.COMPIGUAL
         elif lexema == 'IF':
             return self.IF
         elif lexema == 'ELSE':
