@@ -1,5 +1,7 @@
-grammar Gramatica;
-
+parser grammar gramaticaprueba;
+options {
+    tokenVocab = Lexico;
+}
 programa: cuerpo
 ;
 
@@ -19,8 +21,8 @@ declaracion_var: tipo lista_variable ',' { "agregar al/los ids el tipo"}
 
 lista_variable: ID { "agregar id a la tabla" }
                 | ID ';' lista_variable { "agregar id a la tabla" }
-;				
-			
+;
+
 declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a la tabla con tipo func" }
                   | VOID ID '(' ')' '{' cuerpo_func '}'
 ;
@@ -42,7 +44,7 @@ sentencia_return: RETURN ','
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
 ;
- 
+
 componentes_clase: declaracion_var
                     | declaracion_func
                     | ID ','
@@ -138,8 +140,4 @@ posible_guion_doble: '--' { /* acciones */ }
 uso_clase: ID '.' ID
             | ID '.' ID '(' ')'
 ;
-
-
-
-
 

@@ -148,7 +148,7 @@ class Lexico:
                 if self._indice[0] == len(programa):
                     if estado == 2:
                         self.escribirError("Cadena no cerrada")
-                        return Token("error_yac")
+                        return Token("error_yac", self.nroLinea)
                     return self.tokenActual
                 return Token("FIN", self.nroLinea)
             if estado_sig == self.FINAL or estado_sig == self.ERROR:
