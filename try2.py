@@ -9,7 +9,6 @@ with open(sys.argv[1], 'r') as file:
     archivo_salida = open("salida.txt", "w")
     archivo_errores = open("errores.txt", "w")
     archivo_tabla = open("tabla_de_simbolos.txt", "w")
-
 lex = lexico.Lexico(contenido_str, archivo_errores)
 while True:
     token = lex.yyLex(contenido_str)
@@ -17,9 +16,16 @@ while True:
         archivo_salida.write(str("LEXEMA: " + token.getLexema() + " - TOKEN: " + str(token.getToken()) + "\n"))
     if token.getToken() == 200:
         break
+
+
+
+
+
+
+
+
 archivo_salida.close()
 archivo_errores.close()
 archivo_tabla.close()
 
 print("Generacion de token finalizada")
-

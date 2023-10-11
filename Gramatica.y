@@ -1,7 +1,5 @@
-parser grammar gramaticaprueba;
-options {
-    tokenVocab = Lexico;
-}
+grammar Gramatica;
+
 programa: cuerpo
 ;
 
@@ -16,18 +14,24 @@ declaracion: declaracion_var
             | declaracion_clase
 ;
 
-declaracion_var: tipo lista_variable ',' {#agregar al/los ids el tipo}
+declaracion_var: tipo lista_variable ',' { "agregar al/los ids el tipo"}
 ;
 
-lista_variable: ID {#agregar id a la tabla }
-                | ID ';' lista_variable {#agregar id a la tabla }
+lista_variable: ID { "agregar id a la tabla" }
+<<<<<<< HEAD
+                | ID ';' lista_variable { "agregar id a la tabla" }
+;				
+			
+=======
+                | lista_variable ';' ID { "agregar id a la tabla" }
 ;
 
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' {#agregar id a la tabla con tipo func}
+>>>>>>> c0eb7efc6c234a6813877bbcfd80cf3e9925193e
+declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a la tabla con tipo func" }
                   | VOID ID '(' ')' '{' cuerpo_func '}'
 ;
 
-parametro: tipo ID {#agregar el parametro a la tabla}
+parametro: tipo ID {"agregar el parametro a la tabla"}
 ;
 
 cuerpo_func: cuerpo ejecucion_retorno
@@ -35,7 +39,7 @@ cuerpo_func: cuerpo ejecucion_retorno
 ;
 
 ejecucion_retorno: control_retorno
-                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ',' {#agregarEstructura("WHILE detectado")}
+                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ',' {"agregarEstructura("WHILE detectado")"}
                     | sentencia_return
 ;
 
@@ -44,7 +48,7 @@ sentencia_return: RETURN ','
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
 ;
-
+ 
 componentes_clase: declaracion_var
                     | declaracion_func
                     | ID ','
@@ -127,17 +131,21 @@ factor: referencia
         | NUM_ULONG
         | NUM_FLOAT
         | '-' NUM_FLOAT
-        | NUM_INT {#chequear rango en todos menos ULONG e ID}
-        | ERROR {#error("se espera una cosntante o id")}
+        | NUM_INT {chequear rango en todos menos ULONG e ID}
+        | ERROR {error("se espera una cosntante o id")}
 ;
 
 referencia: ID posible_guion_doble
             | uso_clase
 ;
-posible_guion_doble: '--' {#/* acciones */ }
+posible_guion_doble: '--' { /* acciones */ }
                   | /* vacío */
 ;
 uso_clase: ID '.' ID
             | ID '.' ID '(' ')'
 ;
+
+
+
+
 

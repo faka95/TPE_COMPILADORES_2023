@@ -1,6 +1,6 @@
 from AnalizadorLexico.Token import Token
 import AnalizadorLexico.Lexico as lexico
-import AnalizadorSintactico.yacc as sintactico
+#import AnalizadorSintactico.yacc as sintactico
 from CodeReader import CodeReader
 import sys
 with open(sys.argv[1], 'r') as file:
@@ -13,8 +13,14 @@ with open(sys.argv[1], 'r') as file:
 
 lex = lexico.Lexico(contenido_str, archivo_errores)
 #analizador_sintactico = sintactico.yacc()
+token = lex.yyLex()
+print(token.getLexema())
+token = lex.yyLex()
+print(token.getLexema())
+token = lex.yyLex()
+print(token.getLexema())
 while True:
-    token = lex.yyLex(contenido_str)
+    token = lex.yyLex()
     if token is not None:
         archivo_salida.write(str("LEXEMA: " + token.getLexema() + " - TOKEN: " + str(token.getToken()) + "\n"))
     if token.getToken() == 400:

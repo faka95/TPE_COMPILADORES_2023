@@ -121,15 +121,15 @@ class Lexico:
     def escribirError(self, error):
         self._archivo_errores.write("Error lexico : " + error + ", en linea nro " + str(self.nroLinea) + "\n")
 
-    def yyLex(self, programa):
+    def yyLex(self):
         self.tokenActual = None
         import AnalizadorLexico.AccionesSemanticas.Acciones_Semanticas as acc
         #print(self._indice[0], len(programa))
-        if self._indice[0] == len(programa):
+        if self._indice[0] == len(self._programa):
             return Token("FIN", self.nroLinea)
         estado = 0
         while self.tokenActual is None:
-            caracter_actual = programa[self._indice[0]]
+            caracter_actual = self._programa[self._indice[0]]
             """if ord(caracter_actual) == 13:
                 self._indice[0] += 1
                 caracter_actual = programa[self._indice[0]]"""
@@ -144,8 +144,8 @@ class Lexico:
             #print("----------------------------")
             estado = estado_sig
             self._indice[0] += 1
-            if self._indice[0] >= len(programa):
-                if self._indice[0] == len(programa):
+            if self._indice[0] >= len(self._programa):
+                if self._indice[0] == len(self._programa):
                     if estado == 2:
                         self.escribirError("Cadena no cerrada")
                         return Token("error_yac", self.nroLinea)
