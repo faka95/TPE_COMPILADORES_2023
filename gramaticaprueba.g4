@@ -2,44 +2,42 @@ parser grammar gramaticaprueba;
 options {
     tokenVocab = Lexico;
 }
-programa: cuerpo
+
+programa: '{' cuerpo '}'
 ;
 
-cuerpo: declaracion
-        | cuerpo declaracion
-        | ejecucion
+cuerpo: cuerpo declaracion
         | cuerpo ejecucion
+        | declaracion
+        | ejecucion
 ;
 
-declaracion: declaracion_var
-            | declaracion_func
-            | declaracion_clase
+declaracion: declaracion_var  {# agregarEstructura("DECLARACION VAR detectado")}
+            | declaracion_func  {# agregarEstructura("DECLARACION FUNCION detectado")}
+            | declaracion_clase  {# agregarEstructura("DECLARACION CLASE detectado")}
 ;
 
-declaracion_var: tipo lista_variable ',' { "agregar al/los ids el tipo"}
+declaracion_var: tipo lista_variable ',' { #agregar al/los ids el tipo}
 ;
 
-lista_variable: ID { "agregar id a la tabla" }
-                | ID ';' lista_variable { "agregar id a la tabla" }
+lista_variable: ID { #agregar id a la tabla }
+                | ID ';' lista_variable { #agregar id a la tabla }
 ;
 
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' { "agregar id a la tabla con tipo func" }
-                  | VOID ID '(' ')' '{' cuerpo_func '}'
+declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' { #agregar id a la tabla con tipo func }
+                  | VOID ID '(' ')' '{' cuerpo_func '}' ','
 ;
 
-parametro: tipo ID {"agregar el parametro a la tabla"}
+parametro: tipo ID {#agregar el parametro a la tabla}
 ;
 
-cuerpo_func: cuerpo ejecucion_retorno
-             | ejecucion_retorno
+cuerpo_func: cuerpo ejecucion_retorno ','
+             | ejecucion_retorno ','
 ;
 
-ejecucion_retorno: control_retorno
-                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ',' {"agregarEstructura("WHILE detectado")"}
-                    | sentencia_return
-;
-
-sentencia_return: RETURN ','
+ejecucion_retorno: control_retorno {#agregarEstructura("IF detectado")}
+                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {#agregarEstructura("WHILE detectado")}
+                    | RETURN
 ;
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
@@ -57,12 +55,12 @@ cuerpo_ejecucion: cuerpo_ejecucion ejecucion
                   | ejecucion
 ;
 
-ejecucion: asignacion ','
-           | invocacion ','
-           | seleccion ','
-           | print ','
-           | while ','
-           | ERROR ','
+ejecucion: asignacion ','  {#agregarEstructura("ASIGNACION detectado")}
+           | invocacion ',' {#agregarEstructura("INVOCACION detectado")}
+           | seleccion ',' {#agregarEstructura("IF detectado")}
+           | print ',' {#agregarEstructura("PRINT detectado")}
+           | while ',' {#agregarEstructura("WHILE detectado")}
+           | ERROR ',' {#yyerror("ERROR detectado")}
 ;
 
 asignacion: ID '=' expresion
@@ -79,12 +77,12 @@ seleccion: if_condicion bloque_control END_IF
 if_condicion: IF '(' condicion ')'
 ;
 
-control_retorno: if_condicion '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
-                | if_condicion '{' sentencia_return '}' ELSE '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE  '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
+control_retorno: if_condicion '{' RETURN ',' '}' END_IF
+                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' END_IF
+                | if_condicion '{' RETURN ',' '}' ELSE '{' RETURN ',' '}' END_IF
+                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' ELSE  '{' RETURN ',' '}' END_IF
+                | if_condicion '{' RETURN ',' '}' ELSE '{' cuerpo_ejecucion RETURN ',' '}' END_IF
+                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' ELSE '{' cuerpo_ejecucion RETURN ',' '}' END_IF
 ;
 
 bloque_control: '{' cuerpo_ejecucion '}'
@@ -110,6 +108,7 @@ while: WHILE '(' condicion ')' DO bloque_control
 tipo: INT
        | ULONG
        | FLOAT
+       | ID
 ;
 
 expresion:  expresion '+' termino
@@ -127,8 +126,8 @@ factor: referencia
         | NUM_ULONG
         | NUM_FLOAT
         | '-' NUM_FLOAT
-        | NUM_INT {chequear rango en todos menos ULONG e ID}
-        | ERROR {error("se espera una cosntante o id")}
+        | NUM_INT {#chequear rango en todos menos ULONG e ID}
+        | ERROR {#error("se espera una cosntante o id")}
 ;
 
 referencia: ID posible_guion_doble

@@ -1,0 +1,26 @@
+{
+VOID testFuncion( INT param) {
+    INT x,
+    INT y,
+    x = 3_i,
+    y = 5_i,
+    x = x + y--,
+    RETURN,
+    },
+}
+
+{
+CLASS testClase {
+    INT property1,
+    FLOAT property2,
+
+    VOID setter(INT newProperty) {
+        property1 = newProperty,
+        RETURN,
+        },
+
+    claseHerencia,
+    },
+
+    testClase c1;c2,
+}

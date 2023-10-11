@@ -47,6 +47,10 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return 60
         elif lexema == '>':
             return 62
+        elif lexema == '{':
+            return 123
+        elif lexema == '}':
+            return 125
         elif lexema == ';':
             return 59
         elif lexema == '=':

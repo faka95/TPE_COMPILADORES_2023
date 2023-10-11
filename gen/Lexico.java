@@ -133,8 +133,8 @@ public class Lexico extends Lexer {
 	    GREATER_THAN : '>' { setType(62); };
 	    SEMICOLON : ';' { setType(59); };
 	    EQUALS : '=' { setType(61); };
-	    LEFT_BRACE : '{';
-	    RIGHT_BRACE : '}';
+	    LEFT_BRACE : '{'; {setType(123)}
+	    RIGHT_BRACE : '}'; {setType(125)}
 	    DOUBLE_MINUS : '--';
 	    DOT : '.';
 	    WS : [ \t\r\n]+ -> skip;
