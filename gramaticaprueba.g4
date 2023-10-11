@@ -3,6 +3,21 @@ options {
     tokenVocab = Lexico;
 }
 
+@parser::header {
+import TablaSimbolos as simbolos
+
+menos_menos = False
+listaVar = []
+
+def agregarEstructura(self, texto) {
+    print(texto)
+}
+
+def yyerror(self, texto) {
+    print("error: ", texto)
+}
+}
+
 programa: '{' cuerpo '}'
 ;
 
@@ -12,20 +27,41 @@ cuerpo: cuerpo declaracion
         | ejecucion
 ;
 
-declaracion: declaracion_var  {# agregarEstructura("DECLARACION VAR detectado")}
-            | declaracion_func  {# agregarEstructura("DECLARACION FUNCION detectado")}
-            | declaracion_clase  {# agregarEstructura("DECLARACION CLASE detectado")}
+declaracion:
+declaracion_var  {
+agregarEstructura("DECLARACION VAR detectado")
+}
+| declaracion_func  {
+agregarEstructura("DECLARACION FUNCION detectado")
+}
+| declaracion_clase  {
+agregarEstructura("DECLARACION CLASE detectado")
+}
 ;
 
-declaracion_var: tipo lista_variable ',' {#agregar al/los ids el tipo}
+declaracion_var: tipo lista_variable ',' {
+for key in listaVar:
+    addCaracteristica(key, "tipo", $tipo.text)
+listaVar = []
+}
 ;
 
-lista_variable: ID { #agregar id a la tabla }
-                | ID ';' lista_variable {#agregar id a la tabla }
+lista_variable: ID {
+simbolos.addSimbolo($ID.getText())
+listaVar.append($ID.getText())
+}
+                | ID ';' lista_variable {
+simbolos.addSimbolo($ID.getText())
+listaVar.append($ID.getText())
+}
 ;
 
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' {#agregar id a la tabla con tipo func }
-                  | VOID ID '(' ')' '{' cuerpo_func '}' ','
+declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' {
+simbolos.AddCaracteristica($ID.getText(), "tipo", "func")
+}
+                  | VOID ID '(' ')' '{' cuerpo_func '}' ',' {
+simbolos.AddCaracteristica($ID.getText(), "tipo", "func")
+}
 ;
 
 parametro: tipo ID {#agregar el parametro a la tabla}
@@ -41,10 +77,10 @@ ejecucion_retorno: control_retorno
                     | RETURN
 ;
 
-control_retorno: if_condicion then_retorno END_IF {#agregarEstructura("IF detectado")}
-                | if_condicion then_retorno ELSE bloque_control END_IF {#agregarEstructura("IF detectado")}
-                | if_condicion bloque_control else_retorno END_IF {#agregarEstructura("IF detectado")}
-                | if_condicion then_retorno else_retorno END_IF {#agregarEstructura("IF detectado")}
+control_retorno: if_condicion then_retorno END_IF {agregarEstructura("IF detectado")}
+                | if_condicion then_retorno ELSE bloque_control END_IF {agregarEstructura("IF detectado")}
+                | if_condicion bloque_control else_retorno END_IF {agregarEstructura("IF detectado")}
+                | if_condicion then_retorno else_retorno END_IF {agregarEstructura("IF detectado")}
 ;
 
 then_retorno:   '{' ejecucion_retorno ',' '}'
@@ -58,7 +94,9 @@ else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
 while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {#agregarEstructura("WHILE detectado")}
 ;
 
-declaracion_clase: CLASS ID '{' componentes_clase '}' ','
+declaracion_clase: CLASS ID '{' componentes_clase '}' ',' {
+simbolos.AddCaracteristica($ID.getText(), "tipo", "clase")
+}
 ;
 
 componentes_clase: declaracion_var
@@ -73,12 +111,12 @@ cuerpo_ejecucion: cuerpo_ejecucion ejecucion
                   | ejecucion
 ;
 
-ejecucion: asignacion ','  {#agregarEstructura("ASIGNACION detectado")}
-           | invocacion ',' {#agregarEstructura("INVOCACION detectado")}
-           | seleccion ',' {#agregarEstructura("IF detectado")}
-           | print ',' {#agregarEstructura("PRINT detectado")}
-           | while ',' {#agregarEstructura("WHILE detectado")}
-           | ERROR ',' {#yyerror("ERROR detectado")}
+ejecucion: asignacion ','  {agregarEstructura("ASIGNACION detectado")}
+           | invocacion ',' {agregarEstructura("INVOCACION detectado")}
+           | seleccion ',' {agregarEstructura("IF detectado")}
+           | print ',' {agregarEstructura("PRINT detectado")}
+           | while ',' {agregarEstructura("WHILE detectado")}
+           | ERROR ',' {yyerror("ERROR detectado")}
 ;
 
 asignacion: ID '=' expresion
@@ -132,18 +170,46 @@ termino: termino '*' factor
 ;
 
 factor: referencia
-        | '-' NUM_INT
-        | NUM_ULONG
-        | NUM_FLOAT
-        | '-' NUM_FLOAT
-        | NUM_INT {#chequear rango en todos menos ULONG e ID}
-        | ERROR {#error("se espera una cosntante o id")}
+        | '-' NUM_INT {
+key = $NUM_INT.getText()
+if key in simbolos.keys():
+    if simbolos.getCaracteristica(key, "referencias") == 1:
+        simbolos.remove[key]
+    else:
+        simbolos.reducirReferencia(key)
+# TODO chequear rango
+simbolos.addSimbolo("-" + $NUM_INT.getText())
+}
+        | NUM_ULONG {
+simbolos.addSimbolo($NUM_ULONG.getText())
+}
+        | NUM_FLOAT {
+simbolos.addSimbolo($NUM_FLOAT.getText())
+}
+        | '-' NUM_FLOAT {
+key = $NUM_FLOAT.getText()
+if key in simbolos.keys():
+    if simbolos.getCaracteristica(key, "referencias") == 1:
+        simbolos.remove[key]
+    else:
+        simbolos.reducirReferencia(key)
+# TODO chequear rango
+simbolos.addSimbolo("-" + $NUM_FLOAT.getText())
+}
+        | NUM_INT {
+simbolos.addSimbolo($NUM_INT.getText())
+}
+        | ERROR {yyerror("se espera una cosntante o id")}
 ;
 
-referencia: ID posible_guion_doble
+referencia: ID posible_guion_doble {
+aumentarReferencia($ID.getText())
+}
             | uso_clase
 ;
-posible_guion_doble: '--' {#/* acciones */ }
+posible_guion_doble: '--' {
+menos_menos = True
+}
                   |
 ;
 uso_clase: ID '.' ID

@@ -78,4 +78,12 @@ VOID test_return () {
 }
 
 // test while_return
-TODO
+{
+VOID test_return_while () {
+    WHILE (a<b) DO {
+        a = a--,
+        RETURN,
+        },
+    },
+}
+

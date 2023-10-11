@@ -3,12 +3,34 @@ class TablaDeSimbolos:
         self.simbolos = {}
         self.archivo_tabla = archivo_tabla
 
-    def addSimbolo(self, lexema, id):
+    def addSimbolo(self, lexema):
         if lexema not in self.simbolos:
-            self.simbolos[lexema] = id
+            self.simbolos[lexema] = {"referencias": 1}
+        else:
+            self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] + 1
+
+    def addCaracteristica(self, lexema, caracteristica, valor):
+        if lexema not in self.simbolos:
+            self.simbolos[lexema] = {caracteristica: valor, "referencias": 1}
+        else:
+            self.simbolos[lexema][caracteristica] = valor
+
+    def aumentarReferencia(self, lexema):
+        if lexema in self.simbolos:
+            self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] + 1
+
+    def reducirReferencia(self, lexema):
+        if lexema in self.simbolos:
+            self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] - 1
 
     def getSimbolo(self, lexema):
-        return self.simbolos.get(lexema)
+        return self.simbolos.get(lexema)  # retorna el mapa de caracteristicas de ese simbolo
+
+    def getCaracteristica(self, lexema, caracteristica):
+        if caracteristica in self.simbolos.keys():
+            return self.simbolos[lexema][caracteristica]
+        else:
+            print("ERROR: no existe columna ", caracteristica, ", en el lexema ", lexema)
 
     def removerSimbolo(self, lexema):
         del self.simbolos[lexema]

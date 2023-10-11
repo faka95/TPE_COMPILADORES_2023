@@ -1,5 +1,6 @@
 from AnalizadorLexico.Token import Token
 import AnalizadorLexico.Lexico as lexico
+import TablaSimbolos as simbolos
 from AnalizadorSintactico.Sintactico import Sintactico
 from CodeReader import CodeReader
 from antlr4 import CommonTokenStream, FileStream
@@ -18,14 +19,8 @@ lex = lexico.Lexico(contenido_str, archivo_errores)
     if token.getToken() == 200:
         break
 """
-sintactico = Sintactico(contenido_str,archivo_errores)
+sintactico = Sintactico(contenido_str, archivo_errores)
 sintactico.start()
-
-
-
-
-
-
 
 
 archivo_salida.close()
