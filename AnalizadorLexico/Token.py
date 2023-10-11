@@ -1,60 +1,60 @@
 import numbers
-
+import gramaticaprueba as parser
 
 class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
-    IF = 300
-    ELSE = 301
-    END_IF = 302
-    PRINT = 303
-    CLASS = 304
-    VOID = 305
-    INT = 306
-    ULONG = 307
-    FLOAT = 308
-    WHILE = 309
-    DO = 310
-    MENORIGUAL = 311
-    MAYORIGUAL = 312
-    DISTINTO = 313
-    ID = 314
-    ERROR = 315
-    CADENA = 316
-    NUM_INT = 317
-    NUM_ULONG = 318
-    NUM_FLOAT = 319
-    RETURN = 320
-    COMPIGUAL = 321
+    IF = parser.gramaticaprueba.IF
+    ELSE = parser.gramaticaprueba.ELSE
+    END_IF = parser.gramaticaprueba.END_IF
+    PRINT = parser.gramaticaprueba.PRINT
+    CLASS = parser.gramaticaprueba.CLASS
+    VOID = parser.gramaticaprueba.VOID
+    INT = parser.gramaticaprueba.INT
+    ULONG = parser.gramaticaprueba.ULONG
+    FLOAT = parser.gramaticaprueba.FLOAT
+    WHILE = parser.gramaticaprueba.WHILE
+    DO = parser.gramaticaprueba.DO
+    MENORIGUAL = parser.gramaticaprueba.MENORIGUAL
+    MAYORIGUAL = parser.gramaticaprueba.MAYORIGUAL
+    DISTINTO = parser.gramaticaprueba.DISTINTO
+    ID = parser.gramaticaprueba.ID
+    ERROR = parser.gramaticaprueba.ERROR
+    CADENA = parser.gramaticaprueba.CADENA
+    NUM_INT = parser.gramaticaprueba.NUM_INT
+    NUM_ULONG = parser.gramaticaprueba.NUM_ULONG
+    NUM_FLOAT = parser.gramaticaprueba.NUM_FLOAT
+    RETURN = parser.gramaticaprueba.RETURN
+    COMPIGUAL = parser.gramaticaprueba.COMPIGUAL
 
     def getToken(self):
         lexema = self.lexema
         if lexema == 'FIN':
-            return 400
+            return parser.gramaticaprueba.FIN
         elif lexema == '+':
-            return 43
+            return parser.gramaticaprueba.PLUS
         elif lexema == '-':
-            return 45
+            return parser.gramaticaprueba.MINUS
         elif lexema == ',':
-            return 44
+            return parser.gramaticaprueba.COMMA
         elif lexema == '/':
-            return 47
+            return parser.gramaticaprueba.DIVIDE
         elif lexema == '*':
-            return 42
+            return parser.gramaticaprueba.MULTIPLY
         elif lexema == '(':
-            return 40
+            return parser.gramaticaprueba.LEFT_PAREN
         elif lexema == ')':
-            return 41
+            return parser.gramaticaprueba.RIGHT_PAREN
         elif lexema == '<':
-            return 60
+            return parser.gramaticaprueba.LESS_THAN
         elif lexema == '>':
-            return 62
+            return parser.gramaticaprueba.GREATER_THAN
         elif lexema == '{':
-            return 123
+            return parser.gramaticaprueba.LEFT_BRACE
         elif lexema == '}':
-            return 125
+            return parser.gramaticaprueba.RIGHT_BRACE
         elif lexema == ';':
-            return 59
+            return parser.gramaticaprueba.SEMICOLON
         elif lexema == '=':
-            return 61
+            return parser.gramaticaprueba.EQUALS
         elif lexema == '<=':
             return self.MENORIGUAL
         elif lexema == '>=':

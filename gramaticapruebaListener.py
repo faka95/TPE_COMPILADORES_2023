@@ -89,12 +89,39 @@ class gramaticapruebaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by gramaticaprueba#sentencia_return.
-    def enterSentencia_return(self, ctx:gramaticaprueba.Sentencia_returnContext):
+    # Enter a parse tree produced by gramaticaprueba#control_retorno.
+    def enterControl_retorno(self, ctx:gramaticaprueba.Control_retornoContext):
         pass
 
-    # Exit a parse tree produced by gramaticaprueba#sentencia_return.
-    def exitSentencia_return(self, ctx:gramaticaprueba.Sentencia_returnContext):
+    # Exit a parse tree produced by gramaticaprueba#control_retorno.
+    def exitControl_retorno(self, ctx:gramaticaprueba.Control_retornoContext):
+        pass
+
+
+    # Enter a parse tree produced by gramaticaprueba#then_retorno.
+    def enterThen_retorno(self, ctx:gramaticaprueba.Then_retornoContext):
+        pass
+
+    # Exit a parse tree produced by gramaticaprueba#then_retorno.
+    def exitThen_retorno(self, ctx:gramaticaprueba.Then_retornoContext):
+        pass
+
+
+    # Enter a parse tree produced by gramaticaprueba#else_retorno.
+    def enterElse_retorno(self, ctx:gramaticaprueba.Else_retornoContext):
+        pass
+
+    # Exit a parse tree produced by gramaticaprueba#else_retorno.
+    def exitElse_retorno(self, ctx:gramaticaprueba.Else_retornoContext):
+        pass
+
+
+    # Enter a parse tree produced by gramaticaprueba#while_retorno.
+    def enterWhile_retorno(self, ctx:gramaticaprueba.While_retornoContext):
+        pass
+
+    # Exit a parse tree produced by gramaticaprueba#while_retorno.
+    def exitWhile_retorno(self, ctx:gramaticaprueba.While_retornoContext):
         pass
 
 
@@ -167,15 +194,6 @@ class gramaticapruebaListener(ParseTreeListener):
 
     # Exit a parse tree produced by gramaticaprueba#if_condicion.
     def exitIf_condicion(self, ctx:gramaticaprueba.If_condicionContext):
-        pass
-
-
-    # Enter a parse tree produced by gramaticaprueba#control_retorno.
-    def enterControl_retorno(self, ctx:gramaticaprueba.Control_retornoContext):
-        pass
-
-    # Exit a parse tree produced by gramaticaprueba#control_retorno.
-    def exitControl_retorno(self, ctx:gramaticaprueba.Control_retornoContext):
         pass
 
 

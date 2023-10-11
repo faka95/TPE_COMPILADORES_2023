@@ -17,27 +17,15 @@ declaracion: declaracion_var  {# agregarEstructura("DECLARACION VAR detectado")}
             | declaracion_clase  {# agregarEstructura("DECLARACION CLASE detectado")}
 ;
 
-<<<<<<< HEAD
 declaracion_var: tipo lista_variable ',' {#agregar al/los ids el tipo}
 ;
 
-lista_variable: ID {#agregar id a la tabla }
+lista_variable: ID { #agregar id a la tabla }
                 | ID ';' lista_variable {#agregar id a la tabla }
 ;
 
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' {#agregar id a la tabla con tipo func}
-                  | VOID ID '(' ')' '{' cuerpo_func '}'
-=======
-declaracion_var: tipo lista_variable ',' { #agregar al/los ids el tipo}
-;
-
-lista_variable: ID { #agregar id a la tabla }
-                | ID ';' lista_variable { #agregar id a la tabla }
-;
-
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' { #agregar id a la tabla con tipo func }
+declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' {#agregar id a la tabla con tipo func }
                   | VOID ID '(' ')' '{' cuerpo_func '}' ','
->>>>>>> 1dd857b3980effdc53dca95c252cbc0a429c3c24
 ;
 
 parametro: tipo ID {#agregar el parametro a la tabla}
@@ -48,14 +36,9 @@ cuerpo_func: cuerpo ejecucion_retorno ','
 ;
 
 ejecucion_retorno: control_retorno
-<<<<<<< HEAD
-                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ',' {#agregarEstructura("WHILE detectado")}
-                    | sentencia_return
-=======
                     | control_retorno ',' ejecucion_retorno
                     | while_retorno ',' ejecucion_retorno
                     | RETURN
->>>>>>> 1dd857b3980effdc53dca95c252cbc0a429c3c24
 ;
 
 control_retorno: if_condicion then_retorno END_IF {#agregarEstructura("IF detectado")}
@@ -161,9 +144,8 @@ referencia: ID posible_guion_doble
             | uso_clase
 ;
 posible_guion_doble: '--' {#/* acciones */ }
-                  | /* vacío */
+                  |
 ;
 uso_clase: ID '.' ID
             | ID '.' ID '(' ')'
 ;
-
