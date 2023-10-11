@@ -50,3 +50,32 @@ WHILE ( x !! 3.0) DO {
     x = x+1.2,
 },
 }
+
+// test tipos
+{
+INT a,
+ULONG b,
+FLOAT c,
+clase d,
+
+a = 1_i,
+b = 20000_ul,
+c = -243.24,
+}
+
+// test if_return (se puede comentar / des-comentar los RETURN y las asignaciones para probar distitnas combinaciones)
+{
+VOID test_return () {
+    IF (a<b) {
+    a = a--,
+    RETURN,
+    } ELSE {
+    b = b--,
+    RETURN,
+    } END_IF,
+    RETURN,
+},
+}
+
+// test while_return
+TODO

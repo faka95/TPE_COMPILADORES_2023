@@ -35,9 +35,27 @@ cuerpo_func: cuerpo ejecucion_retorno ','
              | ejecucion_retorno ','
 ;
 
-ejecucion_retorno: control_retorno {#agregarEstructura("IF detectado")}
-                    | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {#agregarEstructura("WHILE detectado")}
+ejecucion_retorno: control_retorno
+                    | control_retorno ',' ejecucion_retorno
+                    | while_retorno ',' ejecucion_retorno
                     | RETURN
+;
+
+control_retorno: if_condicion then_retorno END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion then_retorno ELSE bloque_control END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion bloque_control else_retorno END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion then_retorno else_retorno END_IF {#agregarEstructura("IF detectado")}
+;
+
+then_retorno:   '{' ejecucion_retorno ',' '}'
+                | '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
+;
+
+else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
+               | ELSE '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
+;
+
+while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {#agregarEstructura("WHILE detectado")}
 ;
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
@@ -75,14 +93,6 @@ seleccion: if_condicion bloque_control END_IF
 ;
 
 if_condicion: IF '(' condicion ')'
-;
-
-control_retorno: if_condicion '{' RETURN ',' '}' END_IF
-                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' END_IF
-                | if_condicion '{' RETURN ',' '}' ELSE '{' RETURN ',' '}' END_IF
-                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' ELSE  '{' RETURN ',' '}' END_IF
-                | if_condicion '{' RETURN ',' '}' ELSE '{' cuerpo_ejecucion RETURN ',' '}' END_IF
-                | if_condicion '{' cuerpo_ejecucion RETURN ',' '}' ELSE '{' cuerpo_ejecucion RETURN ',' '}' END_IF
 ;
 
 bloque_control: '{' cuerpo_ejecucion '}'
