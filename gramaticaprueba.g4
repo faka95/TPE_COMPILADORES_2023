@@ -99,7 +99,7 @@ comparador: '<'
             | COMPIGUAL
 ;
 
-print: PRINT CADENA
+print: PRINT '(' CADENA ')'
 ;
 
 while: WHILE '(' condicion ')' DO bloque_control
