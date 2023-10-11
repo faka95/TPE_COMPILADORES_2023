@@ -2,20 +2,22 @@ parser grammar gramaticaprueba;
 options {
     tokenVocab = Lexico;
 }
-programa: cuerpo
+
+programa: '{' cuerpo '}'
 ;
 
-cuerpo: declaracion
-        | cuerpo declaracion
-        | ejecucion
+cuerpo: cuerpo declaracion
         | cuerpo ejecucion
+        | declaracion
+        | ejecucion
 ;
 
-declaracion: declaracion_var
-            | declaracion_func
-            | declaracion_clase
+declaracion: declaracion_var  {# agregarEstructura("DECLARACION VAR detectado")}
+            | declaracion_func  {# agregarEstructura("DECLARACION FUNCION detectado")}
+            | declaracion_clase  {# agregarEstructura("DECLARACION CLASE detectado")}
 ;
 
+<<<<<<< HEAD
 declaracion_var: tipo lista_variable ',' {#agregar al/los ids el tipo}
 ;
 
@@ -25,21 +27,52 @@ lista_variable: ID {#agregar id a la tabla }
 
 declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' {#agregar id a la tabla con tipo func}
                   | VOID ID '(' ')' '{' cuerpo_func '}'
+=======
+declaracion_var: tipo lista_variable ',' { #agregar al/los ids el tipo}
+;
+
+lista_variable: ID { #agregar id a la tabla }
+                | ID ';' lista_variable { #agregar id a la tabla }
+;
+
+declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' { #agregar id a la tabla con tipo func }
+                  | VOID ID '(' ')' '{' cuerpo_func '}' ','
+>>>>>>> 1dd857b3980effdc53dca95c252cbc0a429c3c24
 ;
 
 parametro: tipo ID {#agregar el parametro a la tabla}
 ;
 
-cuerpo_func: cuerpo ejecucion_retorno
-             | ejecucion_retorno
+cuerpo_func: cuerpo ejecucion_retorno ','
+             | ejecucion_retorno ','
 ;
 
 ejecucion_retorno: control_retorno
+<<<<<<< HEAD
                     | WHILE '(' condicion ')' DO '{' cuerpo_ejecucion sentencia_return '}' ',' {#agregarEstructura("WHILE detectado")}
                     | sentencia_return
+=======
+                    | control_retorno ',' ejecucion_retorno
+                    | while_retorno ',' ejecucion_retorno
+                    | RETURN
+>>>>>>> 1dd857b3980effdc53dca95c252cbc0a429c3c24
 ;
 
-sentencia_return: RETURN ','
+control_retorno: if_condicion then_retorno END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion then_retorno ELSE bloque_control END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion bloque_control else_retorno END_IF {#agregarEstructura("IF detectado")}
+                | if_condicion then_retorno else_retorno END_IF {#agregarEstructura("IF detectado")}
+;
+
+then_retorno:   '{' ejecucion_retorno ',' '}'
+                | '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
+;
+
+else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
+               | ELSE '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
+;
+
+while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {#agregarEstructura("WHILE detectado")}
 ;
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ','
@@ -57,12 +90,12 @@ cuerpo_ejecucion: cuerpo_ejecucion ejecucion
                   | ejecucion
 ;
 
-ejecucion: asignacion ','
-           | invocacion ','
-           | seleccion ','
-           | print ','
-           | while ','
-           | ERROR ','
+ejecucion: asignacion ','  {#agregarEstructura("ASIGNACION detectado")}
+           | invocacion ',' {#agregarEstructura("INVOCACION detectado")}
+           | seleccion ',' {#agregarEstructura("IF detectado")}
+           | print ',' {#agregarEstructura("PRINT detectado")}
+           | while ',' {#agregarEstructura("WHILE detectado")}
+           | ERROR ',' {#yyerror("ERROR detectado")}
 ;
 
 asignacion: ID '=' expresion
@@ -79,14 +112,6 @@ seleccion: if_condicion bloque_control END_IF
 if_condicion: IF '(' condicion ')'
 ;
 
-control_retorno: if_condicion '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
-                | if_condicion '{' sentencia_return '}' ELSE '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE  '{' sentencia_return '}' END_IF ','
-                | if_condicion '{' sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
-                | if_condicion '{' cuerpo_ejecucion sentencia_return '}' ELSE '{' cuerpo_ejecucion sentencia_return '}' END_IF ','
-;
-
 bloque_control: '{' cuerpo_ejecucion '}'
 ;
 
@@ -101,7 +126,7 @@ comparador: '<'
             | COMPIGUAL
 ;
 
-print: PRINT CADENA
+print: PRINT '(' CADENA ')'
 ;
 
 while: WHILE '(' condicion ')' DO bloque_control
@@ -110,6 +135,7 @@ while: WHILE '(' condicion ')' DO bloque_control
 tipo: INT
        | ULONG
        | FLOAT
+       | ID
 ;
 
 expresion:  expresion '+' termino
