@@ -7,23 +7,24 @@ import TablaSimbolos as tablasimbolos
 from antlr4.Token import Token
 }
 @parser::members {
-    self.archivo_tabla = open("tabla_de_simbolos.txt", "w")
-    self.archivo_salida = open("salida.txt", "w")
-    self.archivo_errores = open("errores.txt", "w")
+    self.archivo_tabla = open("tabla_de_simbolos.txt", "a")
+    self.archivo_salida = open("salida.txt", "a")
+    self.archivo_errores = open("errores.txt", "a")
     self.simbolos = tablasimbolos.TablaDeSimbolos(self.archivo_tabla)
     self.menos_menos = False
     self.listaVar = []
-def agregarEstructura(self, texto): {
-    self.archivo_salida.write(texto)
+    self.text = ""
+
+def agregarEstructura(self, texto):
+    self.archivo_salida.write(str(texto+"\n"))
+
+def yyerror(self, texto):
+    self.archivo_errores.write(str(texto+"\n"))
 }
 
-def yyerror(self, texto): {
-    self.archivo_errores.write(texto)
+programa: '{' cuerpo '}' {
+self.simbolos.imprimirTabla()
 }
-}
-
-
-programa: '{' cuerpo '}'
 ;
 
 cuerpo: cuerpo declaracion
@@ -179,7 +180,7 @@ factor: referencia
 key = $NUM_INT.text
 if key in self.simbolos.keys():
     if self.simbolos.getCaracteristica(key, "referencias") == 1:
-        self.simbolos.remove[key]
+        self.simbolos.remove(key)
     else:
         self.simbolos.reducirReferencia(key)
 # TODO chequear rango
@@ -195,7 +196,7 @@ self.simbolos.addSimbolo($NUM_FLOAT.text)
 key = $NUM_FLOAT.text
 if key in self.simbolos.keys():
     if self.simbolos.getCaracteristica(key, "referencias") == 1:
-        self.simbolos.remove[key]
+        self.simbolos.remove(key)
     else:
         self.simbolos.reducirReferencia(key)
 # TODO chequear rango

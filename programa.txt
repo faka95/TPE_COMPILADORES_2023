@@ -1,3 +1,10 @@
 {
-    INT x,
+INT a,
+ULONG b,
+FLOAT c,
+clase d,
+
+a = 1_i,
+b = 20000_ul,
+c = -243.24,
 }

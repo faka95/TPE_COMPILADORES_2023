@@ -1,0 +1,8 @@
+Tabla de Simbolos: 
+Simbolo: a Valores: referencias: 1 - tipo: INT - 
+Simbolo: b Valores: referencias: 1 - tipo: ULONG - 
+Simbolo: c Valores: referencias: 1 - tipo: FLOAT - 
+Simbolo: d Valores: referencias: 1 - tipo: clase - 
+Simbolo: 1_i Valores: referencias: 1 - 
+Simbolo: 20000_ul Valores: referencias: 1 - 
+Simbolo: -243.24 Valores: referencias: 1 - 

@@ -38,10 +38,21 @@ class TablaDeSimbolos:
     def isKey(self, lexema):
         return lexema in self.simbolos
 
+    def keys(self):
+        return self.simbolos.keys()
+
+    def remove(self, key):
+        self.simbolos.pop(key)
+
     def imprimirTabla(self):
         self.archivo_tabla.write("Tabla de Simbolos: " + "\n")
-        for lexema, id in self.simbolos.items():
-            self.archivo_tabla.write("Lexema: {} ID: {}".format(lexema, id) + "\n")
+        for key1, value1 in self.simbolos.items():
+            self.archivo_tabla.write(str("Simbolo: {} Valores: ").format(key1))
+            for key2, value2 in value1.items():
+                self.archivo_tabla.write(str("{}: {} - ").format(key2, value2))
+            self.archivo_tabla.write(str("\n"))
+
+
 """
 ts = TablaDeSimbolos()
 ts.addSimbolo("+",3)
