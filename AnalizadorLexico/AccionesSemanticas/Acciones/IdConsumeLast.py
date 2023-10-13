@@ -14,7 +14,7 @@ class IdConsumeLast(accion.AccionSemantica):
         self.lexico.bufferAdd(caracterActual)
         lexema = self.lexico.bufferLexema()
         # chekeo palabra reservada
-        palabras = ["IF", "ELSE", "END_IF", "INT", "ULONG", "FLOAT", "VOID", "PRINT", "CLASS", "<=", ">=", "!!","WHILE","DO"]
+        palabras = ["IF", "ELSE", "END_IF", "INT", "ULONG", "FLOAT", "VOID", "PRINT", "CLASS", "<=", ">=", "!!","WHILE","DO","RETURN"]
         if caracterActual in palabras:
             self.lexico.bufferAdd(caracterActual)
             self.lexico.tokenActual = Token(lexema, self.lexico.nroLinea)

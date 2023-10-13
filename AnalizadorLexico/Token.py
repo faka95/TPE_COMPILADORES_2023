@@ -28,7 +28,7 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     def getToken(self):
         lexema = self.lexema
         if lexema == 'FIN':
-            return parser.gramaticaprueba.FIN
+            return parser.gramaticaprueba.EOF
         elif lexema == '+':
             return parser.gramaticaprueba.PLUS
         elif lexema == '-':

@@ -1,7 +1,6 @@
 from AnalizadorLexico.Token import Token
 import AnalizadorLexico.Lexico as lexico
 #import AnalizadorSintactico.yacc as sintactico
-from CodeReader import CodeReader
 import sys
 with open(sys.argv[1], 'r') as file:
     # python .\main.py "C:\\Users\\Tobias Romano\\Desktop\\archivo.txt" este es el formato

@@ -13,7 +13,7 @@ class DoubleConst(accion.AccionSemantica):
         super().__init__(lexico)
 
     def ejecutar(self, caracterActual):
-        self.lexico.bufferAdd(caracterActual)
+        self.lexico.indice[0] -= 1
         exponente = 0
         entero_decimal = 0
         if "E" in self.lexico.bufferLexema():
