@@ -1539,6 +1539,7 @@ class gramaticaprueba ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
+            self._ERROR = None # Token
 
         def asignacion(self):
             return self.getTypedRuleContext(gramaticaprueba.AsignacionContext,0)
@@ -1628,10 +1629,10 @@ class gramaticaprueba ( Parser ):
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
                 self.state = 284
-                self.match(gramaticaprueba.ERROR)
+                localctx._ERROR = self.match(gramaticaprueba.ERROR)
                 self.state = 285
                 self.match(gramaticaprueba.COMMA)
-                self.yyerror("ERROR detectado")
+                self.yyerror(str("ERROR en sentencia ejecutable en linea: {}").format((0 if localctx._ERROR is None else localctx._ERROR.line)))
                 pass
 
 

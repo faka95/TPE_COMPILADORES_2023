@@ -124,7 +124,7 @@ ejecucion: asignacion ','  {self.agregarEstructura("ASIGNACION detectado")}
            | seleccion ',' {self.agregarEstructura("IF detectado")}
            | print ',' {self.agregarEstructura("PRINT detectado")}
            | while ',' {self.agregarEstructura("WHILE detectado")}
-           | ERROR ',' {self.yyerror("ERROR detectado")}
+           | ERROR ',' {self.yyerror(str("ERROR en sentencia ejecutable en linea: {}").format($ERROR.line))}
 ;
 
 asignacion: ID '=' expresion {

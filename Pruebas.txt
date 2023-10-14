@@ -91,3 +91,18 @@ VOID test_return_while () {
     },
 }
 
+//// TESTS DE ERRORES
+
+// cadena no cerrada
+{
+PRINT(%hola mundo!!!),
+}
+
+// distinto incompleto
+{
+IF (a!b) {
+    PRINT(%son distintos%),
+} END_IF,
+}
+
+falta agregar más (preguntar a tobi)

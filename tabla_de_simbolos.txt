@@ -1,9 +1,0 @@
-Tabla de Simbolos: 
-Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
-Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
-Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
-Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
-Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 2 - 
-Simbolo: 22_i - Caracteristicas: tipo: INT - referencias: 1 - 
