@@ -24,6 +24,7 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     NUM_FLOAT = parser.gramaticaprueba.NUM_FLOAT
     RETURN = parser.gramaticaprueba.RETURN
     COMPIGUAL = parser.gramaticaprueba.COMPIGUAL
+    PUNTO = parser.gramaticaprueba.DOT
 
     def getToken(self):
         lexema = self.lexema
@@ -35,6 +36,8 @@ class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
             return parser.gramaticaprueba.MINUS
         elif lexema == ',':
             return parser.gramaticaprueba.COMMA
+        elif lexema == '.':
+            return parser.gramaticaprueba.DOT
         elif lexema == '/':
             return parser.gramaticaprueba.DIVIDE
         elif lexema == '*':

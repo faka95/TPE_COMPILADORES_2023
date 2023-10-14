@@ -1,5 +1,6 @@
+//test_funcion
 {
-VOID testFuncion( INT param) {
+VOID test_funcion( INT param) {
     INT x,
     INT y,
     x = param,
@@ -8,11 +9,12 @@ VOID testFuncion( INT param) {
     RETURN,
     },
 
-    testFuncion(3_i),
+    test_funcion(3_i),
 }
 
+//test clase
 {
-CLASS testClase {
+CLASS test_clase {
     INT property1,
     FLOAT property2,
 
@@ -21,13 +23,20 @@ CLASS testClase {
         RETURN,
         },
 
-    claseHerencia,
+    clase_herencia,
     },
 
-    testClase c1;c2,
+    test_clase c1;c2,
 }
 
 // test if
+{
+IF (a<b) {
+    PRINT(%then%),
+} END_IF,
+}
+
+// test if_else
 {
 IF (a<b) {
     PRINT(%then%),
@@ -38,11 +47,6 @@ IF (a<b) {
 }
 
 
-{
-IF (a<b) {
-    PRINT(%then%),
-} END_IF,
-}
 
 //test while
 {

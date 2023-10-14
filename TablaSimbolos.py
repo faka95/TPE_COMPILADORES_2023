@@ -10,17 +10,19 @@ class TablaDeSimbolos:
             self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] + 1
 
     def addCaracteristica(self, lexema, caracteristica, valor):
-        if lexema not in self.simbolos:
+        if lexema not in self.simbolos.keys():
             self.simbolos[lexema] = {caracteristica: valor, "referencias": 1}
         else:
             self.simbolos[lexema][caracteristica] = valor
 
     def aumentarReferencia(self, lexema):
-        if lexema in self.simbolos:
+        if lexema in self.simbolos.keys():
             self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] + 1
+        else:
+            self.simbolos[lexema] = {"referencias": 1}
 
     def reducirReferencia(self, lexema):
-        if lexema in self.simbolos:
+        if lexema in self.simbolos.keys():
             self.simbolos[lexema]["referencias"] = self.simbolos[lexema]["referencias"] - 1
 
     def getSimbolo(self, lexema):
@@ -30,7 +32,7 @@ class TablaDeSimbolos:
         if caracteristica in self.simbolos.keys():
             return self.simbolos[lexema][caracteristica]
         else:
-            print("ERROR: no existe columna ", caracteristica, ", en el lexema ", lexema)
+            print("ERROR: no existe columna ", caracteristica, ", en el simbolo: ", lexema)
 
     def removerSimbolo(self, lexema):
         del self.simbolos[lexema]
@@ -47,7 +49,7 @@ class TablaDeSimbolos:
     def imprimirTabla(self):
         self.archivo_tabla.write("Tabla de Simbolos: " + "\n")
         for key1, value1 in self.simbolos.items():
-            self.archivo_tabla.write(str("Simbolo: {} Valores: ").format(key1))
+            self.archivo_tabla.write(str("Simbolo: {} - Caracteristicas: ").format(key1))
             for key2, value2 in value1.items():
                 self.archivo_tabla.write(str("{}: {} - ").format(key2, value2))
             self.archivo_tabla.write(str("\n"))

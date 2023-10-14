@@ -1,8 +1,9 @@
 Tabla de Simbolos: 
-Simbolo: a Valores: referencias: 1 - tipo: INT - 
-Simbolo: b Valores: referencias: 1 - tipo: ULONG - 
-Simbolo: c Valores: referencias: 1 - tipo: FLOAT - 
-Simbolo: d Valores: referencias: 1 - tipo: clase - 
-Simbolo: 1_i Valores: referencias: 1 - 
-Simbolo: 20000_ul Valores: referencias: 1 - 
-Simbolo: -243.24 Valores: referencias: 1 - 
+Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
+Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
+Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
+Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
+Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 2 - 
+Simbolo: 22_i - Caracteristicas: tipo: INT - referencias: 1 - 

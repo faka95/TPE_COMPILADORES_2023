@@ -37,9 +37,7 @@ declaracion:
 declaracion_var  {
 self.agregarEstructura("DECLARACION VAR detectado")
 }
-| declaracion_func  {
-self.agregarEstructura("DECLARACION FUNCION detectado")
-}
+| declaracion_func
 | declaracion_clase  {
 self.agregarEstructura("DECLARACION CLASE detectado")
 }
@@ -53,24 +51,27 @@ self.listaVar = []
 ;
 
 lista_variable: ID {
-self.simbolos.addSimbolo($ID.text)
 self.listaVar.append($ID.text)
 }
                 | ID ';' lista_variable {
-self.simbolos.addSimbolo($ID.text)
 self.listaVar.append($ID.text)
 }
 ;
 
-declaracion_func: VOID ID '(' parametro ')' '{' cuerpo_func '}' ',' {
+declaracion_func: VOID ID parametro '{' cuerpo_func '}' ',' {
 self.simbolos.addCaracteristica($ID.text, "tipo", "func")
+self.agregarEstructura("DECLARACION FUNCION detectado")
 }
                   | VOID ID '(' ')' '{' cuerpo_func '}' ',' {
 self.simbolos.addCaracteristica($ID.text, "tipo", "func")
+self.agregarEstructura("DECLARACION FUNCION detectado")
 }
 ;
 
-parametro: tipo ID {#agregar el parametro a la tabla}
+parametro: '(' ')'
+            | '(' tipo ID ')' {
+self.simbolos.addCaracteristica($ID.text, "tipo", $tipo.text)
+}
 ;
 
 cuerpo_func: cuerpo ejecucion_retorno ','
@@ -79,6 +80,7 @@ cuerpo_func: cuerpo ejecucion_retorno ','
 
 ejecucion_retorno: control_retorno
                     | control_retorno ',' ejecucion_retorno
+                    | while_retorno
                     | while_retorno ',' ejecucion_retorno
                     | RETURN
 ;
@@ -125,11 +127,25 @@ ejecucion: asignacion ','  {self.agregarEstructura("ASIGNACION detectado")}
            | ERROR ',' {self.yyerror("ERROR detectado")}
 ;
 
-asignacion: ID '=' expresion
+asignacion: ID '=' expresion {
+self.simbolos.aumentarReferencia($ID.text)
+}
 ;
 
-invocacion: ID '(' expresion ')'
-            | ID '(' ')'
+invocacion: ID '(' expresion ')' {
+self.simbolos.aumentarReferencia($ID.text)
+}
+            | ID '(' ')' {
+self.simbolos.aumentarReferencia($ID.text)
+}
+            | clase=ID '.' funcion=ID '(' ')' {
+self.simbolos.aumentarReferencia($clase.text)
+self.simbolos.aumentarReferencia($funcion.text)
+}
+            | clase=ID '.' funcion=ID '(' expresion ')' {
+self.simbolos.aumentarReferencia($clase.text)
+self.simbolos.aumentarReferencia($funcion.text)
+}
 ;
 
 seleccion: if_condicion bloque_control END_IF
@@ -162,7 +178,9 @@ while: WHILE '(' condicion ')' DO bloque_control
 tipo: INT
        | ULONG
        | FLOAT
-       | ID
+       | ID {
+self.simbolos.aumentarReferencia($ID.text)
+}
 ;
 
 expresion:  expresion '+' termino
@@ -187,10 +205,10 @@ if key in self.simbolos.keys():
 self.simbolos.addSimbolo("-" + $NUM_INT.text)
 }
         | NUM_ULONG {
-self.simbolos.addSimbolo($NUM_ULONG.text)
+self.simbolos.addCaracteristica($NUM_ULONG.text, "tipo", "ULONG")
 }
         | NUM_FLOAT {
-self.simbolos.addSimbolo($NUM_FLOAT.text)
+self.simbolos.addCaracteristica($NUM_FLOAT.text, "tipo", "FLOAT")
 }
         | '-' NUM_FLOAT {
 key = $NUM_FLOAT.text
@@ -203,7 +221,7 @@ if key in self.simbolos.keys():
 self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
 }
         | NUM_INT {
-self.simbolos.addSimbolo($NUM_INT.text)
+self.simbolos.addCaracteristica($NUM_INT.text, "tipo", "INT")
 }
         | ERROR {self.yyerror("se espera una cosntante o id")}
 ;
@@ -213,11 +231,13 @@ self.simbolos.aumentarReferencia($ID.text)
 }
             | uso_clase
 ;
-posible_guion_doble: '--' {
+posible_guion_doble: '-' '-' {
 self.menos_menos = True
 }
                   |
 ;
-uso_clase: ID '.' ID
-            | ID '.' ID '(' ')'
+uso_clase: clase=ID '.' atributo=ID {
+self.simbolos.aumentarReferencia($clase.text)
+self.simbolos.aumentarReferencia($atributo.text)
+}
 ;
