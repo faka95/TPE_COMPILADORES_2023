@@ -1,5 +1,3 @@
 {
-IF (a!b) {
-    PRINT(%son distintos%),
-} END_IF,
+
 }

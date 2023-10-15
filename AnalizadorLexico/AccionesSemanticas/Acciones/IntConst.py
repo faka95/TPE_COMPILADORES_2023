@@ -11,7 +11,7 @@ class IntConst(accion.AccionSemantica):
     def __init__(self, lexico: AnalizadorLexico.Lexico.Lexico):
         super().__init__(lexico)
     def rango_i(self,numero):
-        if (numero >= (self.CONST_16BIT * (-1))) and (numero <= (self.CONST_16BIT - 1)):
+        if (numero >= (self.CONST_16BIT * (-1))) and (numero <= (self.CONST_16BIT)):
             return True
         else:
             return False
@@ -42,7 +42,7 @@ class IntConst(accion.AccionSemantica):
         if self.lexico.bufferLexema().endswith(self.SUFFIX_16BIT):
             if not (self.rango_i(int(parte_numerica))):
                 self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
-                self.lexico.escribirError("Constante entera INT fuera de rango" + self.lexico.bufferLexema())
+                self.lexico.escribirError("Constante entera INT fuera de rango: " + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()
@@ -51,7 +51,7 @@ class IntConst(accion.AccionSemantica):
         elif self.lexico.bufferLexema().endswith(self.SUFFIX_32BIT):
             if not (self.rango_ul(int(parte_numerica))):
                 self.lexico.tokenActual = Token("error_yacc", self.lexico.nroLinea)
-                self.lexico.escribirError("Constante entera ULONG fuera de rango" + self.lexico.bufferLexema())
+                self.lexico.escribirError("Constante entera ULONG fuera de rango: " + self.lexico.bufferLexema())
                 return
             else:
                 lexema = self.lexico.bufferLexema()

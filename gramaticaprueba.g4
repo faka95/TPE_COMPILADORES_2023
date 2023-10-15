@@ -19,7 +19,14 @@ def agregarEstructura(self, texto):
     self.archivo_salida.write(str(texto+"\n"))
 
 def yyerror(self, texto):
-    self.archivo_errores.write(str(texto+"\n"))
+    self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + "\n"))
+
+def getValor(self, texto):
+    valor = ""
+    for caracter in texto:
+        if caracter.isdigit() or caracter in [".","E","e"]:
+            valor += caracter
+    return valor
 }
 
 programa: '{' cuerpo '}' {
@@ -33,12 +40,11 @@ cuerpo: cuerpo declaracion
         | ejecucion
 ;
 
-declaracion:
-declaracion_var  {
+declaracion: declaracion_var  {
 self.agregarEstructura("DECLARACION VAR detectado")
 }
-| declaracion_func
-| declaracion_clase  {
+            | declaracion_func
+            | declaracion_clase  {
 self.agregarEstructura("DECLARACION CLASE detectado")
 }
 ;
@@ -217,11 +223,15 @@ if key in self.simbolos.keys():
         self.simbolos.remove(key)
     else:
         self.simbolos.reducirReferencia(key)
-# TODO chequear rango
 self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
 }
         | NUM_INT {
-self.simbolos.addCaracteristica($NUM_INT.text, "tipo", "INT")
+if $NUM_INT.text == "32768_i":
+    self.yyerror("INT fuera de rango")
+else:
+    self.simbolos.addCaracteristica($NUM_INT.text, "tipo", "INT")
+    texto = $NUM_INT.text
+    self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
 }
         | ERROR {self.yyerror("se espera una cosntante o id")}
 ;

@@ -10,15 +10,9 @@ with open(sys.argv[1], 'r') as file:
     archivo_tabla = open("tabla_de_simbolos.txt", "w")
 
 lex = lexico.Lexico(contenido_str, archivo_errores)
-sintactico = Sintactico(contenido_str, archivo_errores)
+sintactico = Sintactico(contenido_str, archivo_errores, archivo_salida)
 sintactico.start()
-"""while True:
-    token = lex.yyLex()
-    if token is not None:
-        archivo_salida.write(str("LEXEMA: " + token.getLexema() + " - TOKEN: " + str(token.getToken()) + "\n"))
-    if token.getToken() == 400:
-        break
-"""
+
 archivo_salida.close()
 archivo_errores.close()
 archivo_tabla.close()

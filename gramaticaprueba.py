@@ -297,7 +297,14 @@ class gramaticaprueba ( Parser ):
         self.archivo_salida.write(str(texto+"\n"))
 
     def yyerror(self, texto):
-        self.archivo_errores.write(str(texto+"\n"))
+        self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + "\n"))
+
+    def getValor(self, texto):
+        valor = ""
+        for caracter in texto:
+            if caracter.isdigit() or caracter in [".","E","e"]:
+                valor += caracter
+        return valor
 
 
 
@@ -2529,7 +2536,6 @@ class gramaticaprueba ( Parser ):
                         self.simbolos.remove(key)
                     else:
                         self.simbolos.reducirReferencia(key)
-                # TODO chequear rango
                 self.simbolos.addSimbolo("-" + (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
 
                 pass
@@ -2539,7 +2545,12 @@ class gramaticaprueba ( Parser ):
                 self.state = 405
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
-                self.simbolos.addCaracteristica((None if localctx._NUM_INT is None else localctx._NUM_INT.text), "tipo", "INT")
+                if (None if localctx._NUM_INT is None else localctx._NUM_INT.text) == "32768_i":
+                    self.yyerror("INT fuera de rango")
+                else:
+                    self.simbolos.addCaracteristica((None if localctx._NUM_INT is None else localctx._NUM_INT.text), "tipo", "INT")
+                    texto = (None if localctx._NUM_INT is None else localctx._NUM_INT.text)
+                    self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
 
                 pass
 
