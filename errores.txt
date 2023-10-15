@@ -1,1 +1,2 @@
 Error lexico : Falta !, en linea nro 2
+Error en sentencia ejecucion 'IF' linea: 2
