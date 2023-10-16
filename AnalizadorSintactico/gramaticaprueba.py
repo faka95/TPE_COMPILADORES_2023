@@ -296,8 +296,8 @@ class gramaticaprueba ( Parser ):
     def agregarEstructura(self, texto):
         self.archivo_salida.write(str(texto+"\n"))
 
-    def yyerror(self, texto):
-        self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + "\n"))
+    def yyerror(self, texto, linea):
+        self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + " En la linea " + str(linea) + "\n"))
 
     def getValor(self, texto):
         valor = ""
@@ -1639,7 +1639,7 @@ class gramaticaprueba ( Parser ):
                 localctx._ERROR = self.match(gramaticaprueba.ERROR)
                 self.state = 285
                 self.match(gramaticaprueba.COMMA)
-                self.yyerror(str("ERROR en sentencia ejecutable en linea: {}").format((0 if localctx._ERROR is None else localctx._ERROR.line)))
+                self.yyerror(str("ERROR en sentencia ejecutable en linea: {}"),(0 if localctx._ERROR is None else localctx._ERROR.line))
                 pass
 
 
@@ -2447,6 +2447,7 @@ class gramaticaprueba ( Parser ):
             self._NUM_INT = None # Token
             self._NUM_ULONG = None # Token
             self._NUM_FLOAT = None # Token
+            self._ERROR = None # Token
 
         def referencia(self):
             return self.getTypedRuleContext(gramaticaprueba.ReferenciaContext,0)
@@ -2546,7 +2547,7 @@ class gramaticaprueba ( Parser ):
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
                 if (None if localctx._NUM_INT is None else localctx._NUM_INT.text) == "32768_i":
-                    self.yyerror("INT fuera de rango")
+                    self.yyerror("INT fuera de rango",(0 if localctx._NUM_INT is None else localctx._NUM_INT.line))
                 else:
                     self.simbolos.addCaracteristica((None if localctx._NUM_INT is None else localctx._NUM_INT.text), "tipo", "INT")
                     texto = (None if localctx._NUM_INT is None else localctx._NUM_INT.text)
@@ -2557,8 +2558,8 @@ class gramaticaprueba ( Parser ):
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
                 self.state = 407
-                self.match(gramaticaprueba.ERROR)
-                self.yyerror("se espera una cosntante o id")
+                localctx._ERROR = self.match(gramaticaprueba.ERROR)
+                self.yyerror("se espera una constante o id",(0 if localctx._ERROR is None else localctx._ERROR.line))
                 pass
 
 

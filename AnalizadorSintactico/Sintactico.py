@@ -1,7 +1,8 @@
 from antlr4 import CommonTokenStream
 from AnalizadorSintactico.CustomANTLR import CustomTokenSource
-from gramaticaprueba import gramaticaprueba
 from AnalizadorSintactico.CustomANTLR import CustomErrorStrategy
+from AnalizadorSintactico.gramaticaprueba import gramaticaprueba
+
 
 class Sintactico:
     def __init__(self,contenido_str,archivo_errores,archivo_salida):
@@ -17,4 +18,3 @@ class Sintactico:
             customErrorHandler.setParserGen(parser)
             parser._errHandler = customErrorHandler
             tree = parser.programa()
-            print(tree.toStringTree(recog=parser))

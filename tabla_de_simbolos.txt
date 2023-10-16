@@ -1,4 +1,0 @@
-Tabla de Simbolos: 
-Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: b - Caracteristicas: referencias: 1 - 
-Simbolo: a - Caracteristicas: referencias: 1 - 

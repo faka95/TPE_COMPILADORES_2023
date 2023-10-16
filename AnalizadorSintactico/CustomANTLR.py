@@ -2,6 +2,10 @@ from antlr4.CommonTokenFactory import CommonTokenFactory
 from antlr4.Lexer import TokenSource
 import AnalizadorLexico.Lexico as lexico
 from antlr4.Token import Token
+
+from AnalizadorSintactico.gramaticaprueba import gramaticaprueba
+
+
 class CustomTokenSource(TokenSource):
     def __init__(self,contenido_str,archivo_errores,archivo_salida ):
         self.contenido_str = contenido_str
@@ -32,9 +36,9 @@ class CustomTokenSource(TokenSource):
 
 from antlr4.error.ErrorStrategy import DefaultErrorStrategy
 from antlr4 import Parser
-import gramaticaprueba
+
 class CustomErrorStrategy(DefaultErrorStrategy):
-    def setParserGen(self,GenParser: gramaticaprueba.gramaticaprueba):
+    def setParserGen(self,GenParser: gramaticaprueba):
         self.GenParser = GenParser
 
     def writeErrorFILE(self,tokentext,line,regla,estructura):

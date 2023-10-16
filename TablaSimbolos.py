@@ -53,13 +53,3 @@ class TablaDeSimbolos:
             for key2, value2 in value1.items():
                 self.archivo_tabla.write(str("{}: {} - ").format(key2, value2))
             self.archivo_tabla.write(str("\n"))
-
-
-"""
-ts = TablaDeSimbolos()
-ts.addSimbolo("+",3)
-ts.addSimbolo("-",4)
-ts.addSimbolo("/",5)
-ts.addSimbolo("!!",6)
-priSnt(ts.getSimbolo("+"))
-"""

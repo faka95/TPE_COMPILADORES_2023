@@ -18,8 +18,8 @@ from antlr4.Token import Token
 def agregarEstructura(self, texto):
     self.archivo_salida.write(str(texto+"\n"))
 
-def yyerror(self, texto):
-    self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + "\n"))
+def yyerror(self, texto, linea):
+    self.archivo_errores.write(str("ERROR DE SINTAXIS: " + texto + " En la linea " + str(linea) + "\n"))
 
 def getValor(self, texto):
     valor = ""
@@ -130,7 +130,7 @@ ejecucion: asignacion ','  {self.agregarEstructura("ASIGNACION detectado")}
            | seleccion ',' {self.agregarEstructura("IF detectado")}
            | print ',' {self.agregarEstructura("PRINT detectado")}
            | while ',' {self.agregarEstructura("WHILE detectado")}
-           | ERROR ',' {self.yyerror(str("ERROR en sentencia ejecutable en linea: {}").format($ERROR.line))}
+           | ERROR ',' {self.yyerror(str("ERROR en sentencia ejecutable en linea: {}"),$ERROR.line)}
 ;
 
 asignacion: ID '=' expresion {
@@ -227,13 +227,13 @@ self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
 }
         | NUM_INT {
 if $NUM_INT.text == "32768_i":
-    self.yyerror("INT fuera de rango")
+    self.yyerror("INT fuera de rango",$NUM_INT.line)
 else:
     self.simbolos.addCaracteristica($NUM_INT.text, "tipo", "INT")
     texto = $NUM_INT.text
     self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
 }
-        | ERROR {self.yyerror("se espera una cosntante o id")}
+        | ERROR {self.yyerror("se espera una constante o id",$ERROR.line)}
 ;
 
 referencia: ID posible_guion_doble {

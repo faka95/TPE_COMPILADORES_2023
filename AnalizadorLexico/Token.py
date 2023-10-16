@@ -1,5 +1,5 @@
 import numbers
-import gramaticaprueba as parser
+import AnalizadorSintactico.gramaticaprueba as parser
 
 class Token:  # NUMEROS PROVISORIOS (cambian segun lo que asigne el parser)
     IF = parser.gramaticaprueba.IF
