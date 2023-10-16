@@ -42,8 +42,8 @@ class CustomErrorStrategy(DefaultErrorStrategy):
         self.GenParser = GenParser
 
     def writeErrorFILE(self,tokentext,line,regla,estructura):
-        txt = "Error en sentencia " + regla + " " + estructura + " linea: " + str(line)
-        self.GenParser.yyerror(txt)
+        txt = "Error en sentencia " + regla + " " + estructura
+        self.GenParser.yyerror(txt,line)
 
     def getMissingSymbol(self, recognizer:Parser):
         currentSymbol = recognizer.getCurrentToken()

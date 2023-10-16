@@ -5,14 +5,11 @@ def main_function(filepath):
         contenido_str = file.read()
         archivo_salida = open("salida.txt", "w")
         archivo_errores = open("errores.txt", "w")
-        archivo_tabla = open("tabla_de_simbolos.txt", "w")
 
     sintactico = Sintactico(contenido_str, archivo_errores, archivo_salida)
     sintactico.start()
-
     archivo_salida.close()
     archivo_errores.close()
-    archivo_tabla.close()
 
     print("Generacion de token finalizada")
 

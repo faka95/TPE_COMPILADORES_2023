@@ -345,6 +345,7 @@ class gramaticaprueba ( Parser ):
             self.match(gramaticaprueba.RIGHT_BRACE)
 
             self.simbolos.imprimirTabla()
+            self.archivo_tabla.close()
 
         except RecognitionException as re:
             localctx.exception = re

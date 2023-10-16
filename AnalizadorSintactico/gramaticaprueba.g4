@@ -31,6 +31,7 @@ def getValor(self, texto):
 
 programa: '{' cuerpo '}' {
 self.simbolos.imprimirTabla()
+self.archivo_tabla.close()
 }
 ;
 
