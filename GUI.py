@@ -7,8 +7,6 @@ from main import main_function
 def seleccionar_archivo_y_ejecutar():
     filepath = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
     if filepath:
-        # Aquí es donde ejecutarías tu función principal de main.py
-        # Por ejemplo:
         main_function(filepath)
         print(f"Archivo seleccionado: {filepath}")
         app.destroy()
