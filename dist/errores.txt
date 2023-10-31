@@ -1,0 +1,19 @@
+Error lexico : Constante entera INT fuera de rango: 32769_i, en linea nro 6
+Error lexico : Constante entera ULONG fuera de rango: 4294967297_ul, en linea nro 8
+Error lexico : Constante de tipo FLOAT: 1.1754943499999998e-38 fuera de rango, en linea nro 9
+Error lexico : Constante de tipo flotante FLOAT con exponente fuera de rango, en linea nro 10
+Error lexico : Constante de tipo FLOAT: 3.40282347e+38 fuera de rango, en linea nro 11
+Error lexico : Constante de tipo flotante FLOAT con exponente fuera de rango, en linea nro 12
+Error lexico : Constante de tipo FLOAT: 1.1754943499999998e-38 fuera de rango, en linea nro 13
+Error lexico : Constante de tipo FLOAT: 3.40282347e+38 fuera de rango, en linea nro 14
+Error lexico : Constante de tipo flotante FLOAT con exponente fuera de rango, en linea nro 15
+ERROR DE SINTAXIS: INT fuera de rango En la linea 5
+ERROR DE SINTAXIS: se espera una constante o id En la linea 6
+ERROR DE SINTAXIS: se espera una constante o id En la linea 8
+ERROR DE SINTAXIS: se espera una constante o id En la linea 9
+ERROR DE SINTAXIS: se espera una constante o id En la linea 10
+ERROR DE SINTAXIS: se espera una constante o id En la linea 11
+ERROR DE SINTAXIS: se espera una constante o id En la linea 12
+ERROR DE SINTAXIS: se espera una constante o id En la linea 13
+ERROR DE SINTAXIS: se espera una constante o id En la linea 14
+ERROR DE SINTAXIS: se espera una constante o id En la linea 15
