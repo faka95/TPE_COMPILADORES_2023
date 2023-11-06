@@ -3,7 +3,7 @@
 
 ------ CASO QUE NO FUNCIONE ------
 
-Version de python 3.10 - 3.11
+Version de python 3.8 - 3.10 - 3.11
 
 1) pip install -r requirements.txt
 2) python .\main.py .\programa.txt
