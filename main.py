@@ -12,6 +12,7 @@ def main_function(filepath):
     archivo_errores.close()
 
     print("Generacion de token finalizada")
+    print(sintactico)
 
 if __name__ == "__main__":
     import sys

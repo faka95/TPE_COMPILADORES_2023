@@ -18,3 +18,5 @@ class Sintactico:
             customErrorHandler.setParserGen(parser)
             parser._errHandler = customErrorHandler
             tree = parser.programa()
+            print("hola")
+            print(parser.polacaInversa.referencias)

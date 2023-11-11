@@ -5,6 +5,7 @@ options {
 @parser::header {
 import TablaSimbolos as tablasimbolos
 from antlr4.Token import Token
+import AnalizadorSemantico.PolacaInversa as Polaca
 }
 @parser::members {
     self.archivo_tabla = open("tabla_de_simbolos.txt", "a")
@@ -14,7 +15,9 @@ from antlr4.Token import Token
     self.menos_menos = False
     self.listaVar = []
     self.text = ""
-
+    self.polacaInversa = Polaca.ExpresionPolacaInversa()
+    self.aux = 1
+    self.elseaux = False
 def agregarEstructura(self, texto):
     self.archivo_salida.write(str(texto+"\n"))
 
@@ -85,11 +88,11 @@ cuerpo_func: cuerpo ejecucion_retorno ','
              | ejecucion_retorno ','
 ;
 
-ejecucion_retorno: control_retorno
+ejecucion_retorno: control_retorno //Hacer lo mismo que el if
                     | control_retorno ',' ejecucion_retorno
                     | while_retorno
                     | while_retorno ',' ejecucion_retorno
-                    | RETURN
+                    | RETURN //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
 ;
 
 control_retorno: if_condicion then_retorno END_IF {self.agregarEstructura("IF detectado")}
@@ -136,6 +139,8 @@ ejecucion: asignacion ','  {self.agregarEstructura("ASIGNACION detectado")}
 
 asignacion: ID '=' expresion {
 self.simbolos.aumentarReferencia($ID.text)
+self.polacaInversa.addElemento($ID.text)
+self.polacaInversa.addElemento("=")
 }
 ;
 
@@ -155,17 +160,42 @@ self.simbolos.aumentarReferencia($funcion.text)
 }
 ;
 
-seleccion: if_condicion bloque_control END_IF
-          | if_condicion bloque_control ELSE bloque_control END_IF
+seleccion: if_condicion bloque_control posible_else END_IF {
+if self.elseaux is False:
+    number = self.polacaInversa.getLastPendingStep()
+    self.polacaInversa.setElemento(number)
+else:
+    self.elseaux = False
+} //Agrego valor que sigue de la cinta en la celdad el tope de la Pila. Y desapilo
+;
+posible_else: else bloque_control {
+number = self.polacaInversa.getLastPendingStep()
+self.polacaInversa.setElemento(number)
+} //Agrego valor que sigue de la cinta en la celda del tope de la pila. Y desapilo
+             |
+;
+else: ELSE {
+self.elseaux = True
+number = self.polacaInversa.getLastPendingStep()
+self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
+self.polacaInversa.addElemento(" ")
+self.polacaInversa.addElemento("BI")
+self.polacaInversa.setElemento(number)
+} // agrego celda vacia(y agrego en la pila) y BI
 ;
 
-if_condicion: IF '(' condicion ')'
+if_condicion: IF '(' condicion ')' {
+self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
+self.polacaInversa.addElemento(" ")
+self.polacaInversa.addElemento("BF")
+} //Agrego celda vacia, apilo, y agrego BF
 ;
 
 bloque_control: '{' cuerpo_ejecucion '}'
 ;
 
-condicion: expresion comparador expresion
+condicion: expresion comparador expresion {
+self.polacaInversa.addElemento($comparador.text)}
 ;
 
 comparador: '<'
@@ -176,10 +206,26 @@ comparador: '<'
             | COMPIGUAL
 ;
 
-print: PRINT '(' CADENA ')'
+print: PRINT '(' CADENA ')'{
+self.polacaInversa.addElemento($CADENA.text)
+self.polacaInversa.addElemento("PRINT")
+}
+;
+while: while_condicion bloque_control {
+number = self.polacaInversa.getLastPendingStep()
+self.polacaInversa.addElemento(self.aux)
+self.polacaInversa.addElemento("BI")
+self.polacaInversa.setElemento(number)
+}
+
 ;
 
-while: WHILE '(' condicion ')' DO bloque_control
+while_condicion:{self.aux = self.polacaInversa.reference_counter} WHILE '(' condicion ')' DO{
+self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
+self.polacaInversa.addElemento(" ")
+self.polacaInversa.addElemento("BF")
+}
+
 ;
 
 tipo: INT
@@ -190,13 +236,13 @@ self.simbolos.aumentarReferencia($ID.text)
 }
 ;
 
-expresion:  expresion '+' termino
-            | expresion '-' termino
+expresion:  expresion '+' termino {self.polacaInversa.addElemento("+")}
+            | expresion '-' termino {self.polacaInversa.addElemento("-")}
             | termino
 ;
 
-termino: termino '*' factor
-        | termino '/' factor
+termino: termino '*' factor {self.polacaInversa.addElemento("*")}
+        | termino '/' factor {self.polacaInversa.addElemento("/")}
         | factor
 ;
 
@@ -210,12 +256,15 @@ if key in self.simbolos.keys():
         self.simbolos.reducirReferencia(key)
 # TODO chequear rango
 self.simbolos.addSimbolo("-" + $NUM_INT.text)
+self.polacaInversa.addElemento($NUM_INT.text)
 }
         | NUM_ULONG {
 self.simbolos.addCaracteristica($NUM_ULONG.text, "tipo", "ULONG")
+self.polacaInversa.addElemento($NUM_ULONG.text)
 }
         | NUM_FLOAT {
 self.simbolos.addCaracteristica($NUM_FLOAT.text, "tipo", "FLOAT")
+self.polacaInversa.addElemento($NUM_FLOAT.text)
 }
         | '-' NUM_FLOAT {
 key = $NUM_FLOAT.text
@@ -225,6 +274,7 @@ if key in self.simbolos.keys():
     else:
         self.simbolos.reducirReferencia(key)
 self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
+self.polacaInversa.addElemento($NUM_FLOAT.text)
 }
         | NUM_INT {
 if $NUM_INT.text == "32768_i":
@@ -233,22 +283,27 @@ else:
     self.simbolos.addCaracteristica($NUM_INT.text, "tipo", "INT")
     texto = $NUM_INT.text
     self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
+    self.polacaInversa.addElemento($NUM_INT.text)
 }
         | ERROR {self.yyerror("se espera una constante o id",$ERROR.line)}
 ;
 
-referencia: ID posible_guion_doble {
+referencia: ID {self.polacaInversa.addElemento($ID.text)} posible_guion_doble {
 self.simbolos.aumentarReferencia($ID.text)
 }
             | uso_clase
 ;
 posible_guion_doble: '-' '-' {
 self.menos_menos = True
+self.polacaInversa.addElemento("-")
+self.polacaInversa.addElemento("-")
 }
                   |
 ;
 uso_clase: clase=ID '.' atributo=ID {
 self.simbolos.aumentarReferencia($clase.text)
 self.simbolos.aumentarReferencia($atributo.text)
+clase = $clase.text + "." + $atributo.text
+self.polacaInversa.addElemento(str(clase))
 }
 ;
