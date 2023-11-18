@@ -1,0 +1,15 @@
+{
+IF (a<b) {
+    PRINT(%then%),
+} END_IF,
+}
+
+// test if_else
+{
+IF (a<b) {
+    PRINT(%then%),
+} ELSE {
+    a = a--,
+    PRINT(%else%),
+} END_IF,
+}

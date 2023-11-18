@@ -1,0 +1,12 @@
+{
+VOID test_return () {
+    IF (a<b) {
+    	a = a--,
+    	RETURN,
+    } ELSE {
+    	b = b--,
+    	RETURN,
+    } END_IF,
+    RETURN,
+},
+}

@@ -1,0 +1,8 @@
+{
+VOID test_return_while () {
+    WHILE (a<b) DO {
+        a = a--,
+        RETURN,
+        },
+    },
+}

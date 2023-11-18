@@ -1,0 +1,12 @@
+{
+VOID test_funcion( INT param) {
+    INT x,
+    INT y,
+    x = param,
+    y = 5_i,
+    x = x + y--,
+    RETURN,
+    },
+
+    test_funcion(3_i),
+}
