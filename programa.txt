@@ -1,16 +1,18 @@
 {
-INT x,
-ULONG y,
-FLOAT z,
-x = 32768_i,
-x = -32769_i,
-y = -1_ul,
-y = 4294967297_ul,
-z = 1.17549435E-38,
-z = 1.1E-39,
-z = 3.40282347E+38,
-z = 3.4E+39,
-z = -1.17549435E-38,
-z = -3.40282347E+38,
-z = -3.0E+39,
+CLASS test_clase {
+    INT property1,
+    FLOAT property2,
+
+    VOID setter(INT new_property) {
+        property1 = new_property,
+        RETURN,
+        },
+
+    clase_herencia,
+    },
+
+    test_clase c1;c2,
+    b = b - 1_i,
+    c1.setter(1_i),
+    a = c1.property1,
 }

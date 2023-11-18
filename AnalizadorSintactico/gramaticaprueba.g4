@@ -68,7 +68,7 @@ self.listaVar.append($ID.text)
 }
 ;
 
-declaracion_func: VOID ID parametro '{' cuerpo_func '}' ',' {
+declaracion_func: VOID ID {self.polacaInversa.addElemento(('FUNCION' + ' ' + $ID.text))} parametro '{' cuerpo_func '}' ',' {
 self.simbolos.addCaracteristica($ID.text, "tipo", "func")
 self.agregarEstructura("DECLARACION FUNCION detectado")
 }
@@ -92,7 +92,7 @@ ejecucion_retorno: control_retorno //Hacer lo mismo que el if
                     | control_retorno ',' ejecucion_retorno
                     | while_retorno
                     | while_retorno ',' ejecucion_retorno
-                    | RETURN //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
+                    | RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
 ;
 
 control_retorno: if_condicion then_retorno END_IF {self.agregarEstructura("IF detectado")}
@@ -109,7 +109,10 @@ else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
                | ELSE '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
 ;
 
-while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {self.agregarEstructura("WHILE detectado")}
+while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {
+self.agregarEstructura("WHILE detectado")
+{self.polacaInversa.addElemento("ret")}
+}
 ;
 
 declaracion_clase: CLASS ID '{' componentes_clase '}' ',' {
@@ -146,17 +149,29 @@ self.polacaInversa.addElemento("=")
 
 invocacion: ID '(' expresion ')' {
 self.simbolos.aumentarReferencia($ID.text)
+aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $ID.text)
+self.polacaInversa.addElemento(aux)
+self.polacaInversa.addElemento("CALLFUNC")
 }
             | ID '(' ')' {
 self.simbolos.aumentarReferencia($ID.text)
+aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $ID.text)
+self.polacaInversa.addElemento(aux)
+self.polacaInversa.addElemento("CALLFUNC")
 }
             | clase=ID '.' funcion=ID '(' ')' {
 self.simbolos.aumentarReferencia($clase.text)
 self.simbolos.aumentarReferencia($funcion.text)
+aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $funcion.text)
+self.polacaInversa.addElemento(aux)
+self.polacaInversa.addElemento("CALLFUNC")
 }
             | clase=ID '.' funcion=ID '(' expresion ')' {
 self.simbolos.aumentarReferencia($clase.text)
 self.simbolos.aumentarReferencia($funcion.text)
+aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $funcion.text)
+self.polacaInversa.addElemento(aux)
+self.polacaInversa.addElemento("CALLFUNC")
 }
 ;
 
@@ -290,13 +305,18 @@ else:
 
 referencia: ID {self.polacaInversa.addElemento($ID.text)} posible_guion_doble {
 self.simbolos.aumentarReferencia($ID.text)
+if (self.menos_menos is True):
+    self.polacaInversa.addElemento($ID.text)
+    self.polacaInversa.addElemento('=')
+    self.menos_menos = False
 }
             | uso_clase
 ;
 posible_guion_doble: '-' '-' {
 self.menos_menos = True
+self.polacaInversa.addElemento('1_i')
 self.polacaInversa.addElemento("-")
-self.polacaInversa.addElemento("-")
+
 }
                   |
 ;
