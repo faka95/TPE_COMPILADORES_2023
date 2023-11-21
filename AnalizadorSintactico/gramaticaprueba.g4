@@ -26,8 +26,6 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.clasesDeclaradas = []
     self.inClass = False
 
-def agregarEstructura(self, texto):
-    self.archivo_salida.write(str(texto+"\n"))
 
 def yyerror(self, texto, linea):
     if linea != 0:
@@ -81,7 +79,6 @@ cuerpo: cuerpo declaracion
 ;
 
 declaracion: declaracion_var  {
-self.agregarEstructura("DECLARACION VAR detectado")
 for key in self.listaVar:
     self.simbolos.addCaracteristica(key+self.ambitoActual, "uso", "variable")
     self.declaracionesVariables[key+self.ambitoActual] = $declaracion_var.line
@@ -112,7 +109,6 @@ $line = $ID.line
 
 declaracion_func: encabezado_funcion {self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))} parametro '{' cuerpo_func '}' ',' {
 self.simbolos.addCaracteristica($encabezado_funcion.funcion, "tipo", "func")
-self.agregarEstructura("DECLARACION FUNCION detectado")
 self.reducirAmbito()
 }
 
@@ -151,10 +147,10 @@ ejecucion_retorno: control_retorno //Hacer lo mismo que el if
                     | RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
 ;
 
-control_retorno: if_condicion then_retorno END_IF {self.agregarEstructura("IF detectado")}
-                | if_condicion then_retorno ELSE bloque_control END_IF {self.agregarEstructura("IF detectado")}
-                | if_condicion bloque_control else_retorno END_IF {self.agregarEstructura("IF detectado")}
-                | if_condicion then_retorno else_retorno END_IF {self.agregarEstructura("IF detectado")}
+control_retorno: if_condicion then_retorno END_IF
+                | if_condicion then_retorno ELSE bloque_control END_IF
+                | if_condicion bloque_control else_retorno END_IF
+                | if_condicion then_retorno else_retorno END_IF
 ;
 
 then_retorno:   '{' ejecucion_retorno ',' '}'
@@ -166,7 +162,6 @@ else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
 ;
 
 while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {
-self.agregarEstructura("WHILE detectado")
 {self.polacaInversa.addElemento("ret")}
 }
 ;
@@ -241,11 +236,11 @@ cuerpo_ejecucion: cuerpo_ejecucion ejecucion
                   | ejecucion
 ;
 
-ejecucion: asignacion ','  {self.agregarEstructura("ASIGNACION detectado")}
-           | invocacion ',' {self.agregarEstructura("INVOCACION detectado")}
-           | seleccion ',' {self.agregarEstructura("IF detectado")}
-           | print ',' {self.agregarEstructura("PRINT detectado")}
-           | while ',' {self.agregarEstructura("WHILE detectado")}
+ejecucion: asignacion ','
+           | invocacion ','
+           | seleccion ','
+           | print ','
+           | while ','
            | ERROR ',' {self.yyerror("SINTACTICO: error en sentencia ejecutable", $ERROR.line)}
 ;
 
