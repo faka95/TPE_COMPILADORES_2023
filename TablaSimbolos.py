@@ -29,10 +29,13 @@ class TablaDeSimbolos:
         return self.simbolos.get(lexema)  # retorna el mapa de caracteristicas de ese simbolo
 
     def getCaracteristica(self, lexema, caracteristica):
-        if caracteristica in self.simbolos.keys():
-            return self.simbolos[lexema][caracteristica]
+        if lexema in self.simbolos.keys():
+            if caracteristica in self.simbolos[lexema]:
+                return self.simbolos[lexema][caracteristica]
+            else:
+                return str("ERROR: no existe columna " + caracteristica + " en el simbolo " + lexema)
         else:
-            print("ERROR: no existe columna ", caracteristica, ", en el simbolo: ", lexema)
+            return str("ERROR: no existe el simbolo: " + lexema)
 
     def removerSimbolo(self, lexema):
         del self.simbolos[lexema]

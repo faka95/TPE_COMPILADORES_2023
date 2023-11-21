@@ -1,43 +1,22 @@
 Tabla de Simbolos: 
-Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 3 - 
-Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
-Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
-Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
-Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
-Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 3 - 
+Simbolo: clase_herencia:main - Caracteristicas: uso: nombre de clase - referencias: 1 - ambito de clase: :main:clase_herencia - propiedades: ['property_herencia'] - 
+Simbolo: property_herencia:main:clase_herencia - Caracteristicas: tipo: INT - referencias: 1 - 
+Simbolo: clase_a:main - Caracteristicas: uso: nombre de clase - referencias: 2 - ambito de clase: :main:clase_a - propiedades: ['property1', 'property2'] - miembros de clase: ['setter'] - numero de herencias: 1 - clase herencia: clase_herencia:main - 
+Simbolo: property1:main:clase_a - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: property2:main:clase_a - Caracteristicas: tipo: FLOAT - referencias: 1 - 
+Simbolo: setter:main:clase_a - Caracteristicas: uso: funcion - referencias: 2 - tipoParametro: INT - nroParametros: 1 - 
+Simbolo: new_property:main:clase_a:setter - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: setter - Caracteristicas: tipo: func - referencias: 1 - 
+Simbolo: clase_b:main - Caracteristicas: uso: nombre de clase - referencias: 2 - ambito de clase: :main:clase_b - propiedades: ['property1', 'property2'] - miembros de clase: ['setter'] - numero de herencias: 1 - clase herencia: clase_herencia:main - 
+Simbolo: property1:main:clase_b - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: property2:main:clase_b - Caracteristicas: tipo: FLOAT - referencias: 1 - 
+Simbolo: setter:main:clase_b - Caracteristicas: uso: funcion - referencias: 2 - tipoParametro: INT - nroParametros: 1 - 
+Simbolo: new_property2:main:clase_b:setter - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: b:main - Caracteristicas: tipo: INT - referencias: 3 - uso: variable - 
+Simbolo: a:main - Caracteristicas: tipo: INT - referencias: 2 - uso: variable - 
+Simbolo: c2:main - Caracteristicas: tipo: clase_a - referencias: 1 - uso: variable - 
+Simbolo: c1:main - Caracteristicas: tipo: clase_a - referencias: 3 - uso: variable - 
+Simbolo: c4:main - Caracteristicas: tipo: clase_b - referencias: 1 - uso: variable - 
+Simbolo: c3:main - Caracteristicas: tipo: clase_b - referencias: 2 - uso: variable - 
 Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: a - Caracteristicas: referencias: 1 - 
-Tabla de Simbolos: 
-Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 3 - 
-Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
-Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
-Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
-Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
-Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 3 - 
-Simbolo: b - Caracteristicas: referencias: 2 - 
-Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: a - Caracteristicas: referencias: 1 - 
-Tabla de Simbolos: 
-Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 3 - 
-Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
-Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
-Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
-Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
-Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 3 - 
-Simbolo: b - Caracteristicas: referencias: 2 - 
-Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: a - Caracteristicas: referencias: 1 - 
-Tabla de Simbolos: 
-Simbolo: property1 - Caracteristicas: tipo: INT - referencias: 3 - 
-Simbolo: property2 - Caracteristicas: tipo: FLOAT - referencias: 1 - 
-Simbolo: new_property - Caracteristicas: tipo: INT - referencias: 2 - 
-Simbolo: setter - Caracteristicas: tipo: func - referencias: 2 - 
-Simbolo: test_clase - Caracteristicas: tipo: clase - referencias: 2 - 
-Simbolo: c2 - Caracteristicas: tipo: test_clase - referencias: 1 - 
-Simbolo: c1 - Caracteristicas: tipo: test_clase - referencias: 3 - 
-Simbolo: b - Caracteristicas: referencias: 2 - 
-Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: a - Caracteristicas: referencias: 1 - 
+Simbolo: 2_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 2 - 
