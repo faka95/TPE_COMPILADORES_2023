@@ -1,8 +1,36 @@
 {
-INT a;b,
-b = b - 1_i
-WHILE (a<3_i) DO {
-	PRINT(%hola como estas%),
+CLASS clase_herencia {
+    INT property_herencia,
 },
 
+CLASS clase_a {
+    INT property1,
+    FLOAT property2,
+
+    VOID setter(INT new_property) {
+        property1 = new_property,
+        RETURN,
+        },
+
+    clase_herencia,
+    },
+CLASS clase_b {
+    INT property1,
+    FLOAT property2,
+
+    VOID setter(INT new_property2) {
+        property1 = new_property2,
+        RETURN,
+        },
+
+    clase_herencia,
+},
+
+    INT a;b,
+    clase_a c1;c2,
+    clase_b c3;c4,
+    b = b - 1_i,
+    c1.setter(1_i),
+    a = c1.property1,
+    c3.setter(2_i),
 }

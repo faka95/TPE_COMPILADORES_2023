@@ -16,8 +16,6 @@ class CustomTokenSource(TokenSource):
     def nextToken(self):
         # Usa tu lexer personalizado para obtener el próximo token
         self.current_token = self.lex.yyLex()
-        if self.current_token is not None:
-            self.archivo_salida.write(str("LEXEMA: " + self.current_token.getLexema() + " - TOKEN: " + str(self.current_token.getToken()) + "\n"))
         token = Token()
         self._tokenFactorySourcePair = (None, None)
         if self.current_token.getLexema() != "FIN":

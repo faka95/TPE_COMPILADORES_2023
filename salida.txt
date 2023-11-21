@@ -1,32 +1,23 @@
-LEXEMA: { - TOKEN: 35
-LEXEMA: INT - TOKEN: 7
-LEXEMA: a - TOKEN: 16
-LEXEMA: ; - TOKEN: 33
-LEXEMA: b - TOKEN: 16
-LEXEMA: , - TOKEN: 26
-LEXEMA: b - TOKEN: 16
-LEXEMA: = - TOKEN: 34
-LEXEMA: b - TOKEN: 16
-LEXEMA: - - TOKEN: 25
-LEXEMA: 1_i - TOKEN: 18
-LEXEMA: WHILE - TOKEN: 10
-LEXEMA: ( - TOKEN: 29
-LEXEMA: a - TOKEN: 16
-LEXEMA: < - TOKEN: 31
-LEXEMA: 3_i - TOKEN: 18
-LEXEMA: ) - TOKEN: 30
-LEXEMA: DO - TOKEN: 11
-LEXEMA: { - TOKEN: 35
-LEXEMA: PRINT - TOKEN: 4
-LEXEMA: ( - TOKEN: 29
-LEXEMA: %hola como estas% - TOKEN: 21
-LEXEMA: ) - TOKEN: 30
-LEXEMA: , - TOKEN: 26
-LEXEMA: } - TOKEN: 36
-LEXEMA: , - TOKEN: 26
-LEXEMA: } - TOKEN: 36
-LEXEMA: FIN - TOKEN: -1
-DECLARACION VAR detectado
-ASIGNACION detectado
-PRINT detectado
-WHILE detectado
+1: FUNCION setter
+2: new_property
+3: property1
+4: =
+5: ret
+6: FUNCION setter
+7: new_property2
+8: property1
+9: =
+10: ret
+11: b
+12: 1_i
+13: -
+14: b
+15: =
+16: 1_i
+17: 1
+18: CALLFUNC
+19: a
+20: =
+21: 2_i
+22: 1
+23: CALLFUNC
