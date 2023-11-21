@@ -1,0 +1,1 @@
+ERROR DE SINTAXIS: Error en sentencia ejecucion 'WHILE' En la linea 4

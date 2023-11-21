@@ -23,6 +23,8 @@ class ExpresionPolacaInversa:
         # Asociar el elemento con un número de referencia
         self.referencias[self.reference_counter] = elemento
         self.reference_counter += 1
+    def setElemento(self,number):
+        self.referencias[number] = self.reference_counter
 
     def addPendingStep(self, referencia):
         self.pila_referencias.push(referencia)
