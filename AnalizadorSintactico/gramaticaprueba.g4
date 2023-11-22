@@ -56,6 +56,8 @@ def verificarId(self, identificador):  # identificador viene con el ambito
 def getAmbitoId(self, identificador):
     return identificador[str(identificador).find(":"):]
 
+def getIdSinAmbito(self, identificador):
+    return identificador[:str(identificador).find(":")]
 }
 
 programa: '{' cuerpo '}' {
@@ -80,7 +82,6 @@ cuerpo: cuerpo declaracion
 
 declaracion: declaracion_var  {
 for key in self.listaVar:
-    self.simbolos.addCaracteristica(key+self.ambitoActual, "uso", "variable")
     self.declaracionesVariables[key+self.ambitoActual] = $declaracion_var.line
 self.listaVar = []
 }
@@ -93,6 +94,7 @@ self.listaVar = []
 declaracion_var returns [line]: tipo lista_variable ',' {
 for key in self.listaVar:
     self.simbolos.addCaracteristica(key + self.ambitoActual, "tipo", $tipo.text)
+    self.simbolos.addCaracteristica(key+self.ambitoActual, "uso", "variable")
     $line = $lista_variable.line
 }
 ;
@@ -108,10 +110,8 @@ $line = $ID.line
 ;
 
 declaracion_func: encabezado_funcion {self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))} parametro '{' cuerpo_func '}' ',' {
-self.simbolos.addCaracteristica($encabezado_funcion.funcion, "tipo", "func")
 self.reducirAmbito()
 }
-
 ;
 
 encabezado_funcion returns [funcion]: VOID ID {
@@ -218,11 +218,17 @@ if identificador != "":
             self.simbolos.aumentarReferencia(identificador)
             self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", herenciasActuales + 1)
             self.simbolos.addCaracteristica(self.auxIDClass, "clase herencia", identificador)
+            propiedades = self.simbolos.getCaracteristica(identificador, "propiedades")
+            if isinstance(propiedades, list):
+                self.simbolos.addCaracteristica(self.auxIDClass, "propiedades heredadas", propiedades)
         else:
             self.yyerror("SEMANTICO: se exeden los niveles de herencia", $ID.line)
     else:
         self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", 1)
         self.simbolos.addCaracteristica(self.auxIDClass, "clase herencia", identificador)
+        propiedades = self.simbolos.getCaracteristica(identificador, "propiedades")
+        if isinstance(propiedades, list):
+            self.simbolos.addCaracteristica(self.auxIDClass, "propiedades heredadas", propiedades)
 else:
     simbolo = $ID.text
     if simbolo in self.clasesUsadas.keys():
@@ -251,7 +257,7 @@ if identificador != "":
         if self.ambitoActual == self.getAmbitoId(identificador):
             self.declaracionesVariables.pop(identificador)
     self.simbolos.aumentarReferencia(identificador)
-    self.polacaInversa.addElemento($ID.text)
+    self.polacaInversa.addElemento(identificador)
     self.polacaInversa.addElemento("=")
 else:
     self.yyerror("SEMANTICO: identificador " + $ID.text + " no declarado en un ambito valido", $ID.line)
@@ -264,7 +270,7 @@ if identificador != "":
     if self.simbolos.getCaracteristica(identificador, "uso") == "funcion":
         if self.simbolos.getCaracteristica(identificador, "nroParametros") == "1":
             self.simbolos.aumentarReferencia(identificador)
-            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $ID.text)
+            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + identificador)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -280,7 +286,7 @@ if identificador != "":
     if self.simbolos.getCaracteristica(identificador, "uso") == "funcion":
         if self.simbolos.getCaracteristica(identificador, "nroParametros") == "0":
             self.simbolos.aumentarReferencia(identificador)
-            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $ID.text)
+            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + identificador)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -301,7 +307,7 @@ if  simbolo != "":
         simboloFuncion = self.verificarId($funcion.text + ambitoClase)
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
             self.simbolos.aumentarReferencia(simboloFuncion)
-            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $funcion.text)
+            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -326,7 +332,7 @@ if  simbolo != "":
         simboloFuncion = self.verificarId($funcion.text + ambitoClase)
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
             self.simbolos.aumentarReferencia(simboloFuncion)
-            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + $funcion.text)
+            aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -483,12 +489,15 @@ else:
         | ERROR {self.yyerror("SINTACTICO: se espera una constante o id",$ERROR.line)}
 ;
 
-referencia: ID {self.polacaInversa.addElemento($ID.text)} posible_guion_doble {
+referencia: ID {
+identificador = self.verificarId($ID.text + self.ambitoActual)
+if identificador != "":
+    self.polacaInversa.addElemento(identificador)} posible_guion_doble {
 identificador = self.verificarId($ID.text + self.ambitoActual)
 if identificador != "":
     self.simbolos.aumentarReferencia(identificador)
     if (self.menos_menos is True):
-        self.polacaInversa.addElemento($ID.text)
+        self.polacaInversa.addElemento(identificador)
         self.polacaInversa.addElemento('=')
         self.menos_menos = False
 else:
@@ -500,7 +509,7 @@ else:
 
 posible_guion_doble: '-' '-' {
 self.menos_menos = True
-self.polacaInversa.addElemento('1_i')
+self.polacaInversa.addElemento('1')
 self.polacaInversa.addElemento("-")
 }
                   |
@@ -520,22 +529,33 @@ if idClase != "":
     else:
         self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + idClase, $clase.line)
 else:
-    simbolo = $ID.text
+    simbolo = $clase.text
+    if simbolo in self.clasesUsadas.keys():
+        self.clasesUsadas[simbolo] += 1
+    else:
+        self.clasesUsadas[simbolo] = 1
+}
+        | clase=ID '.' herencia= ID '.' atributo=ID {
+idClase = self.verificarId($clase.text + self.ambitoActual)
+if idClase != "":
+    self.simbolos.aumentarReferencia(idClase)
+    ambitoClase = self.verificarId(self.simbolos.getCaracteristica(idClase, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(idClase, "clase herencia")
+    if $herencia.text == self.getIdSinAmbito(claseHerencia):
+        if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
+            atributo = $atributo.text + ":" + claseHerencia
+            self.simbolos.aumentarReferencia(atributo)
+            clase = $clase.text + "." + $herencia.text + "." + $atributo.text
+            self.polacaInversa.addElemento(str(clase))
+        else:
+            self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
+    else:
+        self.yyerror("SEMANTICO: clase " + idClase + " no hereda de " + $herencia.text, $clase.line)
+else:
+    simbolo = $clase.text
     if simbolo in self.clasesUsadas.keys():
         self.clasesUsadas[simbolo] += 1
     else:
         self.clasesUsadas[simbolo] = 1
 }
 ;
-
-uso_posible_herencia: '.' clase_herencia=ID  uso_posible_herencia {
-simbolo = self.verificarId($clase_herencia.text + self.ambitoActual)
-if  simbolo != "":
-    self.simbolos.aumentarReferencia(simbolo)
-    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
-    miembros = self.simbolos.getCaracteristica(claseAmbito, "miembros de clase")
-}
-                      | '.' clase_herencia=ID
-
-;
-
