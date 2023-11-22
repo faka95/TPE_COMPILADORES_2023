@@ -262,6 +262,10 @@ if identificador != "":
 else:
     self.yyerror("SEMANTICO: identificador " + $ID.text + " no declarado en un ambito valido", $ID.line)
 }
+        | uso_clase '=' {uso = self.polacaInversa.removeLast()} expresion {
+self.polacaInversa.addElemento(uso)
+self.polacaInversa.addElemento("=")
+}
 ;
 
 invocacion: ID '(' expresion ')' {
@@ -315,11 +319,7 @@ if  simbolo != "":
     else:
         self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + claseAmbito, $clase.line)
 else:
-    simbolo = $ID.text
-    if simbolo in self.clasesUsadas.keys():
-        self.clasesUsadas[simbolo] += 1
-    else:
-        self.clasesUsadas[simbolo] = 1
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
 }
             | clase=ID '.' funcion=ID '(' expresion ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
@@ -340,11 +340,7 @@ if  simbolo != "":
     else:
         self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + claseAmbito, $clase.line)
 else:
-    simbolo = $ID.text
-    if simbolo in self.clasesUsadas.keys():
-        self.clasesUsadas[simbolo] += 1
-    else:
-        self.clasesUsadas[simbolo] = 1
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
 }
 ;
 
@@ -521,7 +517,7 @@ if idClase != "":
     self.simbolos.aumentarReferencia(idClase)
     ambitoClase = self.verificarId(self.simbolos.getCaracteristica(idClase, "tipo") + self.ambitoActual)
     if $atributo.text in self.simbolos.getCaracteristica(ambitoClase, "propiedades"):
-        atributo = self.verificarId($atributo.text)
+        atributo = $atributo.text + self.simbolos.getCaracteristica(ambitoClase, "ambito de clase")
         if atributo != "":
             self.simbolos.aumentarReferencia(atributo)
             clase = $clase.text + "." + $atributo.text
@@ -529,21 +525,17 @@ if idClase != "":
     else:
         self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + idClase, $clase.line)
 else:
-    simbolo = $clase.text
-    if simbolo in self.clasesUsadas.keys():
-        self.clasesUsadas[simbolo] += 1
-    else:
-        self.clasesUsadas[simbolo] = 1
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
 }
         | clase=ID '.' herencia= ID '.' atributo=ID {
 idClase = self.verificarId($clase.text + self.ambitoActual)
 if idClase != "":
     self.simbolos.aumentarReferencia(idClase)
     ambitoClase = self.verificarId(self.simbolos.getCaracteristica(idClase, "tipo") + self.ambitoActual)
-    claseHerencia = self.simbolos.getCaracteristica(idClase, "clase herencia")
+    claseHerencia = self.simbolos.getCaracteristica(ambitoClase, "clase herencia")
     if $herencia.text == self.getIdSinAmbito(claseHerencia):
         if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
-            atributo = $atributo.text + ":" + claseHerencia
+            atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
             self.simbolos.aumentarReferencia(atributo)
             clase = $clase.text + "." + $herencia.text + "." + $atributo.text
             self.polacaInversa.addElemento(str(clase))
@@ -552,10 +544,29 @@ if idClase != "":
     else:
         self.yyerror("SEMANTICO: clase " + idClase + " no hereda de " + $herencia.text, $clase.line)
 else:
-    simbolo = $clase.text
-    if simbolo in self.clasesUsadas.keys():
-        self.clasesUsadas[simbolo] += 1
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+}
+        | clase=ID '.' herencia1= ID '.' herencia2= ID '.' atributo=ID {
+idClase = self.verificarId($clase.text + self.ambitoActual)
+if idClase != "":
+    self.simbolos.aumentarReferencia(idClase)
+    ambitoClase = self.verificarId(self.simbolos.getCaracteristica(idClase, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(ambitoClase, "clase herencia")
+    if $herencia1.text == self.getIdSinAmbito(claseHerencia):
+        claseHerencia = self.simbolos.getCaracteristica(claseHerencia, "clase herencia")
+        if $herencia2.text == self.getIdSinAmbito(claseHerencia):
+            if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
+                atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                self.simbolos.aumentarReferencia(atributo)
+                clase = $clase.text + "." + $herencia1.text + "." + $herencia2.text + "." + $atributo.text
+                self.polacaInversa.addElemento(str(clase))
+            else:
+                self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
+        else:
+            self.yyerror("SEMANTICO: clase " + $herencia1.text + " no hereda de " + $herencia2.text, $clase.line)
     else:
-        self.clasesUsadas[simbolo] = 1
+        self.yyerror("SEMANTICO: clase " + idClase + " no hereda de " + $herencia1.text, $clase.line)
+else:
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
 }
 ;

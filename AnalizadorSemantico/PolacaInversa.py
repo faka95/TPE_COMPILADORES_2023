@@ -47,4 +47,8 @@ class ExpresionPolacaInversa:
         return None
     def getAmbitoOp(self,elem,ref):
         op = self.referencias[ref]
-        
+
+    def removeLast(self):
+        aux = self.referencias.pop(self.reference_counter-1)
+        self.reference_counter -= 1
+        return aux
