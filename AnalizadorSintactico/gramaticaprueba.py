@@ -15,7 +15,7 @@ import AnalizadorSemantico.PolacaInversa as Polaca
 
 def serializedATN():
     return [
-        4,1,39,488,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,39,528,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,
@@ -40,31 +40,34 @@ def serializedATN():
         1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,3,21,302,8,21,
         1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,1,22,3,22,315,
         8,22,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,
-        1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,3,23,
-        341,8,23,1,24,1,24,1,24,1,24,1,24,1,24,1,25,1,25,1,25,1,25,1,25,
-        3,25,354,8,25,1,26,1,26,1,26,1,27,1,27,1,27,1,27,1,27,1,27,1,28,
-        1,28,1,28,1,28,1,29,1,29,1,29,1,29,1,29,1,30,1,30,1,31,1,31,1,31,
-        1,31,1,31,1,31,1,32,1,32,1,32,1,32,1,33,1,33,1,33,1,33,1,33,1,33,
-        1,33,1,33,1,34,1,34,1,34,1,34,1,34,3,34,399,8,34,1,35,1,35,1,35,
-        1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,5,35,414,8,35,
-        10,35,12,35,417,9,35,1,36,1,36,1,36,1,36,1,36,1,36,1,36,1,36,1,36,
-        1,36,1,36,1,36,1,36,5,36,432,8,36,10,36,12,36,435,9,36,1,37,1,37,
+        1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,
+        1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,
+        1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,
+        1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,
+        3,23,381,8,23,1,24,1,24,1,24,1,24,1,24,1,24,1,25,1,25,1,25,1,25,
+        1,25,3,25,394,8,25,1,26,1,26,1,26,1,27,1,27,1,27,1,27,1,27,1,27,
+        1,28,1,28,1,28,1,28,1,29,1,29,1,29,1,29,1,29,1,30,1,30,1,31,1,31,
+        1,31,1,31,1,31,1,31,1,32,1,32,1,32,1,32,1,33,1,33,1,33,1,33,1,33,
+        1,33,1,33,1,33,1,34,1,34,1,34,1,34,1,34,3,34,439,8,34,1,35,1,35,
+        1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,1,35,5,35,454,
+        8,35,10,35,12,35,457,9,35,1,36,1,36,1,36,1,36,1,36,1,36,1,36,1,36,
+        1,36,1,36,1,36,1,36,1,36,5,36,472,8,36,10,36,12,36,475,9,36,1,37,
         1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,1,37,
-        3,37,452,8,37,1,38,1,38,1,38,1,38,1,38,1,38,3,38,460,8,38,1,39,1,
-        39,1,39,1,39,3,39,466,8,39,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,
-        40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,3,40,486,8,
-        40,1,40,0,5,2,32,40,70,72,41,0,2,4,6,8,10,12,14,16,18,20,22,24,26,
-        28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,
-        72,74,76,78,80,0,1,3,0,13,15,22,22,31,32,496,0,82,1,0,0,0,2,90,1,
-        0,0,0,4,110,1,0,0,0,6,112,1,0,0,0,8,124,1,0,0,0,10,126,1,0,0,0,12,
-        135,1,0,0,0,14,148,1,0,0,0,16,157,1,0,0,0,18,171,1,0,0,0,20,193,
+        1,37,3,37,492,8,37,1,38,1,38,1,38,1,38,1,38,1,38,3,38,500,8,38,1,
+        39,1,39,1,39,1,39,3,39,506,8,39,1,40,1,40,1,40,1,40,1,40,1,40,1,
+        40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,1,40,3,40,526,
+        8,40,1,40,0,5,2,32,40,70,72,41,0,2,4,6,8,10,12,14,16,18,20,22,24,
+        26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,
+        70,72,74,76,78,80,0,1,3,0,13,15,22,22,31,32,540,0,82,1,0,0,0,2,90,
+        1,0,0,0,4,110,1,0,0,0,6,112,1,0,0,0,8,124,1,0,0,0,10,126,1,0,0,0,
+        12,135,1,0,0,0,14,148,1,0,0,0,16,157,1,0,0,0,18,171,1,0,0,0,20,193,
         1,0,0,0,22,206,1,0,0,0,24,221,1,0,0,0,26,223,1,0,0,0,28,235,1,0,
         0,0,30,242,1,0,0,0,32,250,1,0,0,0,34,263,1,0,0,0,36,266,1,0,0,0,
-        38,269,1,0,0,0,40,273,1,0,0,0,42,301,1,0,0,0,44,314,1,0,0,0,46,340,
-        1,0,0,0,48,342,1,0,0,0,50,353,1,0,0,0,52,355,1,0,0,0,54,358,1,0,
-        0,0,56,364,1,0,0,0,58,368,1,0,0,0,60,373,1,0,0,0,62,375,1,0,0,0,
-        64,381,1,0,0,0,66,385,1,0,0,0,68,398,1,0,0,0,70,400,1,0,0,0,72,418,
-        1,0,0,0,74,451,1,0,0,0,76,459,1,0,0,0,78,465,1,0,0,0,80,485,1,0,
+        38,269,1,0,0,0,40,273,1,0,0,0,42,301,1,0,0,0,44,314,1,0,0,0,46,380,
+        1,0,0,0,48,382,1,0,0,0,50,393,1,0,0,0,52,395,1,0,0,0,54,398,1,0,
+        0,0,56,404,1,0,0,0,58,408,1,0,0,0,60,413,1,0,0,0,62,415,1,0,0,0,
+        64,421,1,0,0,0,66,425,1,0,0,0,68,438,1,0,0,0,70,440,1,0,0,0,72,458,
+        1,0,0,0,74,491,1,0,0,0,76,499,1,0,0,0,78,505,1,0,0,0,80,525,1,0,
         0,0,82,83,5,35,0,0,83,84,3,2,1,0,84,85,5,36,0,0,85,86,6,0,-1,0,86,
         1,1,0,0,0,87,88,6,1,-1,0,88,91,3,4,2,0,89,91,3,42,21,0,90,87,1,0,
         0,0,90,89,1,0,0,0,91,98,1,0,0,0,92,93,10,4,0,0,93,97,3,4,2,0,94,
@@ -133,57 +136,68 @@ def serializedATN():
         311,6,22,-1,0,311,312,3,70,35,0,312,313,6,22,-1,0,313,315,1,0,0,
         0,314,303,1,0,0,0,314,308,1,0,0,0,315,45,1,0,0,0,316,317,5,16,0,
         0,317,318,5,29,0,0,318,319,3,70,35,0,319,320,5,30,0,0,320,321,6,
-        23,-1,0,321,341,1,0,0,0,322,323,5,16,0,0,323,324,5,29,0,0,324,325,
-        5,30,0,0,325,341,6,23,-1,0,326,327,5,16,0,0,327,328,5,38,0,0,328,
-        329,5,16,0,0,329,330,5,29,0,0,330,331,5,30,0,0,331,341,6,23,-1,0,
+        23,-1,0,321,381,1,0,0,0,322,323,5,16,0,0,323,324,5,29,0,0,324,325,
+        5,30,0,0,325,381,6,23,-1,0,326,327,5,16,0,0,327,328,5,38,0,0,328,
+        329,5,16,0,0,329,330,5,29,0,0,330,331,5,30,0,0,331,381,6,23,-1,0,
         332,333,5,16,0,0,333,334,5,38,0,0,334,335,5,16,0,0,335,336,5,29,
-        0,0,336,337,3,70,35,0,337,338,5,30,0,0,338,339,6,23,-1,0,339,341,
-        1,0,0,0,340,316,1,0,0,0,340,322,1,0,0,0,340,326,1,0,0,0,340,332,
-        1,0,0,0,341,47,1,0,0,0,342,343,3,54,27,0,343,344,3,56,28,0,344,345,
-        3,50,25,0,345,346,5,3,0,0,346,347,6,24,-1,0,347,49,1,0,0,0,348,349,
-        3,52,26,0,349,350,3,56,28,0,350,351,6,25,-1,0,351,354,1,0,0,0,352,
-        354,1,0,0,0,353,348,1,0,0,0,353,352,1,0,0,0,354,51,1,0,0,0,355,356,
-        5,2,0,0,356,357,6,26,-1,0,357,53,1,0,0,0,358,359,5,1,0,0,359,360,
-        5,29,0,0,360,361,3,58,29,0,361,362,5,30,0,0,362,363,6,27,-1,0,363,
-        55,1,0,0,0,364,365,5,35,0,0,365,366,3,40,20,0,366,367,5,36,0,0,367,
-        57,1,0,0,0,368,369,3,70,35,0,369,370,3,60,30,0,370,371,3,70,35,0,
-        371,372,6,29,-1,0,372,59,1,0,0,0,373,374,7,0,0,0,374,61,1,0,0,0,
-        375,376,5,4,0,0,376,377,5,29,0,0,377,378,5,21,0,0,378,379,5,30,0,
-        0,379,380,6,31,-1,0,380,63,1,0,0,0,381,382,3,66,33,0,382,383,3,56,
-        28,0,383,384,6,32,-1,0,384,65,1,0,0,0,385,386,6,33,-1,0,386,387,
-        5,10,0,0,387,388,5,29,0,0,388,389,3,58,29,0,389,390,5,30,0,0,390,
-        391,5,11,0,0,391,392,6,33,-1,0,392,67,1,0,0,0,393,399,5,7,0,0,394,
-        399,5,8,0,0,395,399,5,9,0,0,396,397,5,16,0,0,397,399,6,34,-1,0,398,
-        393,1,0,0,0,398,394,1,0,0,0,398,395,1,0,0,0,398,396,1,0,0,0,399,
-        69,1,0,0,0,400,401,6,35,-1,0,401,402,3,72,36,0,402,415,1,0,0,0,403,
-        404,10,3,0,0,404,405,5,24,0,0,405,406,3,72,36,0,406,407,6,35,-1,
-        0,407,414,1,0,0,0,408,409,10,2,0,0,409,410,5,25,0,0,410,411,3,72,
-        36,0,411,412,6,35,-1,0,412,414,1,0,0,0,413,403,1,0,0,0,413,408,1,
-        0,0,0,414,417,1,0,0,0,415,413,1,0,0,0,415,416,1,0,0,0,416,71,1,0,
-        0,0,417,415,1,0,0,0,418,419,6,36,-1,0,419,420,3,74,37,0,420,433,
-        1,0,0,0,421,422,10,3,0,0,422,423,5,28,0,0,423,424,3,74,37,0,424,
-        425,6,36,-1,0,425,432,1,0,0,0,426,427,10,2,0,0,427,428,5,27,0,0,
-        428,429,3,74,37,0,429,430,6,36,-1,0,430,432,1,0,0,0,431,421,1,0,
-        0,0,431,426,1,0,0,0,432,435,1,0,0,0,433,431,1,0,0,0,433,434,1,0,
-        0,0,434,73,1,0,0,0,435,433,1,0,0,0,436,452,3,76,38,0,437,438,5,25,
-        0,0,438,439,5,18,0,0,439,452,6,37,-1,0,440,441,5,19,0,0,441,452,
-        6,37,-1,0,442,443,5,20,0,0,443,452,6,37,-1,0,444,445,5,25,0,0,445,
-        446,5,20,0,0,446,452,6,37,-1,0,447,448,5,18,0,0,448,452,6,37,-1,
-        0,449,450,5,17,0,0,450,452,6,37,-1,0,451,436,1,0,0,0,451,437,1,0,
-        0,0,451,440,1,0,0,0,451,442,1,0,0,0,451,444,1,0,0,0,451,447,1,0,
-        0,0,451,449,1,0,0,0,452,75,1,0,0,0,453,454,5,16,0,0,454,455,6,38,
-        -1,0,455,456,3,78,39,0,456,457,6,38,-1,0,457,460,1,0,0,0,458,460,
-        3,80,40,0,459,453,1,0,0,0,459,458,1,0,0,0,460,77,1,0,0,0,461,462,
-        5,25,0,0,462,463,5,25,0,0,463,466,6,39,-1,0,464,466,1,0,0,0,465,
-        461,1,0,0,0,465,464,1,0,0,0,466,79,1,0,0,0,467,468,5,16,0,0,468,
-        469,5,38,0,0,469,470,5,16,0,0,470,486,6,40,-1,0,471,472,5,16,0,0,
-        472,473,5,38,0,0,473,474,5,16,0,0,474,475,5,38,0,0,475,476,5,16,
-        0,0,476,486,6,40,-1,0,477,478,5,16,0,0,478,479,5,38,0,0,479,480,
-        5,16,0,0,480,481,5,38,0,0,481,482,5,16,0,0,482,483,5,38,0,0,483,
-        484,5,16,0,0,484,486,6,40,-1,0,485,467,1,0,0,0,485,471,1,0,0,0,485,
-        477,1,0,0,0,486,81,1,0,0,0,28,90,96,98,110,124,148,157,171,193,206,
-        221,250,258,260,280,301,314,340,353,398,413,415,431,433,451,459,
-        465,485
+        0,0,336,337,3,70,35,0,337,338,5,30,0,0,338,339,6,23,-1,0,339,381,
+        1,0,0,0,340,341,5,16,0,0,341,342,5,38,0,0,342,343,5,16,0,0,343,344,
+        5,38,0,0,344,345,5,16,0,0,345,346,5,29,0,0,346,347,5,30,0,0,347,
+        381,6,23,-1,0,348,349,5,16,0,0,349,350,5,38,0,0,350,351,5,16,0,0,
+        351,352,5,38,0,0,352,353,5,16,0,0,353,354,5,29,0,0,354,355,3,70,
+        35,0,355,356,5,30,0,0,356,357,6,23,-1,0,357,381,1,0,0,0,358,359,
+        5,16,0,0,359,360,5,38,0,0,360,361,5,16,0,0,361,362,5,38,0,0,362,
+        363,5,16,0,0,363,364,5,38,0,0,364,365,5,16,0,0,365,366,5,29,0,0,
+        366,367,5,30,0,0,367,381,6,23,-1,0,368,369,5,16,0,0,369,370,5,38,
+        0,0,370,371,5,16,0,0,371,372,5,38,0,0,372,373,5,16,0,0,373,374,5,
+        38,0,0,374,375,5,16,0,0,375,376,5,29,0,0,376,377,3,70,35,0,377,378,
+        5,30,0,0,378,379,6,23,-1,0,379,381,1,0,0,0,380,316,1,0,0,0,380,322,
+        1,0,0,0,380,326,1,0,0,0,380,332,1,0,0,0,380,340,1,0,0,0,380,348,
+        1,0,0,0,380,358,1,0,0,0,380,368,1,0,0,0,381,47,1,0,0,0,382,383,3,
+        54,27,0,383,384,3,56,28,0,384,385,3,50,25,0,385,386,5,3,0,0,386,
+        387,6,24,-1,0,387,49,1,0,0,0,388,389,3,52,26,0,389,390,3,56,28,0,
+        390,391,6,25,-1,0,391,394,1,0,0,0,392,394,1,0,0,0,393,388,1,0,0,
+        0,393,392,1,0,0,0,394,51,1,0,0,0,395,396,5,2,0,0,396,397,6,26,-1,
+        0,397,53,1,0,0,0,398,399,5,1,0,0,399,400,5,29,0,0,400,401,3,58,29,
+        0,401,402,5,30,0,0,402,403,6,27,-1,0,403,55,1,0,0,0,404,405,5,35,
+        0,0,405,406,3,40,20,0,406,407,5,36,0,0,407,57,1,0,0,0,408,409,3,
+        70,35,0,409,410,3,60,30,0,410,411,3,70,35,0,411,412,6,29,-1,0,412,
+        59,1,0,0,0,413,414,7,0,0,0,414,61,1,0,0,0,415,416,5,4,0,0,416,417,
+        5,29,0,0,417,418,5,21,0,0,418,419,5,30,0,0,419,420,6,31,-1,0,420,
+        63,1,0,0,0,421,422,3,66,33,0,422,423,3,56,28,0,423,424,6,32,-1,0,
+        424,65,1,0,0,0,425,426,6,33,-1,0,426,427,5,10,0,0,427,428,5,29,0,
+        0,428,429,3,58,29,0,429,430,5,30,0,0,430,431,5,11,0,0,431,432,6,
+        33,-1,0,432,67,1,0,0,0,433,439,5,7,0,0,434,439,5,8,0,0,435,439,5,
+        9,0,0,436,437,5,16,0,0,437,439,6,34,-1,0,438,433,1,0,0,0,438,434,
+        1,0,0,0,438,435,1,0,0,0,438,436,1,0,0,0,439,69,1,0,0,0,440,441,6,
+        35,-1,0,441,442,3,72,36,0,442,455,1,0,0,0,443,444,10,3,0,0,444,445,
+        5,24,0,0,445,446,3,72,36,0,446,447,6,35,-1,0,447,454,1,0,0,0,448,
+        449,10,2,0,0,449,450,5,25,0,0,450,451,3,72,36,0,451,452,6,35,-1,
+        0,452,454,1,0,0,0,453,443,1,0,0,0,453,448,1,0,0,0,454,457,1,0,0,
+        0,455,453,1,0,0,0,455,456,1,0,0,0,456,71,1,0,0,0,457,455,1,0,0,0,
+        458,459,6,36,-1,0,459,460,3,74,37,0,460,473,1,0,0,0,461,462,10,3,
+        0,0,462,463,5,28,0,0,463,464,3,74,37,0,464,465,6,36,-1,0,465,472,
+        1,0,0,0,466,467,10,2,0,0,467,468,5,27,0,0,468,469,3,74,37,0,469,
+        470,6,36,-1,0,470,472,1,0,0,0,471,461,1,0,0,0,471,466,1,0,0,0,472,
+        475,1,0,0,0,473,471,1,0,0,0,473,474,1,0,0,0,474,73,1,0,0,0,475,473,
+        1,0,0,0,476,492,3,76,38,0,477,478,5,25,0,0,478,479,5,18,0,0,479,
+        492,6,37,-1,0,480,481,5,19,0,0,481,492,6,37,-1,0,482,483,5,20,0,
+        0,483,492,6,37,-1,0,484,485,5,25,0,0,485,486,5,20,0,0,486,492,6,
+        37,-1,0,487,488,5,18,0,0,488,492,6,37,-1,0,489,490,5,17,0,0,490,
+        492,6,37,-1,0,491,476,1,0,0,0,491,477,1,0,0,0,491,480,1,0,0,0,491,
+        482,1,0,0,0,491,484,1,0,0,0,491,487,1,0,0,0,491,489,1,0,0,0,492,
+        75,1,0,0,0,493,494,5,16,0,0,494,495,6,38,-1,0,495,496,3,78,39,0,
+        496,497,6,38,-1,0,497,500,1,0,0,0,498,500,3,80,40,0,499,493,1,0,
+        0,0,499,498,1,0,0,0,500,77,1,0,0,0,501,502,5,25,0,0,502,503,5,25,
+        0,0,503,506,6,39,-1,0,504,506,1,0,0,0,505,501,1,0,0,0,505,504,1,
+        0,0,0,506,79,1,0,0,0,507,508,5,16,0,0,508,509,5,38,0,0,509,510,5,
+        16,0,0,510,526,6,40,-1,0,511,512,5,16,0,0,512,513,5,38,0,0,513,514,
+        5,16,0,0,514,515,5,38,0,0,515,516,5,16,0,0,516,526,6,40,-1,0,517,
+        518,5,16,0,0,518,519,5,38,0,0,519,520,5,16,0,0,520,521,5,38,0,0,
+        521,522,5,16,0,0,522,523,5,38,0,0,523,524,5,16,0,0,524,526,6,40,
+        -1,0,525,507,1,0,0,0,525,511,1,0,0,0,525,517,1,0,0,0,526,81,1,0,
+        0,0,28,90,96,98,110,124,148,157,171,193,206,221,250,258,260,280,
+        301,314,380,393,438,453,455,471,473,491,499,505,525
     ]
 
 class gramaticaprueba ( Parser ):
@@ -332,7 +346,8 @@ class gramaticaprueba ( Parser ):
         self.declaracionesVariables = {}
         self.clasesUsadas = {}
         self.clasesDeclaradas = []
-        self.inClass = False
+        self.inClase = False
+        self.inFuncion = False
 
 
     def yyerror(self, texto, linea):
@@ -560,7 +575,8 @@ class gramaticaprueba ( Parser ):
                 localctx._declaracion_var = self.declaracion_var()
 
                 for key in self.listaVar:
-                    self.declaracionesVariables[key+self.ambitoActual] = localctx._declaracion_var.line
+                    if localctx._declaracion_var.t in ["INT","FLOAT","ULONG"]:
+                        self.declaracionesVariables[key+self.ambitoActual] = localctx._declaracion_var.line
                 self.listaVar = []
 
                 pass
@@ -597,6 +613,7 @@ class gramaticaprueba ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.line = None
+            self.t = None
             self._tipo = None # TipoContext
             self._lista_variable = None # Lista_variableContext
 
@@ -634,6 +651,7 @@ class gramaticaprueba ( Parser ):
                 self.simbolos.addCaracteristica(key + self.ambitoActual, "tipo", (None if localctx._tipo is None else self._input.getText(localctx._tipo.start,localctx._tipo.stop)))
                 self.simbolos.addCaracteristica(key+self.ambitoActual, "uso", "variable")
                 localctx.line = localctx._lista_variable.line
+                localctx.t = (None if localctx._tipo is None else self._input.getText(localctx._tipo.start,localctx._tipo.stop))
 
         except RecognitionException as re:
             localctx.exception = re
@@ -754,7 +772,10 @@ class gramaticaprueba ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 126
             localctx._encabezado_funcion = self.encabezado_funcion()
-            self.polacaInversa.addElemento(('FUNCION' + ' ' + localctx._encabezado_funcion.funcion))
+
+            if (not self.inClass) or (not self.inFuncion):
+                self.polacaInversa.addElemento(('FUNCION' + ' ' + localctx._encabezado_funcion.funcion))
+
             self.state = 128
             self.parametro()
             self.state = 129
@@ -767,6 +788,7 @@ class gramaticaprueba ( Parser ):
             self.match(gramaticaprueba.COMMA)
 
             self.reducirAmbito()
+            self.inFuncion = False
 
         except RecognitionException as re:
             localctx.exception = re
@@ -809,13 +831,17 @@ class gramaticaprueba ( Parser ):
             self.state = 136
             localctx._ID = self.match(gramaticaprueba.ID)
 
-            if not self.simbolos.isKey((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual):
-                self.auxIDFunc = (None if localctx._ID is None else localctx._ID.text) + self.ambitoActual
-                self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
-                self.ambitoActual = self.ambitoActual + ":" + (None if localctx._ID is None else localctx._ID.text)
+            if self.inClass and self.inFuncion:
+                self.yyerror("SEMANTICO: no se puede anidar funciones dentro de uan clase", (0 if localctx._ID is None else localctx._ID.line))
             else:
-                self.yyerror(" SEMANTICO: variable " + (None if localctx._ID is None else localctx._ID.text) + " ya existe en el ambito actual", (0 if localctx._ID is None else localctx._ID.line))
-            localctx.funcion = (None if localctx._ID is None else localctx._ID.text)
+                if not self.simbolos.isKey((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual):
+                    self.auxIDFunc = (None if localctx._ID is None else localctx._ID.text) + self.ambitoActual
+                    self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
+                    localctx.funcion = (None if localctx._ID is None else localctx._ID.text) + self.ambitoActual
+                    self.ambitoActual = self.ambitoActual + ":" + (None if localctx._ID is None else localctx._ID.text)
+                    self.inFuncion = True
+                else:
+                    self.yyerror(" SEMANTICO: variable " + (None if localctx._ID is None else localctx._ID.text) + " ya existe en el ambito actual", (0 if localctx._ID is None else localctx._ID.line))
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1377,7 +1403,7 @@ class gramaticaprueba ( Parser ):
             self.state = 232
             self.match(gramaticaprueba.RIGHT_BRACE)
 
-            {self.polacaInversa.addElemento("ret")}
+            self.polacaInversa.addElemento("ret")
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1436,6 +1462,7 @@ class gramaticaprueba ( Parser ):
             self.match(gramaticaprueba.COMMA)
 
             self.reducirAmbito()
+            self.inClass = False
 
         except RecognitionException as re:
             localctx.exception = re
@@ -1482,6 +1509,7 @@ class gramaticaprueba ( Parser ):
             self.simbolos.addCaracteristica((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual, "uso", "nombre de clase")
             self.simbolos.addCaracteristica((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual, "ambito de clase", self.ambitoActual + ":" + (None if localctx._ID is None else localctx._ID.text))
             self.ambitoActual = self.ambitoActual + ":" + (None if localctx._ID is None else localctx._ID.text)
+            self.inClass = True
 
         except RecognitionException as re:
             localctx.exception = re
@@ -2018,6 +2046,9 @@ class gramaticaprueba ( Parser ):
             self._ID = None # Token
             self.clase = None # Token
             self.funcion = None # Token
+            self.herencia = None # Token
+            self.herencia1 = None # Token
+            self.herencia2 = None # Token
 
         def ID(self, i:int=None):
             if i is None:
@@ -2035,8 +2066,11 @@ class gramaticaprueba ( Parser ):
         def RIGHT_PAREN(self):
             return self.getToken(gramaticaprueba.RIGHT_PAREN, 0)
 
-        def DOT(self):
-            return self.getToken(gramaticaprueba.DOT, 0)
+        def DOT(self, i:int=None):
+            if i is None:
+                return self.getTokens(gramaticaprueba.DOT)
+            else:
+                return self.getToken(gramaticaprueba.DOT, i)
 
         def getRuleIndex(self):
             return gramaticaprueba.RULE_invocacion
@@ -2049,7 +2083,7 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.InvocacionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 46, self.RULE_invocacion)
         try:
-            self.state = 340
+            self.state = 380
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,17,self._ctx)
             if la_ == 1:
@@ -2178,6 +2212,198 @@ class gramaticaprueba ( Parser ):
 
                 pass
 
+            elif la_ == 5:
+                self.enterOuterAlt(localctx, 5)
+                self.state = 340
+                localctx.clase = self.match(gramaticaprueba.ID)
+                self.state = 341
+                self.match(gramaticaprueba.DOT)
+                self.state = 342
+                localctx.herencia = self.match(gramaticaprueba.ID)
+                self.state = 343
+                self.match(gramaticaprueba.DOT)
+                self.state = 344
+                localctx.funcion = self.match(gramaticaprueba.ID)
+                self.state = 345
+                self.match(gramaticaprueba.LEFT_PAREN)
+                self.state = 346
+                self.match(gramaticaprueba.RIGHT_PAREN)
+
+                simbolo = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
+                if  simbolo != "":
+                    self.simbolos.aumentarReferencia(simbolo)
+                    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+                    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+                    if (None if localctx.herencia is None else localctx.herencia.text) == self.getIdSinAmbito(claseHerencia):
+                        miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+                        if (None if localctx.funcion is None else localctx.funcion.text) in miembros:
+                            ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                            simboloFuncion = self.verificarId((None if localctx.funcion is None else localctx.funcion.text) + ambitoClase)
+                            if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
+                                self.simbolos.aumentarReferencia(simboloFuncion)
+                                aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                                self.polacaInversa.addElemento(aux)
+                                self.polacaInversa.addElemento("CALLFUNC")
+                            else:
+                                self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + (None if localctx.funcion is None else localctx.funcion.text), (0 if localctx.funcion is None else localctx.funcion.line))
+                        else:
+                            self.yyerror("SEMANTICO: " + (None if localctx.funcion is None else localctx.funcion.text) + " no encontrado en clase " + (None if localctx.herencia is None else localctx.herencia.text), (0 if localctx.clase is None else localctx.clase.line))
+                    else:
+                        self.yyerror("SEMANTICO: " + (None if localctx.clase is None else localctx.clase.text) + " no hereda de " + (None if localctx.herencia is None else localctx.herencia.text), (0 if localctx.clase is None else localctx.clase.line))
+                else:
+                    self.yyerror("SEMANTICO: variable " + (None if localctx.clase is None else localctx.clase.text) + "no fue declarada en un ambito valido", (0 if localctx.clase is None else localctx.clase.line))
+
+                pass
+
+            elif la_ == 6:
+                self.enterOuterAlt(localctx, 6)
+                self.state = 348
+                localctx.clase = self.match(gramaticaprueba.ID)
+                self.state = 349
+                self.match(gramaticaprueba.DOT)
+                self.state = 350
+                localctx.herencia = self.match(gramaticaprueba.ID)
+                self.state = 351
+                self.match(gramaticaprueba.DOT)
+                self.state = 352
+                localctx.funcion = self.match(gramaticaprueba.ID)
+                self.state = 353
+                self.match(gramaticaprueba.LEFT_PAREN)
+                self.state = 354
+                self.expresion(0)
+                self.state = 355
+                self.match(gramaticaprueba.RIGHT_PAREN)
+
+                simbolo = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
+                if  simbolo != "":
+                    self.simbolos.aumentarReferencia(simbolo)
+                    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+                    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+                    if (None if localctx.herencia is None else localctx.herencia.text) == self.getIdSinAmbito(claseHerencia):
+                        miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+                        if (None if localctx.funcion is None else localctx.funcion.text) in miembros:
+                            ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                            simboloFuncion = self.verificarId((None if localctx.funcion is None else localctx.funcion.text) + ambitoClase)
+                            if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
+                                self.simbolos.aumentarReferencia(simboloFuncion)
+                                aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                                self.polacaInversa.addElemento(aux)
+                                self.polacaInversa.addElemento("CALLFUNC")
+                            else:
+                                self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + (None if localctx.funcion is None else localctx.funcion.text), (0 if localctx.funcion is None else localctx.funcion.line))
+                        else:
+                            self.yyerror("SEMANTICO: " + (None if localctx.funcion is None else localctx.funcion.text) + " no encontrado en clase " + (None if localctx.herencia is None else localctx.herencia.text), (0 if localctx.clase is None else localctx.clase.line))
+                    else:
+                        self.yyerror("SEMANTICO: " + (None if localctx.clase is None else localctx.clase.text) + " no hereda de " + (None if localctx.herencia is None else localctx.herencia.text), (0 if localctx.clase is None else localctx.clase.line))
+                else:
+                    self.yyerror("SEMANTICO: variable " + (None if localctx.clase is None else localctx.clase.text) + "no fue declarada en un ambito valido", (0 if localctx.clase is None else localctx.clase.line))
+
+                pass
+
+            elif la_ == 7:
+                self.enterOuterAlt(localctx, 7)
+                self.state = 358
+                localctx.clase = self.match(gramaticaprueba.ID)
+                self.state = 359
+                self.match(gramaticaprueba.DOT)
+                self.state = 360
+                localctx.herencia1 = self.match(gramaticaprueba.ID)
+                self.state = 361
+                self.match(gramaticaprueba.DOT)
+                self.state = 362
+                localctx.herencia2 = self.match(gramaticaprueba.ID)
+                self.state = 363
+                self.match(gramaticaprueba.DOT)
+                self.state = 364
+                localctx.funcion = self.match(gramaticaprueba.ID)
+                self.state = 365
+                self.match(gramaticaprueba.LEFT_PAREN)
+                self.state = 366
+                self.match(gramaticaprueba.RIGHT_PAREN)
+
+                simbolo = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
+                if  simbolo != "":
+                    self.simbolos.aumentarReferencia(simbolo)
+                    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+                    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+                    if (None if localctx.herencia1 is None else localctx.herencia1.text) == self.getIdSinAmbito(claseHerencia):
+                        claseHerencia = self.simbolos.getCaracteristica(claseHerencia, "clase herencia")
+                        if (None if localctx.herencia2 is None else localctx.herencia2.text) == self.getIdSinAmbito(claseHerencia):
+                            miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+                            if (None if localctx.funcion is None else localctx.funcion.text) in miembros:
+                                ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                                simboloFuncion = self.verificarId((None if localctx.funcion is None else localctx.funcion.text) + ambitoClase)
+                                if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
+                                    self.simbolos.aumentarReferencia(simboloFuncion)
+                                    aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                                    self.polacaInversa.addElemento(aux)
+                                    self.polacaInversa.addElemento("CALLFUNC")
+                                else:
+                                    self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + (None if localctx.funcion is None else localctx.funcion.text), (0 if localctx.funcion is None else localctx.funcion.line))
+                            else:
+                                self.yyerror("SEMANTICO: funcion " + (None if localctx.funcion is None else localctx.funcion.text) + " no encontrada en " + (None if localctx.herencia2 is None else localctx.herencia2.text), (0 if localctx.clase is None else localctx.clase.line))
+                        else:
+                            self.yyerror("SEMANTICO: " + (None if localctx.herencia1 is None else localctx.herencia1.text) + " no hereda de " + (None if localctx.herencia2 is None else localctx.herencia2.text), (0 if localctx.clase is None else localctx.clase.line))
+                    else:
+                        self.yyerror("SEMANTICO: " + (None if localctx.clase is None else localctx.clase.text) + " no hereda de " + (None if localctx.herencia1 is None else localctx.herencia1.text), (0 if localctx.clase is None else localctx.clase.line))
+                else:
+                    self.yyerror("SEMANTICO: variable " + (None if localctx.clase is None else localctx.clase.text) + "no fue declarada en un ambito valido", (0 if localctx.clase is None else localctx.clase.line))
+
+                pass
+
+            elif la_ == 8:
+                self.enterOuterAlt(localctx, 8)
+                self.state = 368
+                localctx.clase = self.match(gramaticaprueba.ID)
+                self.state = 369
+                self.match(gramaticaprueba.DOT)
+                self.state = 370
+                localctx.herencia1 = self.match(gramaticaprueba.ID)
+                self.state = 371
+                self.match(gramaticaprueba.DOT)
+                self.state = 372
+                localctx.herencia2 = self.match(gramaticaprueba.ID)
+                self.state = 373
+                self.match(gramaticaprueba.DOT)
+                self.state = 374
+                localctx.funcion = self.match(gramaticaprueba.ID)
+                self.state = 375
+                self.match(gramaticaprueba.LEFT_PAREN)
+                self.state = 376
+                self.expresion(0)
+                self.state = 377
+                self.match(gramaticaprueba.RIGHT_PAREN)
+
+                simbolo = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
+                if  simbolo != "":
+                    self.simbolos.aumentarReferencia(simbolo)
+                    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+                    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+                    if (None if localctx.herencia1 is None else localctx.herencia1.text) == self.getIdSinAmbito(claseHerencia):
+                        claseHerencia = self.simbolos.getCaracteristica(claseHerencia, "clase herencia")
+                        if (None if localctx.herencia2 is None else localctx.herencia2.text) == self.getIdSinAmbito(claseHerencia):
+                            miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+                            if (None if localctx.funcion is None else localctx.funcion.text) in miembros:
+                                ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                                simboloFuncion = self.verificarId((None if localctx.funcion is None else localctx.funcion.text) + ambitoClase)
+                                if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
+                                    self.simbolos.aumentarReferencia(simboloFuncion)
+                                    aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                                    self.polacaInversa.addElemento(aux)
+                                    self.polacaInversa.addElemento("CALLFUNC")
+                                else:
+                                    self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + (None if localctx.funcion is None else localctx.funcion.text), (0 if localctx.funcion is None else localctx.funcion.line))
+                            else:
+                                self.yyerror("SEMANTICO: funcion " + (None if localctx.funcion is None else localctx.funcion.text) + " no encontrada en " + (None if localctx.herencia2 is None else localctx.herencia2.text), (0 if localctx.clase is None else localctx.clase.line))
+                        else:
+                            self.yyerror("SEMANTICO: " + (None if localctx.herencia1 is None else localctx.herencia1.text) + " no hereda de " + (None if localctx.herencia2 is None else localctx.herencia2.text), (0 if localctx.clase is None else localctx.clase.line))
+                    else:
+                        self.yyerror("SEMANTICO: " + (None if localctx.clase is None else localctx.clase.text) + " no hereda de " + (None if localctx.herencia1 is None else localctx.herencia1.text), (0 if localctx.clase is None else localctx.clase.line))
+                else:
+                    self.yyerror("SEMANTICO: variable " + (None if localctx.clase is None else localctx.clase.text) + "no fue declarada en un ambito valido", (0 if localctx.clase is None else localctx.clase.line))
+
+                pass
+
 
         except RecognitionException as re:
             localctx.exception = re
@@ -2222,13 +2448,13 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 48, self.RULE_seleccion)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 342
+            self.state = 382
             self.if_condicion()
-            self.state = 343
+            self.state = 383
             self.bloque_control()
-            self.state = 344
+            self.state = 384
             self.posible_else()
-            self.state = 345
+            self.state = 385
             self.match(gramaticaprueba.END_IF)
 
             if self.elseaux is False:
@@ -2272,14 +2498,14 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.Posible_elseContext(self, self._ctx, self.state)
         self.enterRule(localctx, 50, self.RULE_posible_else)
         try:
-            self.state = 353
+            self.state = 393
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [2]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 348
+                self.state = 388
                 self.else_()
-                self.state = 349
+                self.state = 389
                 self.bloque_control()
 
                 number = self.polacaInversa.getLastPendingStep()
@@ -2324,7 +2550,7 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 52, self.RULE_else)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 355
+            self.state = 395
             self.match(gramaticaprueba.ELSE)
 
             self.elseaux = True
@@ -2375,13 +2601,13 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 54, self.RULE_if_condicion)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 358
+            self.state = 398
             self.match(gramaticaprueba.IF)
-            self.state = 359
+            self.state = 399
             self.match(gramaticaprueba.LEFT_PAREN)
-            self.state = 360
+            self.state = 400
             self.condicion()
-            self.state = 361
+            self.state = 401
             self.match(gramaticaprueba.RIGHT_PAREN)
 
             self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
@@ -2426,11 +2652,11 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 56, self.RULE_bloque_control)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 364
+            self.state = 404
             self.match(gramaticaprueba.LEFT_BRACE)
-            self.state = 365
+            self.state = 405
             self.cuerpo_ejecucion(0)
-            self.state = 366
+            self.state = 406
             self.match(gramaticaprueba.RIGHT_BRACE)
         except RecognitionException as re:
             localctx.exception = re
@@ -2472,11 +2698,11 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 58, self.RULE_condicion)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 368
+            self.state = 408
             self.expresion(0)
-            self.state = 369
+            self.state = 409
             localctx._comparador = self.comparador()
-            self.state = 370
+            self.state = 410
             self.expresion(0)
 
             self.polacaInversa.addElemento((None if localctx._comparador is None else self._input.getText(localctx._comparador.start,localctx._comparador.stop)))
@@ -2527,7 +2753,7 @@ class gramaticaprueba ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 373
+            self.state = 413
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 6446702592) != 0)):
                 self._errHandler.recoverInline(self)
@@ -2575,13 +2801,13 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 62, self.RULE_print)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 375
+            self.state = 415
             self.match(gramaticaprueba.PRINT)
-            self.state = 376
+            self.state = 416
             self.match(gramaticaprueba.LEFT_PAREN)
-            self.state = 377
+            self.state = 417
             localctx._CADENA = self.match(gramaticaprueba.CADENA)
-            self.state = 378
+            self.state = 418
             self.match(gramaticaprueba.RIGHT_PAREN)
 
             self.polacaInversa.addElemento((None if localctx._CADENA is None else localctx._CADENA.text))
@@ -2623,9 +2849,9 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 64, self.RULE_while)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 381
+            self.state = 421
             self.while_condicion()
-            self.state = 382
+            self.state = 422
             self.bloque_control()
 
             number = self.polacaInversa.getLastPendingStep()
@@ -2678,15 +2904,15 @@ class gramaticaprueba ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.aux = self.polacaInversa.reference_counter
-            self.state = 386
+            self.state = 426
             self.match(gramaticaprueba.WHILE)
-            self.state = 387
+            self.state = 427
             self.match(gramaticaprueba.LEFT_PAREN)
-            self.state = 388
+            self.state = 428
             self.condicion()
-            self.state = 389
+            self.state = 429
             self.match(gramaticaprueba.RIGHT_PAREN)
-            self.state = 390
+            self.state = 430
             self.match(gramaticaprueba.DO)
 
             self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
@@ -2733,27 +2959,27 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.TipoContext(self, self._ctx, self.state)
         self.enterRule(localctx, 68, self.RULE_tipo)
         try:
-            self.state = 398
+            self.state = 438
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [7]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 393
+                self.state = 433
                 self.match(gramaticaprueba.INT)
                 pass
             elif token in [8]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 394
+                self.state = 434
                 self.match(gramaticaprueba.ULONG)
                 pass
             elif token in [9]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 395
+                self.state = 435
                 self.match(gramaticaprueba.FLOAT)
                 pass
             elif token in [16]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 396
+                self.state = 436
                 localctx._ID = self.match(gramaticaprueba.ID)
 
                 identificador = self.verificarId((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual)
@@ -2814,10 +3040,10 @@ class gramaticaprueba ( Parser ):
         self.enterRecursionRule(localctx, 70, self.RULE_expresion, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 401
+            self.state = 441
             self.termino(0)
             self._ctx.stop = self._input.LT(-1)
-            self.state = 415
+            self.state = 455
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -2825,19 +3051,19 @@ class gramaticaprueba ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 413
+                    self.state = 453
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,20,self._ctx)
                     if la_ == 1:
                         localctx = gramaticaprueba.ExpresionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expresion)
-                        self.state = 403
+                        self.state = 443
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 404
+                        self.state = 444
                         self.match(gramaticaprueba.PLUS)
-                        self.state = 405
+                        self.state = 445
                         self.termino(0)
                         self.polacaInversa.addElemento("+")
                         pass
@@ -2845,19 +3071,19 @@ class gramaticaprueba ( Parser ):
                     elif la_ == 2:
                         localctx = gramaticaprueba.ExpresionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expresion)
-                        self.state = 408
+                        self.state = 448
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 409
+                        self.state = 449
                         self.match(gramaticaprueba.MINUS)
-                        self.state = 410
+                        self.state = 450
                         self.termino(0)
                         self.polacaInversa.addElemento("-")
                         pass
 
              
-                self.state = 417
+                self.state = 457
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,21,self._ctx)
 
@@ -2905,10 +3131,10 @@ class gramaticaprueba ( Parser ):
         self.enterRecursionRule(localctx, 72, self.RULE_termino, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 419
+            self.state = 459
             self.factor()
             self._ctx.stop = self._input.LT(-1)
-            self.state = 433
+            self.state = 473
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input,23,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -2916,19 +3142,19 @@ class gramaticaprueba ( Parser ):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 431
+                    self.state = 471
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,22,self._ctx)
                     if la_ == 1:
                         localctx = gramaticaprueba.TerminoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_termino)
-                        self.state = 421
+                        self.state = 461
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 422
+                        self.state = 462
                         self.match(gramaticaprueba.MULTIPLY)
-                        self.state = 423
+                        self.state = 463
                         self.factor()
                         self.polacaInversa.addElemento("*")
                         pass
@@ -2936,19 +3162,19 @@ class gramaticaprueba ( Parser ):
                     elif la_ == 2:
                         localctx = gramaticaprueba.TerminoContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_termino)
-                        self.state = 426
+                        self.state = 466
                         if not self.precpred(self._ctx, 2):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 2)")
-                        self.state = 427
+                        self.state = 467
                         self.match(gramaticaprueba.DIVIDE)
-                        self.state = 428
+                        self.state = 468
                         self.factor()
                         self.polacaInversa.addElemento("/")
                         pass
 
              
-                self.state = 435
+                self.state = 475
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input,23,self._ctx)
 
@@ -3002,20 +3228,20 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.FactorContext(self, self._ctx, self.state)
         self.enterRule(localctx, 74, self.RULE_factor)
         try:
-            self.state = 451
+            self.state = 491
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,24,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 436
+                self.state = 476
                 self.referencia()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 437
+                self.state = 477
                 self.match(gramaticaprueba.MINUS)
-                self.state = 438
+                self.state = 478
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
                 key = (None if localctx._NUM_INT is None else localctx._NUM_INT.text)
@@ -3033,7 +3259,7 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 440
+                self.state = 480
                 localctx._NUM_ULONG = self.match(gramaticaprueba.NUM_ULONG)
 
                 texto = (None if localctx._NUM_ULONG is None else localctx._NUM_ULONG.text)
@@ -3045,7 +3271,7 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 442
+                self.state = 482
                 localctx._NUM_FLOAT = self.match(gramaticaprueba.NUM_FLOAT)
 
                 self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "tipo", "FLOAT")
@@ -3056,9 +3282,9 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 5:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 444
+                self.state = 484
                 self.match(gramaticaprueba.MINUS)
-                self.state = 445
+                self.state = 485
                 localctx._NUM_FLOAT = self.match(gramaticaprueba.NUM_FLOAT)
 
                 key = (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text)
@@ -3075,7 +3301,7 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 6:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 447
+                self.state = 487
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
                 if (None if localctx._NUM_INT is None else localctx._NUM_INT.text) == "32768_i":
@@ -3090,7 +3316,7 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 7:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 449
+                self.state = 489
                 localctx._ERROR = self.match(gramaticaprueba.ERROR)
                 self.yyerror("SINTACTICO: se espera una constante o id",(0 if localctx._ERROR is None else localctx._ERROR.line))
                 pass
@@ -3135,18 +3361,18 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.ReferenciaContext(self, self._ctx, self.state)
         self.enterRule(localctx, 76, self.RULE_referencia)
         try:
-            self.state = 459
+            self.state = 499
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,25,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 453
+                self.state = 493
                 localctx._ID = self.match(gramaticaprueba.ID)
 
                 identificador = self.verificarId((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual)
                 if identificador != "":
                     self.polacaInversa.addElemento(identificador)
-                self.state = 455
+                self.state = 495
                 self.posible_guion_doble()
 
                 identificador = self.verificarId((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual)
@@ -3164,7 +3390,7 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 458
+                self.state = 498
                 self.uso_clase()
                 pass
 
@@ -3202,14 +3428,14 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.Posible_guion_dobleContext(self, self._ctx, self.state)
         self.enterRule(localctx, 78, self.RULE_posible_guion_doble)
         try:
-            self.state = 465
+            self.state = 505
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,26,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 461
+                self.state = 501
                 self.match(gramaticaprueba.MINUS)
-                self.state = 462
+                self.state = 502
                 self.match(gramaticaprueba.MINUS)
 
                 self.menos_menos = True
@@ -3268,16 +3494,16 @@ class gramaticaprueba ( Parser ):
         localctx = gramaticaprueba.Uso_claseContext(self, self._ctx, self.state)
         self.enterRule(localctx, 80, self.RULE_uso_clase)
         try:
-            self.state = 485
+            self.state = 525
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,27,self._ctx)
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 467
+                self.state = 507
                 localctx.clase = self.match(gramaticaprueba.ID)
-                self.state = 468
+                self.state = 508
                 self.match(gramaticaprueba.DOT)
-                self.state = 469
+                self.state = 509
                 localctx.atributo = self.match(gramaticaprueba.ID)
 
                 idClase = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
@@ -3299,15 +3525,15 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 471
+                self.state = 511
                 localctx.clase = self.match(gramaticaprueba.ID)
-                self.state = 472
+                self.state = 512
                 self.match(gramaticaprueba.DOT)
-                self.state = 473
+                self.state = 513
                 localctx.herencia = self.match(gramaticaprueba.ID)
-                self.state = 474
+                self.state = 514
                 self.match(gramaticaprueba.DOT)
-                self.state = 475
+                self.state = 515
                 localctx.atributo = self.match(gramaticaprueba.ID)
 
                 idClase = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)
@@ -3332,19 +3558,19 @@ class gramaticaprueba ( Parser ):
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 477
+                self.state = 517
                 localctx.clase = self.match(gramaticaprueba.ID)
-                self.state = 478
+                self.state = 518
                 self.match(gramaticaprueba.DOT)
-                self.state = 479
+                self.state = 519
                 localctx.herencia1 = self.match(gramaticaprueba.ID)
-                self.state = 480
+                self.state = 520
                 self.match(gramaticaprueba.DOT)
-                self.state = 481
+                self.state = 521
                 localctx.herencia2 = self.match(gramaticaprueba.ID)
-                self.state = 482
+                self.state = 522
                 self.match(gramaticaprueba.DOT)
-                self.state = 483
+                self.state = 523
                 localctx.atributo = self.match(gramaticaprueba.ID)
 
                 idClase = self.verificarId((None if localctx.clase is None else localctx.clase.text) + self.ambitoActual)

@@ -24,7 +24,8 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.declaracionesVariables = {}
     self.clasesUsadas = {}
     self.clasesDeclaradas = []
-    self.inClass = False
+    self.inClase = False
+    self.inFuncion = False
 
 
 def yyerror(self, texto, linea):
@@ -82,7 +83,8 @@ cuerpo: cuerpo declaracion
 
 declaracion: declaracion_var  {
 for key in self.listaVar:
-    self.declaracionesVariables[key+self.ambitoActual] = $declaracion_var.line
+    if $declaracion_var.t in ["INT","FLOAT","ULONG"]:
+        self.declaracionesVariables[key+self.ambitoActual] = $declaracion_var.line
 self.listaVar = []
 }
             | declaracion_func {
@@ -91,11 +93,12 @@ self.listaVar = []
 }
 ;
 
-declaracion_var returns [line]: tipo lista_variable ',' {
+declaracion_var returns [line, t]: tipo lista_variable ',' {
 for key in self.listaVar:
     self.simbolos.addCaracteristica(key + self.ambitoActual, "tipo", $tipo.text)
     self.simbolos.addCaracteristica(key+self.ambitoActual, "uso", "variable")
     $line = $lista_variable.line
+    $t = $tipo.text
 }
 ;
 
@@ -109,19 +112,27 @@ $line = $ID.line
 }
 ;
 
-declaracion_func: encabezado_funcion {self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))} parametro '{' cuerpo_func '}' ',' {
+declaracion_func: encabezado_funcion {
+if (not self.inClass) or (not self.inFuncion):
+    self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
+} parametro '{' cuerpo_func '}' ',' {
 self.reducirAmbito()
+self.inFuncion = False
 }
 ;
 
 encabezado_funcion returns [funcion]: VOID ID {
-if not self.simbolos.isKey($ID.text + self.ambitoActual):
-    self.auxIDFunc = $ID.text + self.ambitoActual
-    self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
-    self.ambitoActual = self.ambitoActual + ":" + $ID.text
+if self.inClass and self.inFuncion:
+    self.yyerror("SEMANTICO: no se puede anidar funciones dentro de uan clase", $ID.line)
 else:
-    self.yyerror(" SEMANTICO: variable " + $ID.text + " ya existe en el ambito actual", $ID.line)
-$funcion = $ID.text
+    if not self.simbolos.isKey($ID.text + self.ambitoActual):
+        self.auxIDFunc = $ID.text + self.ambitoActual
+        self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
+        $funcion = $ID.text + self.ambitoActual
+        self.ambitoActual = self.ambitoActual + ":" + $ID.text
+        self.inFuncion = True
+    else:
+        self.yyerror(" SEMANTICO: variable " + $ID.text + " ya existe en el ambito actual", $ID.line)
 }
 ;
 
@@ -162,12 +173,13 @@ else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
 ;
 
 while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {
-{self.polacaInversa.addElemento("ret")}
+self.polacaInversa.addElemento("ret")
 }
 ;
 
 declaracion_clase: encabezado_clase '{' componentes_clase '}' ',' {
 self.reducirAmbito()
+self.inClass = False
 }
 ;
 
@@ -177,6 +189,7 @@ self.clasesDeclaradas.append($ID.text)
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "uso", "nombre de clase")
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "ambito de clase", self.ambitoActual + ":" + $ID.text)
 self.ambitoActual = self.ambitoActual + ":" + $ID.text
+self.inClass = True
 }
 ;
 
@@ -339,6 +352,114 @@ if  simbolo != "":
             self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
     else:
         self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + claseAmbito, $clase.line)
+else:
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+}
+        | clase=ID '.' herencia=ID '.' funcion=ID '(' ')' {
+simbolo = self.verificarId($clase.text + self.ambitoActual)
+if  simbolo != "":
+    self.simbolos.aumentarReferencia(simbolo)
+    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+    if $herencia.text == self.getIdSinAmbito(claseHerencia):
+        miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+        if $funcion.text in miembros:
+            ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+            simboloFuncion = self.verificarId($funcion.text + ambitoClase)
+            if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
+                self.simbolos.aumentarReferencia(simboloFuncion)
+                aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                self.polacaInversa.addElemento(aux)
+                self.polacaInversa.addElemento("CALLFUNC")
+            else:
+                self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
+        else:
+            self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + $herencia.text, $clase.line)
+    else:
+        self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia.text, $clase.line)
+else:
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+}
+        | clase=ID '.' herencia=ID '.' funcion=ID '(' expresion ')' {
+simbolo = self.verificarId($clase.text + self.ambitoActual)
+if  simbolo != "":
+    self.simbolos.aumentarReferencia(simbolo)
+    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+    if $herencia.text == self.getIdSinAmbito(claseHerencia):
+        miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+        if $funcion.text in miembros:
+            ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+            simboloFuncion = self.verificarId($funcion.text + ambitoClase)
+            if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
+                self.simbolos.aumentarReferencia(simboloFuncion)
+                aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                self.polacaInversa.addElemento(aux)
+                self.polacaInversa.addElemento("CALLFUNC")
+            else:
+                self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
+        else:
+            self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + $herencia.text, $clase.line)
+    else:
+        self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia.text, $clase.line)
+else:
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+}
+        | clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' ')' {
+simbolo = self.verificarId($clase.text + self.ambitoActual)
+if  simbolo != "":
+    self.simbolos.aumentarReferencia(simbolo)
+    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+    if $herencia1.text == self.getIdSinAmbito(claseHerencia):
+        claseHerencia = self.simbolos.getCaracteristica(claseHerencia, "clase herencia")
+        if $herencia2.text == self.getIdSinAmbito(claseHerencia):
+            miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+            if $funcion.text in miembros:
+                ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                simboloFuncion = self.verificarId($funcion.text + ambitoClase)
+                if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
+                    self.simbolos.aumentarReferencia(simboloFuncion)
+                    aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                    self.polacaInversa.addElemento(aux)
+                    self.polacaInversa.addElemento("CALLFUNC")
+                else:
+                    self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
+            else:
+                self.yyerror("SEMANTICO: funcion " + $funcion.text + " no encontrada en " + $herencia2.text, $clase.line)
+        else:
+            self.yyerror("SEMANTICO: " + $herencia1.text + " no hereda de " + $herencia2.text, $clase.line)
+    else:
+        self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia1.text, $clase.line)
+else:
+    self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+}
+        | clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' expresion ')' {
+simbolo = self.verificarId($clase.text + self.ambitoActual)
+if  simbolo != "":
+    self.simbolos.aumentarReferencia(simbolo)
+    claseAmbito = self.verificarId(self.simbolos.getCaracteristica(simbolo, "tipo") + self.ambitoActual)
+    claseHerencia = self.simbolos.getCaracteristica(claseAmbito, "clase herencia")
+    if $herencia1.text == self.getIdSinAmbito(claseHerencia):
+        claseHerencia = self.simbolos.getCaracteristica(claseHerencia, "clase herencia")
+        if $herencia2.text == self.getIdSinAmbito(claseHerencia):
+            miembros = self.simbolos.getCaracteristica(claseHerencia, "miembros de clase")
+            if $funcion.text in miembros:
+                ambitoClase = self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
+                simboloFuncion = self.verificarId($funcion.text + ambitoClase)
+                if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
+                    self.simbolos.aumentarReferencia(simboloFuncion)
+                    aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+                    self.polacaInversa.addElemento(aux)
+                    self.polacaInversa.addElemento("CALLFUNC")
+                else:
+                    self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
+            else:
+                self.yyerror("SEMANTICO: funcion " + $funcion.text + " no encontrada en " + $herencia2.text, $clase.line)
+        else:
+            self.yyerror("SEMANTICO: " + $herencia1.text + " no hereda de " + $herencia2.text, $clase.line)
+    else:
+        self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia1.text, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
 }
