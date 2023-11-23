@@ -119,7 +119,6 @@ if self.inFuncion and self.inClass:
     self.segundaFuncion = True
 if (not self.inClass) or (not self.inFuncion):
     self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
-self.inFuncion = True
 } parametro '{' cuerpo_func '}' ',' {
 self.reducirAmbito()
 if self.segundaFuncion:
@@ -155,8 +154,8 @@ self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "tipo", $tipo.text
 }
 ;
 
-cuerpo_func: cuerpo ejecucion_retorno ','
-             | ejecucion_retorno ','
+cuerpo_func: {self.inFuncion = True}cuerpo ejecucion_retorno ','
+             | {self.inFuncion = True}ejecucion_retorno ','
 ;
 
 ejecucion_retorno: control_retorno //Hacer lo mismo que el if

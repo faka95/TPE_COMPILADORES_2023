@@ -18,6 +18,7 @@ class Sintactico:
             customErrorHandler.setParserGen(parser)
             parser._errHandler = customErrorHandler
             tree = parser.programa()
+            print(parser.polacaInversa.referencias)
             for clave, valor in parser.polacaInversa.referencias.items():
                 self.archivo_salida.write(f"{clave}: {valor}\n")
             self.archivo_salida.close()

@@ -1,19 +1,25 @@
+from copy import copy
+
+from AnalizadorSemantico.InformacionClase import InformacionClase
+
+
 class DataGenerator:
     def __init__(self):
         self.classes = {}
+        self.simboloClase = {}
+        self.variables = {}
+        self.functions = {}
 
-    def procesar_linea(self, linea):
-        try:
-            partes = linea.split(" - ")
-            parte_simbolo = partes[0]
-            parte_tipo = partes[1]
-            simbolo = parte_simbolo.split(": ")[1]
-            tipo = parte_tipo.split(": ")[2]
+    def procesar_linea(self, linea_texto):
+        campos = {}
+        partes = linea_texto.split(" - ")
+        for parte in partes:
+            if ": " in parte:
+                clave, valor = parte.split(": ", 1)
+                campos[clave.lower().replace(" ", "_")] = valor
+        #print(campos)
+        return InformacionClase(**campos)
 
-            return simbolo, tipo
-        except IndexError:
-            # Devolver None si no se encuentra el formato esperado
-            return None, None
     def generar_declaracion_asm(self,simbolo, tipo):
         tipos_asm = {"INT": "DD", "FLOAT": "DQ"}  # DD para INT, DQ para FLOAT en MASM32
         clase = None
@@ -33,28 +39,64 @@ class DataGenerator:
         else:
             return None
 
+    def setDatos(self,info: InformacionClase):
+        if info.uso == "nombre de clase":
+            self.simboloClase[info.simbolo] = info
+        elif info.uso == "funcion":
+            self.functions[info.simbolo] = info
+        elif info.uso == "variable":
+            self.variables[info.simbolo] = info
+    def lookForProperty(self,propiedad) -> InformacionClase:
+        aux = copy(self.variables.get(propiedad))
+        return aux
+
+    def lookForDeepProperty(self,clase: InformacionClase) -> []:
+        list_c = []
+
+        if clase.propiedades is not None:
+            for item in clase.propiedades:
+                list_c.append(self.lookForProperty(item))
+        if clase.clase_herencia is not None:
+            aux = self.lookForDeepProperty(copy(self.simboloClase.get(clase.clase_herencia)))
+            if len(aux) != 0:
+                list_c.extend(aux)
+        return list_c
 
     def procesar_archivo(self,ruta_archivo):
         declaraciones_asm = []
         with open(ruta_archivo, "r") as archivo:
             for linea in archivo:
                 if linea.strip():  # Ignorar líneas vacías
-                    simbolo, tipo = self.procesar_linea(linea)
-                    if tipo != "func" and tipo != "clase":
-                        clase = self.ifClass(str(simbolo))
-                        #print(clase)
-                        declaracion = self.generar_declaracion_asm(simbolo, tipo)
-                        print(declaracion)
-                        if (clase is not None) and (clase != "main"):
-                            if clase in self.classes:
-                                self.classes[clase].addField(declaracion)
-                            else:
-                                new_struct = StructGen(clase)
-                                self.classes[clase] = new_struct
-                        elif clase == "Main" or clase == "main":
-                            declaraciones_asm.append(declaracion)
-        #print(declaraciones_asm)
+                    infoclase = self.procesar_linea(linea)
+                    self.setDatos(infoclase)
+
+        for item in self.simboloClase.values():
+                if item.simbolo not in self.classes:
+                    new_struct = StructGen(item.simbolo)
+                    if item.propiedades is not None:
+                        for propiedad in item.propiedades:
+                            prop = copy(self.lookForProperty(propiedad))
+                            declaracion = self.generar_declaracion_asm(prop.simbolo,prop.tipo)
+                            new_struct.addField(declaracion)
+
+                    if item.clase_herencia is not None:
+                        #print(item.clase_herencia)
+                        list_clases = []
+                        clase = copy(self.simboloClase.get(item.clase_herencia))
+                        list_clases = self.lookForDeepProperty(clase)
+                        print(list_clases)
+                        for p in list_clases:
+
+                            declaracion = self.generar_declaracion_asm(p.simbolo,p.tipo)
+                            new_struct.addField(declaracion)
+                    self.classes[item.simbolo] = new_struct
+
+        for item in self.variables.values():
+            if item.ultimo_ambito == "main":
+                declaracion = self.generar_declaracion_asm(item.simbolo,item.tipo)
+                declaraciones_asm.append(declaracion)
         return declaraciones_asm
+
     def getStruct(self):
         structures = []
         for a in self.classes.values():
@@ -75,12 +117,3 @@ class StructGen:
         structs = "     \n".join(" " * espacios_indentacion + linea for linea in self.fields)
         return field + "\n" + structs + "\n" + self.end + "\n"
 #class CodeGenerator:
-
-
-"""# Ruta al archivo de la tabla de símbolos
-ruta_archivo = "tabla_de_simbolos.txt"
-declaracion_asm = DataGenerator.procesar_archivo(ruta_archivo)
-
-# Unir las declaraciones para formar la sección .data del código Assembler
-codigo_asm_data = ".data\n" + "\n".join(declaracion_asm)
-print(codigo_asm_data)"""

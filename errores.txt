@@ -1,4 +1,5 @@
-ERROR SEMANTICO: variable c2:main no fue asignada en el ambito donde se declaro En la linea 30
-ERROR SEMANTICO: variable c1:main no fue asignada en el ambito donde se declaro En la linea 30
-ERROR SEMANTICO: variable c4:main no fue asignada en el ambito donde se declaro En la linea 31
-ERROR SEMANTICO: variable c3:main no fue asignada en el ambito donde se declaro En la linea 31
+ERROR SEMANTICO: identificador property1 no declarado en un ambito valido En la linea 7
+ERROR SEMANTICO: identificador property1 no declarado en un ambito valido En la linea 19
+ERROR SEMANTICO: identificador property3 no declarado en un ambito valido En la linea 31
+ERROR SEMANTICO: setter2 no encontrado en clase clase_a:main En la linea 43
+ERROR SEMANTICO: clase clase_herencia fue usada sin declarar

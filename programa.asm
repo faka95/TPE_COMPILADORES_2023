@@ -1,20 +1,31 @@
 .data
 
+clase_c STRUCT
+    propertyc1 DD ?     
+    propertyc2 DQ ?
+clase_c END
+
+
 clase_a STRUCT
-    property2:main:clase_a DQ ?     
-    new_property:main:clase_a DD ?
+    propertya1 DD ?     
+    propertya2 DQ ?     
+    propertyc1 DD ?     
+    propertyc2 DQ ?
 clase_a END
 
 
 clase_b STRUCT
-    property4:main:clase_b DQ ?     
-    new_property2:main:clase_b DD ?
+    propertyb3 DD ?     
+    propertyb4 DQ ?     
+    propertya1 DD ?     
+    propertya2 DQ ?     
+    propertyc1 DD ?     
+    propertyc2 DQ ?
 clase_b END
 
-c2:main clase_a <>
-c1:main clase_a <>
-c4:main clase_b <>
-c3:main clase_b <>
-b:main DD ?
-1_i:main DD ?
-a:main DD ?
+c2 clase_a <>
+c1 clase_a <>
+c4 clase_b <>
+c3 clase_b <>
+b DD ?
+a DD ?

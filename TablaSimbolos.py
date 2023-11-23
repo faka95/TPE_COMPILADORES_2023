@@ -50,7 +50,6 @@ class TablaDeSimbolos:
         self.simbolos.pop(key)
 
     def imprimirTabla(self):
-        self.archivo_tabla.write("Tabla de Simbolos: " + "\n")
         for key1, value1 in self.simbolos.items():
             self.archivo_tabla.write(str("Simbolo: {} - Caracteristicas: ").format(key1))
             for key2, value2 in value1.items():

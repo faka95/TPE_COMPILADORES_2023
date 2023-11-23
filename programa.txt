@@ -1,11 +1,7 @@
 {
-CLASS clase_herencia {
-    INT property_herencia,
-},
-
-CLASS clase_a {
-    INT property1,
-    FLOAT property2,
+CLASS clase_c {
+    INT propertyc1,
+    FLOAT propertyc2,
 
     VOID setter(INT new_property) {
         property1 = new_property,
@@ -14,23 +10,36 @@ CLASS clase_a {
 
     clase_herencia,
     },
-CLASS clase_b {
-    INT property1,
-    FLOAT property2,
 
-    VOID setter(INT new_property2) {
-        property1 = new_property2,
+CLASS clase_a {
+    INT propertya1,
+    FLOAT propertya2,
+
+    VOID setter(INT new_property) {
+        property1 = new_property,
         RETURN,
         },
 
-    clase_herencia,
-},
+    clase_c,
+    },
 
-    INT a;b,
+CLASS clase_b {
+    INT propertyb3,
+    FLOAT propertyb4,
+
+    VOID setter2(INT new_property2) {
+        property3 = new_property2,
+        RETURN,
+        },
+
+    clase_a,
+    },
+
     clase_a c1;c2,
     clase_b c3;c4,
+    INT a;b,	
     b = b - 1_i,
     c1.setter(1_i),
-    a = c1.property1,
-    c3.setter(2_i),
+    c2.setter2(2_i),
+    a = c1.propertya1,
 }
