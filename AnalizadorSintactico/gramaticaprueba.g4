@@ -26,6 +26,7 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.clasesDeclaradas = []
     self.inClase = False
     self.inFuncion = False
+    self.segundaFuncion = False
     self.auxBorrado = -1
 
 
@@ -114,12 +115,14 @@ $line = $ID.line
 ;
 
 declaracion_func: encabezado_funcion {
+if self.inFuncion and self.inClass:
+    self.segundaFuncion = True
 if (not self.inClass) or (not self.inFuncion):
     self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
 self.inFuncion = True
 } parametro '{' cuerpo_func '}' ',' {
 self.reducirAmbito()
-if self.inFuncion and self.inClass:
+if self.segundaFuncion:
     while self.polacaInversa.reference_counter > self.auxBorrado:
         self.polacaInversa.removeLast()
 self.inFuncion = False
