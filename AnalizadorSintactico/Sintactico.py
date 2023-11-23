@@ -22,7 +22,7 @@ class Sintactico:
             tree = parser.programa()
             self.polaca = parser.polacaInversa
             generadorAsembler = CodeGenerator(self.polaca)
-
+            generadorAsembler.generarCodigoAssembler()
             #print(parser.polacaInversa.referencias)
             for clave, valor in parser.polacaInversa.referencias.items():
                 self.archivo_salida.write(f"{clave}: {valor}\n")
