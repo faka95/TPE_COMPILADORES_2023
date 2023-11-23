@@ -2,6 +2,7 @@ from copy import copy
 
 from AnalizadorSemantico.InformacionClase import InformacionClase
 from enum import Enum
+from AnalizadorSemantico import PolacaInversa
 
 
 class DataGenerator:
@@ -130,17 +131,16 @@ class Registros(Enum):
 
 
 class CodeGenerator:
-    celdaActual = 1
-    operandos = ["+", "-", "*", "/", "BI", "BF", "FUNCION", "ret", "=", "<", "<=", ">=", "==", "=!", "CALLFUNC",
-                 "PRINT"]
-    pilaOperandos = []
-    polaca = {}
-    codigo = ""
-
-    def __init__(self, polaca):
+    def __init__(self, polaca: PolacaInversa):
         self.polaca = polaca
+        self.celdaActual = 1
+        self.operadores = ["+", "-", "*", "/", "BI", "BF", "FUNCION", "ret", "=", "<", "<=", ">=", "==", "=!",
+                          "CALLFUNC", "PRINT"]
+        self.codigo = ""
+        self.pilaOperandos = []
+        self.registrosDisponibles = {Registros.EAX: True, Registros.EBX: True, Registros.ECX: True, Registros.EDX: True}
+        self.tira = polaca.referencias
 
-    registrosDisponibles = {Registros.EAX: True, Registros.EBX: True, Registros.ECX: True, Registros.EDX: True}
 
     def getRegistroExterno(self, celdaActual):
         if self.registrosDisponibles[Registros.EAX]:
@@ -171,9 +171,8 @@ class CodeGenerator:
         pass
 
     def generarCodigoAssembler(self):
-        celda = self.polaca[self.celdaActual]
-
-        if celda in self.operandos:
+        celda = self.tira[self.celdaActual]
+        if celda in self.operadores:
             if celda == "+":
                 self.sumaOResta(celda)
             elif celda == "-":
@@ -208,6 +207,7 @@ class CodeGenerator:
                 pass  # TODO
         else:
             self.pilaOperandos.append(celda)
+        self.celdaActual += 1
 
 
 """# Ruta al archivo de la tabla de símbolos
