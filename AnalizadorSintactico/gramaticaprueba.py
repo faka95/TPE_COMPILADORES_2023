@@ -348,6 +348,7 @@ class gramaticaprueba ( Parser ):
         self.clasesDeclaradas = []
         self.inClase = False
         self.inFuncion = False
+        self.auxBorrado = -1
 
 
     def yyerror(self, texto, linea):
@@ -775,6 +776,7 @@ class gramaticaprueba ( Parser ):
 
             if (not self.inClass) or (not self.inFuncion):
                 self.polacaInversa.addElemento(('FUNCION' + ' ' + localctx._encabezado_funcion.funcion))
+            self.inFuncion = True
 
             self.state = 128
             self.parametro()
@@ -788,6 +790,9 @@ class gramaticaprueba ( Parser ):
             self.match(gramaticaprueba.COMMA)
 
             self.reducirAmbito()
+            if self.inFuncion and self.inClass:
+                while self.polacaInversa.reference_counter > self.auxBorrado:
+                    self.polacaInversa.removeLast()
             self.inFuncion = False
 
         except RecognitionException as re:
@@ -833,13 +838,13 @@ class gramaticaprueba ( Parser ):
 
             if self.inClass and self.inFuncion:
                 self.yyerror("SEMANTICO: no se puede anidar funciones dentro de uan clase", (0 if localctx._ID is None else localctx._ID.line))
+                self.auxBorrado = self.polacaInversa.reference_counter
             else:
                 if not self.simbolos.isKey((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual):
                     self.auxIDFunc = (None if localctx._ID is None else localctx._ID.text) + self.ambitoActual
                     self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
                     localctx.funcion = (None if localctx._ID is None else localctx._ID.text) + self.ambitoActual
                     self.ambitoActual = self.ambitoActual + ":" + (None if localctx._ID is None else localctx._ID.text)
-                    self.inFuncion = True
                 else:
                     self.yyerror(" SEMANTICO: variable " + (None if localctx._ID is None else localctx._ID.text) + " ya existe en el ambito actual", (0 if localctx._ID is None else localctx._ID.line))
 

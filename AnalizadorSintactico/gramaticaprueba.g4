@@ -26,6 +26,7 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.clasesDeclaradas = []
     self.inClase = False
     self.inFuncion = False
+    self.auxBorrado = -1
 
 
 def yyerror(self, texto, linea):
@@ -115,22 +116,26 @@ $line = $ID.line
 declaracion_func: encabezado_funcion {
 if (not self.inClass) or (not self.inFuncion):
     self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
+self.inFuncion = True
 } parametro '{' cuerpo_func '}' ',' {
 self.reducirAmbito()
+if self.inFuncion and self.inClass:
+    while self.polacaInversa.reference_counter > self.auxBorrado:
+        self.polacaInversa.removeLast()
 self.inFuncion = False
 }
 ;
 
 encabezado_funcion returns [funcion]: VOID ID {
 if self.inClass and self.inFuncion:
-    self.yyerror("SEMANTICO: no se puede anidar funciones dentro de uan clase", $ID.line)
+    self.yyerror("SEMANTICO: no se puede anidar funciones dentro de una clase", $ID.line)
+    self.auxBorrado = self.polacaInversa.reference_counter
 else:
     if not self.simbolos.isKey($ID.text + self.ambitoActual):
         self.auxIDFunc = $ID.text + self.ambitoActual
         self.simbolos.addCaracteristica(self.auxIDFunc, "uso", "funcion")
         $funcion = $ID.text + self.ambitoActual
         self.ambitoActual = self.ambitoActual + ":" + $ID.text
-        self.inFuncion = True
     else:
         self.yyerror(" SEMANTICO: variable " + $ID.text + " ya existe en el ambito actual", $ID.line)
 }

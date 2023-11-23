@@ -1,6 +1,9 @@
 {
 CLASS test_clase {
+
     VOID funcion() {
+
+        PRINT(% funcion de clase valida %),
 
         VOID segunda_funcion() {
             PRINT(% esto es invalido %),
