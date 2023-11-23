@@ -2,6 +2,7 @@ from antlr4 import CommonTokenStream
 from AnalizadorSintactico.CustomANTLR import CustomTokenSource
 from AnalizadorSintactico.CustomANTLR import CustomErrorStrategy
 from AnalizadorSintactico.gramaticaprueba import gramaticaprueba
+from AnalizadorSemantico.GeneradorAssembler import CodeGenerator
 
 
 class Sintactico:
@@ -9,6 +10,7 @@ class Sintactico:
         self.contenido_str = contenido_str
         self.archivo_errores = archivo_errores
         self.archivo_salida = archivo_salida
+        self.polaca = None
 
     def start(self):
             token_source = CustomTokenSource(self.contenido_str,self.archivo_errores,self.archivo_salida)
@@ -18,7 +20,10 @@ class Sintactico:
             customErrorHandler.setParserGen(parser)
             parser._errHandler = customErrorHandler
             tree = parser.programa()
-            print(parser.polacaInversa.referencias)
+            self.polaca = parser.polacaInversa
+            generadorAsembler = CodeGenerator(self.polaca)
+
+            #print(parser.polacaInversa.referencias)
             for clave, valor in parser.polacaInversa.referencias.items():
                 self.archivo_salida.write(f"{clave}: {valor}\n")
             self.archivo_salida.close()

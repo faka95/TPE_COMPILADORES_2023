@@ -1,21 +1,10 @@
-1: FUNCION setter:main:clase_c
-2: new_property:main:clase_c:setter
-3: ret
-4: FUNCION setter:main:clase_a
-5: new_property:main:clase_a:setter
-6: ret
-7: FUNCION setter2:main:clase_b
-8: new_property2:main:clase_b:setter2
+1: FUNCION funcion:main:test_clase
+2: % funcion de clase valida %
+3: PRINT
+4: ret
+5: FUNCION funcion:main
+6: FUNCION anidacion_valida:main:funcion
+7: % esto es valido %
+8: PRINT
 9: ret
-10: b:main
-11: 1_i
-12: -
-13: b:main
-14: =
-15: 1_i
-16: 4
-17: CALLFUNC
-18: 2_i
-19: c1.propertya1
-20: a:main
-21: =
+10: ret
