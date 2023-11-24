@@ -332,6 +332,7 @@ if  simbolo != "":
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
             self.simbolos.aumentarReferencia(simboloFuncion)
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+            print(aux)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -353,6 +354,7 @@ if  simbolo != "":
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
             self.simbolos.aumentarReferencia(simboloFuncion)
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
+            print(aux)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -648,7 +650,7 @@ if idClase != "":
         atributo = $atributo.text + self.simbolos.getCaracteristica(ambitoClase, "ambito de clase")
         if atributo != "":
             self.simbolos.aumentarReferencia(atributo)
-            clase = $clase.text + "." + $atributo.text
+            clase = $clase.text + self.ambitoActual + "." + $atributo.text
             self.polacaInversa.addElemento(str(clase))
     else:
         self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + idClase, $clase.line)
@@ -665,7 +667,7 @@ if idClase != "":
         if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
             atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
             self.simbolos.aumentarReferencia(atributo)
-            clase = $clase.text + "." + $herencia.text + "." + $atributo.text
+            clase = $clase.text + self.ambitoActual + "." + $herencia.text + "." + $atributo.text
             self.polacaInversa.addElemento(str(clase))
         else:
             self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
@@ -686,7 +688,7 @@ if idClase != "":
             if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
                 atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
                 self.simbolos.aumentarReferencia(atributo)
-                clase = $clase.text + "." + $herencia1.text + "." + $herencia2.text + "." + $atributo.text
+                clase = $clase.text + self.ambitoActual + "." + $herencia1.text + "." + $herencia2.text + "." + $atributo.text
                 self.polacaInversa.addElemento(str(clase))
             else:
                 self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
