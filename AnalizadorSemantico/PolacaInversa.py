@@ -19,9 +19,11 @@ class ExpresionPolacaInversa:
 
     def addElemento(self, elemento):
         # Agregar un operando a la pila
-        self.expresion.append((elemento.replace(":","_") if elemento != None else elemento, self.reference_counter))
+        self.expresion.append((elemento.replace(":","_") if elemento != None and not isinstance(elemento, (int, float)) else elemento, self.reference_counter))
         # Asociar el elemento con un número de referencia
-        self.referencias[self.reference_counter] = elemento.replace(":","_") if elemento != None else elemento
+
+        self.referencias[self.reference_counter] = elemento.replace(":","_") if elemento != None and not isinstance(elemento, (int, float)) else elemento
+        print(elemento," ",self.referencias[self.reference_counter]," ",self.reference_counter)
         self.reference_counter += 1
     def setElemento(self,number):
         self.referencias[number] = self.reference_counter
@@ -35,12 +37,20 @@ class ExpresionPolacaInversa:
         return self.expresion.copy()
 
     def getOperandoRef(self, referencia):
+        print(referencia)
+        if ":" in referencia:
+            print(referencia)
+            referencia = referencia.replace(":","_")
         for elem, ref in self.expresion:
             if ref == referencia:
                 return elem
         return None
 
     def getReferenciaOp(self, elemento):
+        if ":" in elemento:
+            print(elemento)
+            elemento = elemento.replace(":","_")
+
         for elem, ref in self.expresion:
             if elem == elemento:
                 return ref
