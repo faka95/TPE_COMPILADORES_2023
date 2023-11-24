@@ -140,6 +140,8 @@ class CodeGenerator:
         self.pilaOperandos = []
         self.registrosDisponibles = {Registros.EAX: True, Registros.EBX: True, Registros.ECX: True, Registros.EDX: True}
         self.tira = polaca.referencias
+        self.numAux = 1
+        self.header= ""
 
 
     def getRegistroExterno(self, celdaActual):
@@ -165,10 +167,52 @@ class CodeGenerator:
         # TODO guardar el registro en un auxiliar y ponerle True el registroDisponible
 
     def sumaOResta(self, op):
-        pass
+        # TODO chequear tipo y si es flotante madnarlo a otra funcion
+        op1 = self.pilaOperandos.pop(0)
+        op2 = self.pilaOperandos.pop(0)
+        registro = self.getRegistroExterno(self.celdaActual)
+        if registro == Registros.EAX:
+            registro = "EAX"
+        else:
+            registro = "EDX"
+        self.codigo += "MOV " + registro + ", " + op1, "\n"
+        if op == "+":
+            self.codigo += "ADD " + registro + ", " + op2 + "\n"
+        else:
+            self.codigo += "SUB " + registro + ", " + op2 + "\n"
+
 
     def multODiv(self, op):
         pass
+
+    def operacionFlotante(self, op1, op2, op):
+        if op == "+":
+            self.codigo += "FLD " + op1 + "\n"
+            self.codigo += "FADD " + op2 + "\n"
+            # ErrorOverflow
+        elif op == "-":
+            self.codigo += "FLD " + op1 + "\n"
+            self.codigo += "FSUB " + op2 + "\n"
+        elif op == "*":
+            self.codigo += "FLD " + op1 + "\n"
+            self.codigo += "FMUL " + op2 + "\n"
+            self.codigo += "FCOM MaxF32 \n"
+            self.codigo += "FSTSW @mem2byte\n"
+            if self.registrosDisponibles[Registros.EAX]:
+                self.liberar(Registros.EAX, self.celdaActual)
+            self.codigo += "MOV EAX , @mem2byte\n"
+            self.codigo += "SAHF\n"
+        elif op == "/":
+            # error division por 0
+            self.codigo += "FLD " + op2 + "\n"
+            self.codigo += "FDIVR " + op1 + "\n"
+        elif op == "=":
+            self.codigo += "FLD " + op2 + "\n"
+            self.codigo += "FSTP " + op1 + "\n"
+        if op != "=":
+            self.codigo += "FSTP @aux" + str(self.numAux) + "\n"
+            self.numAux += 1
+
 
     def generarCodigoAssembler(self):
         celda = self.tira[self.celdaActual]
@@ -208,6 +252,26 @@ class CodeGenerator:
         else:
             self.pilaOperandos.append(celda)
         self.celdaActual += 1
+
+    def setHeader(self):
+        self.header += "include \\masm32\\include\\masm32rt.inc\n"
+        self.header += ".386\n"
+        self.header += ".model flat\n"
+        self.header += "option casemap :none\n"
+        self.header += "include \\masm32\\include\\windows.inc\n"
+        self.header += "include \\masm32\\include\\kernel32.inc\n"
+        self.header += "include \\masm32\\include\\user32.inc\n"
+        self.header += "includelib \\masm32\\lib\\kernel32.lib\n"
+        self.header += "includelib \\masm32\\lib\\user32.lib\n"
+        self.header += ".data\n"
+        self.header += "Error db \"Error\", 0\n"
+        self.header += "ErrorOvSF db \"Error: overflow en un suma entre flotantes\", 0\n"
+        self.header += "ErrorOvPE db \"Error: overflow en una producto de enteros\", 0\n"
+        self.header += "ErrorDIV0 db \"Error: division por cero\", 0\n"
+        self.header += "Salida dt ?, 0\n"
+        self.header += "Imp db \"Salida por pantalla\", 0\n"
+        self.header += "@mem2byte dw ? ; 32 bits\n"
+        self.header += "MaxF32 dw 3.40282347E38 ; 32 bits \n"
 
 
 """# Ruta al archivo de la tabla de símbolos
