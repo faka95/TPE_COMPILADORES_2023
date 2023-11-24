@@ -3,6 +3,7 @@ import ast
 
 class InformacionClase:
     def __init__(self, simbolo, caracteristicas, uso=None, referencias=None, ambito_de_clase=None, propiedades=None, miembros_de_clase=None, numero_de_herencias=None, clase_herencia=None, tipo=None, tipoparametro=None, nroparametros=None, valor = None, propiedades_heredadas = None):
+        self.raw_simbolo = simbolo.replace(":", "_")
         self.simbolo = self.extraer_simbolo(simbolo)
         self.caracteristicas = caracteristicas
         self.uso = uso
@@ -58,6 +59,7 @@ class InformacionClase:
 
     def __str__(self):
         return (
+            f"raw_Simbolo: {self.raw_simbolo}\n"
             f"Simbolo: {self.simbolo}\n"
             f"Caracteristicas: {self.caracteristicas}\n"
             f"Uso: {self.uso}\n"

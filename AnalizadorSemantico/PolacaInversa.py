@@ -19,9 +19,9 @@ class ExpresionPolacaInversa:
 
     def addElemento(self, elemento):
         # Agregar un operando a la pila
-        self.expresion.append((elemento, self.reference_counter))
+        self.expresion.append((elemento.replace(":","_") if elemento != None else elemento, self.reference_counter))
         # Asociar el elemento con un número de referencia
-        self.referencias[self.reference_counter] = elemento
+        self.referencias[self.reference_counter] = elemento.replace(":","_") if elemento != None else elemento
         self.reference_counter += 1
     def setElemento(self,number):
         self.referencias[number] = self.reference_counter

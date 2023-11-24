@@ -1,5 +1,24 @@
-Tabla de Simbolos: 
-Simbolo: test_clase:main - Caracteristicas: uso: nombre de clase - referencias: 1 - ambito de clase: :main:test_clase - miembros de clase: ['funcion'] - 
-Simbolo: funcion:main:test_clase - Caracteristicas: uso: funcion - referencias: 1 - nroParametros: 0 - 
-Simbolo: funcion:main - Caracteristicas: uso: funcion - referencias: 1 - nroParametros: 0 - 
-Simbolo: anidacion_valida:main:funcion - Caracteristicas: uso: funcion - referencias: 1 - nroParametros: 0 - 
+Simbolo: clase_c:main - Caracteristicas: uso: nombre de clase - referencias: 1 - ambito de clase: :main:clase_c - propiedades: ['propertyc1', 'propertyc2'] - miembros de clase: ['setter'] - 
+Simbolo: propertyc1:main:clase_c - Caracteristicas: tipo: INT - referencias: 1 - uso: variable - 
+Simbolo: propertyc2:main:clase_c - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: setter:main:clase_c - Caracteristicas: uso: funcion - referencias: 1 - tipoParametro: INT - nroParametros: 1 - 
+Simbolo: new_property:main:clase_c:setter - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: clase_a:main - Caracteristicas: uso: nombre de clase - referencias: 3 - ambito de clase: :main:clase_a - propiedades: ['propertya1', 'propertya2'] - miembros de clase: ['setter'] - numero de herencias: 1 - clase herencia: clase_c:main - propiedades heredadas: ['propertyc1', 'propertyc2'] - 
+Simbolo: propertya1:main:clase_a - Caracteristicas: tipo: INT - referencias: 2 - uso: variable - 
+Simbolo: propertya2:main:clase_a - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: setter:main:clase_a - Caracteristicas: uso: funcion - referencias: 2 - tipoParametro: INT - nroParametros: 1 - 
+Simbolo: new_property:main:clase_a:setter - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: i:main:clase_a:setter - Caracteristicas: tipo: INT - referencias: 1 - uso: variable - 
+Simbolo: clase_b:main - Caracteristicas: uso: nombre de clase - referencias: 2 - ambito de clase: :main:clase_b - propiedades: ['propertyb3', 'propertyb4'] - miembros de clase: ['setter2'] - numero de herencias: 2 - clase herencia: clase_a:main - propiedades heredadas: ['propertya1', 'propertya2'] - 
+Simbolo: propertyb3:main:clase_b - Caracteristicas: tipo: INT - referencias: 1 - uso: variable - 
+Simbolo: propertyb4:main:clase_b - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: setter2:main:clase_b - Caracteristicas: uso: funcion - referencias: 1 - tipoParametro: INT - nroParametros: 1 - 
+Simbolo: new_property2:main:clase_b:setter2 - Caracteristicas: tipo: INT - referencias: 2 - 
+Simbolo: c2:main - Caracteristicas: tipo: clase_a - referencias: 2 - uso: variable - 
+Simbolo: c1:main - Caracteristicas: tipo: clase_a - referencias: 3 - uso: variable - 
+Simbolo: c4:main - Caracteristicas: tipo: clase_b - referencias: 1 - uso: variable - 
+Simbolo: c3:main - Caracteristicas: tipo: clase_b - referencias: 1 - uso: variable - 
+Simbolo: b:main - Caracteristicas: tipo: INT - referencias: 3 - uso: variable - 
+Simbolo: a:main - Caracteristicas: tipo: INT - referencias: 2 - uso: variable - 
+Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
+Simbolo: 2_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 2 - 

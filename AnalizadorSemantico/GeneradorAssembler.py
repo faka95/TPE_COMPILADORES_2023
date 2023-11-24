@@ -11,6 +11,7 @@ class DataGenerator:
         self.simboloClase = {}
         self.variables = {}
         self.functions = {}
+        self.variablesPolaca = {}
 
     def procesar_linea(self, linea_texto):
         campos = {}
@@ -23,7 +24,7 @@ class DataGenerator:
         return InformacionClase(**campos)
 
     def generar_declaracion_asm(self, simbolo, tipo):
-        tipos_asm = {"INT": "DD", "FLOAT": "DQ"}  # DD para INT, DQ para FLOAT en MASM32
+        tipos_asm = {"INT": "DW", "FLOAT": "DD", "ULONG": "DD"}  # DD para INT, DQ para FLOAT en MASM32
         clase = None
         if (tipos_asm.get(tipo, None)) is None:
             if tipo in self.classes:
@@ -49,6 +50,7 @@ class DataGenerator:
             self.functions[info.simbolo] = info
         elif info.uso == "variable":
             self.variables[info.simbolo] = info
+            self.variablesPolaca[info.raw_simbolo] = info
 
     def lookForProperty(self, propiedad) -> InformacionClase:
         aux = copy(self.variables.get(propiedad))
@@ -72,6 +74,7 @@ class DataGenerator:
             for linea in archivo:
                 if linea.strip():  # Ignorar líneas vacías
                     infoclase = self.procesar_linea(linea)
+                    print(infoclase)
                     self.setDatos(infoclase)
 
         for item in self.simboloClase.values():
@@ -96,7 +99,10 @@ class DataGenerator:
 
         for item in self.variables.values():
             if item.ultimo_ambito == "main":
-                declaracion = self.generar_declaracion_asm(item.simbolo, item.tipo)
+                declaracion = self.generar_declaracion_asm(item.raw_simbolo, item.tipo)
+                declaraciones_asm.append(declaracion)
+            elif item.ultimo_ambito in self.functions:
+                declaracion = self.generar_declaracion_asm(item.raw_simbolo,item.tipo)
                 declaraciones_asm.append(declaracion)
         return declaraciones_asm
 
@@ -143,6 +149,12 @@ class CodeGenerator:
         self.numAux = 1
         self.header= ""
 
+        self.ruta_archivo = "tabla_de_simbolos.txt"
+        self.data = DataGenerator() #Si queres ver si existe una variable,el tipo el ambito, etc. Esta variable tiene 4 diccionarios con clases, funciones, variablesPolaca etc.
+                                    #Si buscas una variable dada por la polaca, busca en variablesPolaca, por ejemplo, variable.raw_simbolo, que es el simbolo
+                                    #Es el simbolo asi: simbolo_main_clase_b
+        self.declaracion_asm = self.data.procesar_archivo(self.ruta_archivo)
+
 
     def getRegistroExterno(self, celdaActual):
         if self.registrosDisponibles[Registros.EAX]:
@@ -183,8 +195,42 @@ class CodeGenerator:
 
 
     def multODiv(self, op):
-        pass
+        op1 = self.pilaOperandos.pop(0)
+        op2 = self.pilaOperandos.pop(0)
+        if self.data.variablesPolaca.get(op1).tipo != self.data.variablesPolaca.get(op2).tipo:
+            # TODO poner error
+        else:
 
+            if not self.registrosDisponibles[Registros.EBX]:
+                self.liberar(Registros.EBX, self.celdaActual)
+            if self.data.variablesPolaca.get(op1).tipo == "INT":
+                self.codigo += "MOV EBX, " + op1, "\n"
+                self.codigo += "CWD\n"
+            elif self.data.variablesPolaca.get(op1).tipo == "ULONG":
+                self.codigo += "MOV EBX, " + op1, "\n"
+                self.codigo += "CWDE\n"
+                self.codigo += "CDQ\n"
+            if op == "*":
+                self.codigo += "MUL " + op2 + "\n"
+                if (not self.registrosDisponibles[Registros.ECX]):
+                    self.liberar(Registros.ECX,self.celdaActual)
+                self.codigo += "JO LabelErrorOvPE\n"
+            else:
+                if (not self.registrosDisponibles[Registros.ECX]):
+                    self.liberar(Registros.ECX, self.celdaActual)
+                if self.data.variablesPolaca.get(op2).tipo == "INT":
+                    self.codigo += "MOV ECX, " + op2, "\n"
+                    self.codigo += "CWD\n"
+                elif self.data.variablesPolaca.get(op2).tipo == "ULONG":
+                    self.codigo += "MOV ECX, " + op2, "\n"
+                    self.codigo += "CWDE\n"
+                    self.codigo += "CDQ\n"
+
+                self.codigo += "JE LabelErrorDIV0\n"
+                self.codigo += "DIV " + op2 + "\n";
+
+        self.registrosDisponibles[Registros.EBX] = True
+        #terceto.setRegistro(registros.EAX.name()); esto estaba aca.
     def operacionFlotante(self, op1, op2, op):
         if op == "+":
             self.codigo += "FLD " + op1 + "\n"
@@ -267,17 +313,9 @@ class CodeGenerator:
         self.header += "Error db \"Error\", 0\n"
         self.header += "ErrorOvSF db \"Error: overflow en un suma entre flotantes\", 0\n"
         self.header += "ErrorOvPE db \"Error: overflow en una producto de enteros\", 0\n"
+        self.header += "ErrorTYPE db \"Error: Error tipos incomatibles entre operadores\", 0\n"
         self.header += "ErrorDIV0 db \"Error: division por cero\", 0\n"
         self.header += "Salida dt ?, 0\n"
         self.header += "Imp db \"Salida por pantalla\", 0\n"
         self.header += "@mem2byte dw ? ; 32 bits\n"
         self.header += "MaxF32 dw 3.40282347E38 ; 32 bits \n"
-
-
-"""# Ruta al archivo de la tabla de símbolos
-ruta_archivo = "tabla_de_simbolos.txt"
-declaracion_asm = DataGenerator.procesar_archivo(ruta_archivo)
-
-# Unir las declaraciones para formar la sección .data del código Assembler
-codigo_asm_data = ".data\n" + "\n".join(declaracion_asm)
-print(codigo_asm_data)"""
