@@ -23,4 +23,6 @@ b = b / a,
 IF (b == 4.0) {
     PRINT(%b es 4.0, div correcta%),
 } END_IF,
+b = 3.40282346E+38,
+b = b + 10.0,
 }

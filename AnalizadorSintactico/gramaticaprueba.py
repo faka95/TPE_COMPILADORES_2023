@@ -1,4 +1,4 @@
-# Generated from ./AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
+# Generated from C:/Users/Tobi/Desktop/Compi/TPE_COMPILADORES_2023/AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -3295,12 +3295,13 @@ class gramaticaprueba ( Parser ):
                 self.state = 485
                 localctx._NUM_FLOAT = self.match(gramaticaprueba.NUM_FLOAT)
 
-                self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "tipo", "FLOAT")
-                self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "uso","constante")
+                guion = (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text).replace(".","_")
+                guion = guion.replace("+","")
+                self.simbolos.addCaracteristica("f"+guion, "tipo", "FLOAT")
+                self.simbolos.addCaracteristica("f"+guion, "uso","constante")
                 aux = float((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
-                self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "valor",str(aux))
-                self.polacaInversa.addElemento((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
-                # TODO calcular el float y guardarlo en la tabla
+                self.simbolos.addCaracteristica("f"+guion, "valor",str(aux).replace("+",""))
+                self.polacaInversa.addElemento("f"+guion)
 
                 pass
 
@@ -3317,11 +3318,12 @@ class gramaticaprueba ( Parser ):
                         self.simbolos.remove(key)
                     else:
                         self.simbolos.reducirReferencia(key)
-                self.simbolos.addSimbolo("-" + (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
+                guion = (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text).replace(".","_")
+                guion = guion.replace("-","_")
+                self.simbolos.addSimbolo("f_" + guion)
                 aux = float((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
-                self.simbolos.addCaracteristica("-" + (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "valor", str("-" + aux))
-                self.polacaInversa.addElemento((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
-                # TODO calcular el float
+                self.simbolos.addCaracteristica("f_" + guion, "valor", str("-" + aux))
+                self.polacaInversa.addElemento("f_"+guion)
 
                 pass
 

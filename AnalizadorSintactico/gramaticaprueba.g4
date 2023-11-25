@@ -596,12 +596,13 @@ self.simbolos.addCaracteristica(text, "uso","constante")
 self.polacaInversa.addElemento(text)
 }
         | NUM_FLOAT {
-self.simbolos.addCaracteristica($NUM_FLOAT.text, "tipo", "FLOAT")
-self.simbolos.addCaracteristica($NUM_FLOAT.text, "uso","constante")
+guion = $NUM_FLOAT.text.replace(".","_")
+guion = guion.replace("+","")
+self.simbolos.addCaracteristica("f"+guion, "tipo", "FLOAT")
+self.simbolos.addCaracteristica("f"+guion, "uso","constante")
 aux = float($NUM_FLOAT.text)
-self.simbolos.addCaracteristica($NUM_FLOAT.text, "valor",str(aux))
-self.polacaInversa.addElemento($NUM_FLOAT.text)
-# TODO calcular el float y guardarlo en la tabla
+self.simbolos.addCaracteristica("f"+guion, "valor",str(aux).replace("+",""))
+self.polacaInversa.addElemento("f"+guion)
 }
         | '-' NUM_FLOAT {
 key = $NUM_FLOAT.text
@@ -610,11 +611,12 @@ if key in self.simbolos.keys():
         self.simbolos.remove(key)
     else:
         self.simbolos.reducirReferencia(key)
-self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
+guion = $NUM_FLOAT.text.replace(".","_")
+guion = guion.replace("-","_")
+self.simbolos.addSimbolo("f_" + guion)
 aux = float($NUM_FLOAT.text)
-self.simbolos.addCaracteristica("-" + $NUM_FLOAT.text, "valor", str("-" + aux))
-self.polacaInversa.addElemento($NUM_FLOAT.text)
-# TODO calcular el float
+self.simbolos.addCaracteristica("f_" + guion, "valor", str("-" + aux))
+self.polacaInversa.addElemento("f_"+guion)
 }
         | NUM_INT {
 text = "_".join(reversed($NUM_INT.text.split("_")))

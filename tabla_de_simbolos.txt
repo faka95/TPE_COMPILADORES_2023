@@ -1,6 +1,8 @@
-Simbolo: b:main - Caracteristicas: tipo: FLOAT - referencias: 14 - uso: variable - 
+Simbolo: b:main - Caracteristicas: tipo: FLOAT - referencias: 17 - uso: variable - 
 Simbolo: a:main - Caracteristicas: tipo: FLOAT - referencias: 6 - uso: variable - 
-Simbolo: 2.0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 2.0 - 
-Simbolo: 4.0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 4.0 - 
-Simbolo: 6.0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 6.0 - 
-Simbolo: 8.0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 8.0 - 
+Simbolo: f2_0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 2.0 - 
+Simbolo: f4_0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 4.0 - 
+Simbolo: f6_0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 6.0 - 
+Simbolo: f8_0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 8.0 - 
+Simbolo: f3_40282346E38 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 3.40282346e38 - 
+Simbolo: f10_0 - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: constante - valor: 10.0 - 
