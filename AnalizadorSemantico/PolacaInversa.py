@@ -23,7 +23,7 @@ class ExpresionPolacaInversa:
         # Asociar el elemento con un número de referencia
 
         self.referencias[self.reference_counter] = elemento.replace(":","_") if elemento != None and not isinstance(elemento, (int, float)) else elemento
-        print(elemento," ",self.referencias[self.reference_counter]," ",self.reference_counter)
+
         self.reference_counter += 1
     def setElemento(self,number):
         self.referencias[number] = self.reference_counter

@@ -1,21 +1,21 @@
-1: FUNCION setter_main_clase_c
-2: new_property_main_clase_c_setter
-3: ret
-4: FUNCION setter_main_clase_a
-5: new_property_main_clase_a_setter
-6: ret
-7: FUNCION setter2_main_clase_b
-8: new_property2_main_clase_b_setter2
-9: ret
+1: ul_0
+2: a_main
+3: =
+4: ul_5
+5: b_main
+6: =
+7: a_main
+8: b_main
+9: +
 10: b_main
-11: 1_i
-12: -
+11: =
+12: a_main
 13: b_main
-14: =
-15: 1_i
-16: None
-17: CALLFUNC
-18: 2_i
-19: c1.propertya1
-20: a_main
+14: *
+15: b_main
+16: =
+17: b_main
+18: a_main
+19: /
+20: b_main
 21: =

@@ -28,6 +28,7 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.inFuncion = False
     self.segundaFuncion = False
     self.auxBorrado = -1
+    self.auxAnterior = 0
 
 
 def yyerror(self, texto, linea):
@@ -150,7 +151,8 @@ self.simbolos.addCaracteristica(self.auxIDFunc, "nroParametros", "0")
 self.simbolos.addCaracteristica(self.auxIDFunc, "tipoParametro", $tipo.text)
 self.simbolos.addCaracteristica(self.auxIDFunc, "nroParametros", "1")
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "tipo", $tipo.text)
-
+self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "uso", "parametro")
+self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "funcion_padre", self.auxIDFunc)
 }
 ;
 
@@ -529,12 +531,15 @@ while: while_condicion bloque_control {
 number = self.polacaInversa.getLastPendingStep()
 self.polacaInversa.addElemento(self.aux)
 self.polacaInversa.addElemento("BI")
+self.aux = self.auxAnterior
 self.polacaInversa.setElemento(number)
 }
 
 ;
 
-while_condicion:{self.aux = self.polacaInversa.reference_counter} WHILE {self.polacaInversa.addElemento("TAG"+str(self.aux))} '(' condicion ')' DO{
+while_condicion:{self.auxAnterior = self.aux
+self.aux = self.polacaInversa.reference_counter
+} WHILE {self.polacaInversa.addElemento("TAG"+str(self.aux))} '(' condicion ')' DO{
 self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
 self.polacaInversa.addElemento(" ")
 self.polacaInversa.addElemento("BF")
@@ -570,25 +575,32 @@ termino: termino '*' factor {self.polacaInversa.addElemento("*")}
 
 factor: referencia
         | '-' NUM_INT {
-key = $NUM_INT.text
+text = "_".join(reversed($NUM_INT.text.split("_")))
+key = text
 if key in self.simbolos.keys():
     if self.simbolos.getCaracteristica(key, "referencias") == 1:
         self.simbolos.remove(key)
     else:
         self.simbolos.reducirReferencia(key)
-self.simbolos.addSimbolo("-" + $NUM_INT.text)
-self.simbolos.addCaracteristica("-" + $NUM_INT.text, "tipo", "INT")
-self.simbolos.addCaracteristica("-" + $NUM_INT.text, "valor", self.getValor("-" + $NUM_INT.text))
-self.polacaInversa.addElemento($NUM_INT.text)
+self.simbolos.addSimbolo("-" + text)
+self.simbolos.addCaracteristica("-" + text, "tipo", "INT")
+self.simbolos.addCaracteristica("-" + text, "valor", self.getValor("-" + text))
+self.simbolos.addCaracteristica("-" + text, "uso","constante")
+self.polacaInversa.addElemento(text)
 }
         | NUM_ULONG {
 texto = $NUM_ULONG.text
-self.simbolos.addCaracteristica(texto, "tipo", "ULONG")
-self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
-self.polacaInversa.addElemento($NUM_ULONG.text)
+text = "_".join(reversed(texto.split("_")))
+self.simbolos.addCaracteristica(text, "tipo", "ULONG")
+self.simbolos.addCaracteristica(text, "valor", self.getValor(text))
+self.simbolos.addCaracteristica(text, "uso","constante")
+self.polacaInversa.addElemento(text)
 }
         | NUM_FLOAT {
 self.simbolos.addCaracteristica($NUM_FLOAT.text, "tipo", "FLOAT")
+self.simbolos.addCaracteristica($NUM_FLOAT.text, "uso","constante")
+aux = float($NUM_FLOAT.text)
+self.simbolos.addCaracteristica($NUM_FLOAT.text, "valor",str(aux))
 self.polacaInversa.addElemento($NUM_FLOAT.text)
 # TODO calcular el float y guardarlo en la tabla
 }
@@ -600,17 +612,21 @@ if key in self.simbolos.keys():
     else:
         self.simbolos.reducirReferencia(key)
 self.simbolos.addSimbolo("-" + $NUM_FLOAT.text)
+aux = float($NUM_FLOAT.text)
+self.simbolos.addCaracteristica("-" + $NUM_FLOAT.text, "valor", str("-" + aux))
 self.polacaInversa.addElemento($NUM_FLOAT.text)
 # TODO calcular el float
 }
         | NUM_INT {
-if $NUM_INT.text == "32768_i":
+text = "_".join(reversed($NUM_INT.text.split("_")))
+if text == "i_32768":
     self.yyerror("LEXICO: INT fuera de rango",$NUM_INT.line)
 else:
-    texto = $NUM_INT.text
+    texto = text
     self.simbolos.addCaracteristica(texto, "tipo", "INT")
     self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
-    self.polacaInversa.addElemento($NUM_INT.text)
+    self.simbolos.addCaracteristica(texto, "uso","constante")
+    self.polacaInversa.addElemento(texto)
 }
         | ERROR {self.yyerror("SINTACTICO: se espera una constante o id",$ERROR.line)}
 ;
@@ -623,8 +639,26 @@ identificador = self.verificarId($ID.text + self.ambitoActual)
 if identificador != "":
     self.simbolos.aumentarReferencia(identificador)
     if (self.menos_menos is True):
+        aux = self.simbolos.getCaracteristica(identificador,"tipo")
+        if aux == "INT":
+            text = "_".join(reversed("1_i".split("_")))
+            self.simbolos.addSimbolo(text)
+            self.polacaInversa.addElemento(text)
+            self.simbolos.addCaracteristica(text, "tipo", "INT")
+            self.simbolos.addCaracteristica(text, "valor", 1)
+            self.simbolos.addCaracteristica(text, "uso","constante")
+        elif aux == "INT":
+            text = "_".join(reversed("1_ul".split("_")))
+            self.simbolos.addSimbolo(text)
+            self.polacaInversa.addElemento(text)
+            self.simbolos.addCaracteristica(text, "tipo", "ULONG")
+            self.simbolos.addCaracteristica(text, "valor", 1)
+            self.simbolos.addCaracteristica(text, "uso","constante")
+
+        self.polacaInversa.addElemento("-")
         self.polacaInversa.addElemento(identificador)
         self.polacaInversa.addElemento('=')
+        self.polacaInversa.addElemento(identificador)
         self.menos_menos = False
 else:
     self.yyerror("SEMANTICO: id " + $ID.text + " no existe en un ambito valido", $ID.line)
@@ -635,8 +669,6 @@ else:
 
 posible_guion_doble: '-' '-' {
 self.menos_menos = True
-self.polacaInversa.addElemento('1')
-self.polacaInversa.addElemento("-")
 }
                   |
 ;

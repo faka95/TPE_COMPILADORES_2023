@@ -1,4 +1,9 @@
-Simbolo: b:main - Caracteristicas: tipo: INT - referencias: 4 - uso: variable - 
-Simbolo: a:main - Caracteristicas: tipo: INT - referencias: 5 - uso: variable - 
-Simbolo: 1_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 1 - 
-Simbolo: 5_i - Caracteristicas: tipo: INT - referencias: 1 - valor: 5 - 
+Simbolo: clase_c:main - Caracteristicas: uso: nombre de clase - referencias: 2 - ambito de clase: :main:clase_c - propiedades: ['property1', 'propertyc2'] - 
+Simbolo: property1:main:clase_c - Caracteristicas: tipo: INT - referencias: 1 - uso: variable - 
+Simbolo: propertyc2:main:clase_c - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: c2:main - Caracteristicas: tipo: clase_c - referencias: 1 - uso: variable - 
+Simbolo: c1:main - Caracteristicas: tipo: clase_c - referencias: 1 - uso: variable - 
+Simbolo: b:main - Caracteristicas: tipo: ULONG - referencias: 8 - uso: variable - 
+Simbolo: a:main - Caracteristicas: tipo: ULONG - referencias: 5 - uso: variable - 
+Simbolo: ul_0 - Caracteristicas: tipo: ULONG - referencias: 1 - valor: 0 - uso: constante - 
+Simbolo: ul_5 - Caracteristicas: tipo: ULONG - referencias: 1 - valor: 5 - uso: constante - 

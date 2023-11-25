@@ -18,5 +18,5 @@ nombre_archivo = "programa.asm"
 with open(nombre_archivo, "w") as archivo:
     archivo.write(codigo_asm_data)
 #print(codigo_asm_data)
-
+print(data.variablesPolaca)
 #print(data.classes)

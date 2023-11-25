@@ -18,53 +18,73 @@ Salida dt ?, 0
 Imp db "Salida por pantalla", 0
 @mem2byte dw ? ; 32 bits
 MaxF32 dw 3.40282347E38 ; 32 bits 
+cadena_24 db "B, AUMENTANDOO", 0
+cadena_44 db "A, RESTANDOO", 0
 
 
 clase_c STRUCT
-    property1 DW ?     
+    property1 DD ?     
     propertyc2 DD ?
 clase_c ENDS
 
-c2_main clase_c <?>
 c1_main clase_c <?>
-b_main DD ?
-a_main DD ?
-ul_0 DD 0
-ul_5 DD 5
-@aux1 DD ?
-@aux2 DD ?
-@aux3 DD ?
+b_main DW ?
+a_main DW ?
+i_5 DW 5
+i_6 DW 6
+i_10 DW 10
+i_1 DW 1
+@aux1 DW ?
+@aux2 DW ?
+@aux3 DW ?
 .code
 start:
-MOV EAX, ul_0
-MOV a_main, EAX 
-MOV EAX, ul_5
-MOV b_main, EAX 
-MOV EAX, a_main
-ADD EAX, b_main
-MOV @aux1, EAX
-MOV EAX, @aux1
-MOV b_main, EAX 
-MOV EBX, a_main
-MOV ECX, b_main
-MUL EBX
-MOV @aux2, ECX
-JO LabelErrorOvPE
-MOV EAX, @aux2
-MOV b_main, EAX 
-MOV EBX, b_main
-CMP a_main, 0
-JE LabelErrorDIV0
-MOV ECX, EBX
-DIV a_main
-MOV @aux3, ECX
-MOV EAX, @aux3
-MOV b_main, EAX 
+MOV AX, i_5
+MOV a_main, AX 
+MOV AX, i_5
+MOV b_main, AX 
+MOV BX,b_main
+CMP i_6, BX
+JNE TAG29
+TAG12:
+MOV BX,b_main
+CMP i_10, BX
+JE TAG27
+MOV AX, b_main
+ADD AX, i_1
+MOV @aux1, AX
+MOV AX, @aux1
+MOV b_main, AX 
+invoke MessageBox, NULL, addr cadena_24, addr Imp, MB_OK
+JMP TAG12
+TAG27:
+JMP TAG47
+TAG29:
+MOV BX,a_main
+CMP i_1, BX
+JE TAG47
+MOV AX, a_main
+SUB AX, i_1
+MOV @aux2, AX
+MOV AX, @aux2
+MOV a_main, AX 
+MOV AX, a_main
+MOV a_main, AX 
+invoke MessageBox, NULL, addr cadena_44, addr Imp, MB_OK
+JMP TAG29
+TAG47:
+MOV AX, b_main
+MOV a_main, AX 
+MOV AX, b_main
+ADD AX, i_1
+MOV @aux3, AX
+MOV AX, @aux3
+MOV b_main, AX 
 JMP FIN
-LabelErrorOvSF:
+LabelErrorOvSE:
 invoke MessageBox, NULL, addr ErrorOvSF, addr Error, MB_OK
 invoke ExitProcess, 0
-LabelErrorOvPE:
+LabelErrorOvPF:
 invoke MessageBox, NULL, addr ErrorOvPE, addr Error, MB_OK
 invoke ExitProcess, 0
 LabelErrorDIV0:

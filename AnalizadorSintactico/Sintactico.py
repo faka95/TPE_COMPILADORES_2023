@@ -21,10 +21,13 @@ class Sintactico:
             parser._errHandler = customErrorHandler
             tree = parser.programa()
             self.polaca = parser.polacaInversa
-            #generadorAsembler = CodeGenerator(self.polaca)
-            #generadorAsembler.generarCodigoAssembler()
             #print(parser.polacaInversa.referencias)
             for clave, valor in parser.polacaInversa.referencias.items():
                 self.archivo_salida.write(f"{clave}: {valor}\n")
             self.archivo_salida.close()
+            generadorAsembler = CodeGenerator(self.polaca)
+            codigo = generadorAsembler.imprimirCodigo()
+            nombre_archivo = "programa.asm"
+            with open(nombre_archivo, "w") as archivo:
+                archivo.write(codigo)
             #self.archivo_salida.write(str(parser.polacaInversa.referencias))

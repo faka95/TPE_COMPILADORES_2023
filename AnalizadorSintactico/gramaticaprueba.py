@@ -1,4 +1,4 @@
-# Generated from ./AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
+# Generated from C:/Users/Tobi/Desktop/Compi/TPE_COMPILADORES_2023/AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -351,6 +351,7 @@ class gramaticaprueba ( Parser ):
         self.inFuncion = False
         self.segundaFuncion = False
         self.auxBorrado = -1
+        self.auxAnterior = 0
 
 
     def yyerror(self, texto, linea):
@@ -921,7 +922,8 @@ class gramaticaprueba ( Parser ):
                 self.simbolos.addCaracteristica(self.auxIDFunc, "tipoParametro", (None if localctx._tipo is None else self._input.getText(localctx._tipo.start,localctx._tipo.stop)))
                 self.simbolos.addCaracteristica(self.auxIDFunc, "nroParametros", "1")
                 self.simbolos.addCaracteristica((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual, "tipo", (None if localctx._tipo is None else self._input.getText(localctx._tipo.start,localctx._tipo.stop)))
-
+                self.simbolos.addCaracteristica((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual, "uso", "parametro")
+                self.simbolos.addCaracteristica((None if localctx._ID is None else localctx._ID.text) + self.ambitoActual, "funcion_padre", self.auxIDFunc)
 
                 pass
 
@@ -2869,6 +2871,7 @@ class gramaticaprueba ( Parser ):
             number = self.polacaInversa.getLastPendingStep()
             self.polacaInversa.addElemento(self.aux)
             self.polacaInversa.addElemento("BI")
+            self.aux = self.auxAnterior
             self.polacaInversa.setElemento(number)
 
         except RecognitionException as re:
@@ -2915,7 +2918,9 @@ class gramaticaprueba ( Parser ):
         self.enterRule(localctx, 66, self.RULE_while_condicion)
         try:
             self.enterOuterAlt(localctx, 1)
+            self.auxAnterior = self.aux
             self.aux = self.polacaInversa.reference_counter
+
             self.state = 428
             self.match(gramaticaprueba.WHILE)
             self.polacaInversa.addElemento("TAG"+str(self.aux))
@@ -3257,16 +3262,18 @@ class gramaticaprueba ( Parser ):
                 self.state = 481
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
-                key = (None if localctx._NUM_INT is None else localctx._NUM_INT.text)
+                text = "_".join(reversed((None if localctx._NUM_INT is None else localctx._NUM_INT.text).split("_")))
+                key = text
                 if key in self.simbolos.keys():
                     if self.simbolos.getCaracteristica(key, "referencias") == 1:
                         self.simbolos.remove(key)
                     else:
                         self.simbolos.reducirReferencia(key)
-                self.simbolos.addSimbolo("-" + (None if localctx._NUM_INT is None else localctx._NUM_INT.text))
-                self.simbolos.addCaracteristica("-" + (None if localctx._NUM_INT is None else localctx._NUM_INT.text), "tipo", "INT")
-                self.simbolos.addCaracteristica("-" + (None if localctx._NUM_INT is None else localctx._NUM_INT.text), "valor", self.getValor("-" + (None if localctx._NUM_INT is None else localctx._NUM_INT.text)))
-                self.polacaInversa.addElemento((None if localctx._NUM_INT is None else localctx._NUM_INT.text))
+                self.simbolos.addSimbolo("-" + text)
+                self.simbolos.addCaracteristica("-" + text, "tipo", "INT")
+                self.simbolos.addCaracteristica("-" + text, "valor", self.getValor("-" + text))
+                self.simbolos.addCaracteristica("-" + text, "uso","constante")
+                self.polacaInversa.addElemento(text)
 
                 pass
 
@@ -3276,9 +3283,11 @@ class gramaticaprueba ( Parser ):
                 localctx._NUM_ULONG = self.match(gramaticaprueba.NUM_ULONG)
 
                 texto = (None if localctx._NUM_ULONG is None else localctx._NUM_ULONG.text)
-                self.simbolos.addCaracteristica(texto, "tipo", "ULONG")
-                self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
-                self.polacaInversa.addElemento((None if localctx._NUM_ULONG is None else localctx._NUM_ULONG.text))
+                text = "_".join(reversed(texto.split("_")))
+                self.simbolos.addCaracteristica(text, "tipo", "ULONG")
+                self.simbolos.addCaracteristica(text, "valor", self.getValor(text))
+                self.simbolos.addCaracteristica(text, "uso","constante")
+                self.polacaInversa.addElemento(text)
 
                 pass
 
@@ -3288,6 +3297,9 @@ class gramaticaprueba ( Parser ):
                 localctx._NUM_FLOAT = self.match(gramaticaprueba.NUM_FLOAT)
 
                 self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "tipo", "FLOAT")
+                self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "uso","constante")
+                aux = float((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
+                self.simbolos.addCaracteristica((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "valor",str(aux))
                 self.polacaInversa.addElemento((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
                 # TODO calcular el float y guardarlo en la tabla
 
@@ -3307,6 +3319,8 @@ class gramaticaprueba ( Parser ):
                     else:
                         self.simbolos.reducirReferencia(key)
                 self.simbolos.addSimbolo("-" + (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
+                aux = float((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
+                self.simbolos.addCaracteristica("-" + (None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text), "valor", str("-" + aux))
                 self.polacaInversa.addElemento((None if localctx._NUM_FLOAT is None else localctx._NUM_FLOAT.text))
                 # TODO calcular el float
 
@@ -3317,13 +3331,15 @@ class gramaticaprueba ( Parser ):
                 self.state = 490
                 localctx._NUM_INT = self.match(gramaticaprueba.NUM_INT)
 
-                if (None if localctx._NUM_INT is None else localctx._NUM_INT.text) == "32768_i":
+                text = "_".join(reversed((None if localctx._NUM_INT is None else localctx._NUM_INT.text).split("_")))
+                if text == "i_32768":
                     self.yyerror("LEXICO: INT fuera de rango",(0 if localctx._NUM_INT is None else localctx._NUM_INT.line))
                 else:
-                    texto = (None if localctx._NUM_INT is None else localctx._NUM_INT.text)
+                    texto = text
                     self.simbolos.addCaracteristica(texto, "tipo", "INT")
                     self.simbolos.addCaracteristica(texto, "valor", self.getValor(texto))
-                    self.polacaInversa.addElemento((None if localctx._NUM_INT is None else localctx._NUM_INT.text))
+                    self.simbolos.addCaracteristica(texto, "uso","constante")
+                    self.polacaInversa.addElemento(texto)
 
                 pass
 
@@ -3392,8 +3408,26 @@ class gramaticaprueba ( Parser ):
                 if identificador != "":
                     self.simbolos.aumentarReferencia(identificador)
                     if (self.menos_menos is True):
+                        aux = self.simbolos.getCaracteristica(identificador,"tipo")
+                        if aux == "INT":
+                            text = "_".join(reversed("1_i".split("_")))
+                            self.simbolos.addSimbolo(text)
+                            self.polacaInversa.addElemento(text)
+                            self.simbolos.addCaracteristica(text, "tipo", "INT")
+                            self.simbolos.addCaracteristica(text, "valor", 1)
+                            self.simbolos.addCaracteristica(text, "uso","constante")
+                        elif aux == "INT":
+                            text = "_".join(reversed("1_ul".split("_")))
+                            self.simbolos.addSimbolo(text)
+                            self.polacaInversa.addElemento(text)
+                            self.simbolos.addCaracteristica(text, "tipo", "ULONG")
+                            self.simbolos.addCaracteristica(text, "valor", 1)
+                            self.simbolos.addCaracteristica(text, "uso","constante")
+
+                        self.polacaInversa.addElemento("-")
                         self.polacaInversa.addElemento(identificador)
                         self.polacaInversa.addElemento('=')
+                        self.polacaInversa.addElemento(identificador)
                         self.menos_menos = False
                 else:
                     self.yyerror("SEMANTICO: id " + (None if localctx._ID is None else localctx._ID.text) + " no existe en un ambito valido", (0 if localctx._ID is None else localctx._ID.line))
@@ -3452,8 +3486,6 @@ class gramaticaprueba ( Parser ):
                 self.match(gramaticaprueba.MINUS)
 
                 self.menos_menos = True
-                self.polacaInversa.addElemento('1')
-                self.polacaInversa.addElemento("-")
 
                 pass
 

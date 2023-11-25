@@ -2,12 +2,12 @@ import ast
 
 
 class InformacionClase:
-    def __init__(self, simbolo, caracteristicas, uso=None, referencias=None, ambito_de_clase=None, propiedades=None, miembros_de_clase=None, numero_de_herencias=None, clase_herencia=None, tipo=None, tipoparametro=None, nroparametros=None, valor = None, propiedades_heredadas = None):
+    def __init__(self, simbolo, caracteristicas, uso=None, referencias=None, ambito_de_clase=None, propiedades=None, miembros_de_clase=None, numero_de_herencias=None, clase_herencia=None, tipo=None, tipoparametro=None, nroparametros=None, valor = None, propiedades_heredadas = None, funcion_padre = None):
         self.raw_simbolo = simbolo.replace(":", "_")
         self.simbolo = self.extraer_simbolo(simbolo)
         self.caracteristicas = caracteristicas
         self.uso = uso
-        self.tipo = tipo
+        self.tipo = uso if uso == "funcion" else tipo
         self.procesar_caracteristicas()
         self.referencias = referencias
         self.ultimo_ambito = None
@@ -22,6 +22,7 @@ class InformacionClase:
         self.nro_parametros = nroparametros
         self.valor = valor
         self.propiedades_heredadas = self.convertir_a_lista(propiedades_heredadas) if propiedades_heredadas is not None else None
+        self.funcion_padre = funcion_padre
     def convertir_a_lista(self,cadena):
         try:
             lista = ast.literal_eval(cadena)
