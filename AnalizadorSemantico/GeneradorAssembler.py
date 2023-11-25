@@ -1,7 +1,6 @@
 from copy import copy
 
 from AnalizadorSemantico.InformacionClase import InformacionClase
-from enum import Enum
 from AnalizadorSemantico import PolacaInversa
 
 
@@ -571,6 +570,8 @@ class CodeGenerator:
                     self.last_texto = "JLE "
                 elif celda == "CALLFUNC":
                     pass  # TODO
+                elif celda == "CALLFUNCP":
+                    pass
                 elif celda == "PRINT":
                     cadena = self.pilaOperandos.pop(0)
                     cadena = str(cadena).removeprefix("%")

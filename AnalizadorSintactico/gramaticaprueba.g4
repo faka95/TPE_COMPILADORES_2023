@@ -115,9 +115,9 @@ $line = $ID.line
 ;
 
 declaracion_func: encabezado_funcion {
-if self.inFuncion and self.inClass:
+if self.inFuncion and self.inClase:
     self.segundaFuncion = True
-if (not self.inClass) or (not self.inFuncion):
+if (not self.inClase) or (not self.inFuncion):
     self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
 } parametro '{' cuerpo_func '}' ',' {
 self.reducirAmbito()
@@ -129,7 +129,7 @@ self.inFuncion = False
 ;
 
 encabezado_funcion returns [funcion]: VOID ID {
-if self.inClass and self.inFuncion:
+if self.inClase and self.inFuncion:
     self.yyerror("SEMANTICO: no se puede anidar funciones dentro de una clase", $ID.line)
     self.auxBorrado = self.polacaInversa.reference_counter
 else:
@@ -159,31 +159,9 @@ cuerpo_func: {self.inFuncion = True}cuerpo ejecucion_retorno ','
              | {self.inFuncion = True}ejecucion_retorno ','
 ;
 
-ejecucion_retorno: control_retorno //Hacer lo mismo que el if
-                    | control_retorno ',' ejecucion_retorno
-                    | while_retorno
-                    | while_retorno ',' ejecucion_retorno
-                    | RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
+ejecucion_retorno: RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
 ;
 
-control_retorno: if_condicion then_retorno END_IF
-                | if_condicion then_retorno ELSE bloque_control END_IF
-                | if_condicion bloque_control else_retorno END_IF
-                | if_condicion then_retorno else_retorno END_IF
-;
-
-then_retorno:   '{' ejecucion_retorno ',' '}'
-                | '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
-;
-
-else_retorno:  ELSE '{' ejecucion_retorno ',' '}'
-               | ELSE '{' cuerpo_ejecucion ejecucion_retorno ',' '}'
-;
-
-while_retorno: WHILE '(' condicion ')' DO '{' cuerpo_ejecucion RETURN ',' '}' {
-self.polacaInversa.addElemento("ret")
-}
-;
 
 declaracion_clase: encabezado_clase '{' componentes_clase '}' ',' {
 self.reducirAmbito()
@@ -297,7 +275,7 @@ if identificador != "":
             self.simbolos.aumentarReferencia(identificador)
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + identificador)
             self.polacaInversa.addElemento(aux)
-            self.polacaInversa.addElemento("CALLFUNC")
+            self.polacaInversa.addElemento("CALLFUNCP")
         else:
             self.yyerror("SEMANTICO: numero incorrecto de parametros", $ID.line)
     else:
@@ -357,7 +335,7 @@ if  simbolo != "":
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
             print(aux)
             self.polacaInversa.addElemento(aux)
-            self.polacaInversa.addElemento("CALLFUNC")
+            self.polacaInversa.addElemento("CALLFUNCP")
         else:
             self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
     else:
@@ -405,7 +383,7 @@ if  simbolo != "":
                 self.simbolos.aumentarReferencia(simboloFuncion)
                 aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
                 self.polacaInversa.addElemento(aux)
-                self.polacaInversa.addElemento("CALLFUNC")
+                self.polacaInversa.addElemento("CALLFUNCP")
             else:
                 self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
         else:
@@ -461,7 +439,7 @@ if  simbolo != "":
                     self.simbolos.aumentarReferencia(simboloFuncion)
                     aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
                     self.polacaInversa.addElemento(aux)
-                    self.polacaInversa.addElemento("CALLFUNC")
+                    self.polacaInversa.addElemento("CALLFUNCP")
                 else:
                     self.yyerror("SEMANTICO: numero incorrecto de parametros en la funcion " + $funcion.text, $funcion.line)
             else:

@@ -18,101 +18,37 @@ Salida dt ?, 0
 Imp db "Salida por pantalla", 0
 @mem2byte dd ? ; 32 bits
 MaxFLOAT dd 3.40282347E38 ; 32 bits 
-cadena_18 db "b es 6.0, suma correcta", 0
-cadena_30 db "b es 4.0, resta correcta", 0
-cadena_42 db "b es 8.0, mult correcta", 0
-cadena_54 db "b es 4.0, div correcta", 0
+cadena_14 db "then", 0
 
 
-b_main DD ?
-a_main DD ?
-f2_0 DD 2.0
-f4_0 DD 4.0
-f6_0 DD 6.0
-f8_0 DD 8.0
-f3_40282346E38 DD 3.40282346e38
-f10_0 DD 10.0
-@aux1 DD ?
-@aux2 DD ?
-@aux3 DD ?
-@aux4 DD ?
-@aux5 DD ?
+x_main_test_funcion DW ?
+y_main_test_funcion DW ?
+i_5 DW 5
+i_1 DW 1
+i_3 DW 3
+@aux1 DW ?
+@aux2 DW ?
 .code
 start:
-FLD f2_0
-FSTP a_main
-FLD f4_0
-FSTP b_main
-FLD dword ptr[a_main]
-FADD dword ptr[b_main]
-FCOM dword ptr[MaxFLOAT] 
-FSTSW AX 
-SAHF
-JAE LabelErrorOvSF
-FSTP dword ptr[@aux1]
-FLD @aux1
-FSTP b_main
-FLD f6_0
-FCOM b_main
-FSTSW AX
-SAHF
-JNE TAG19
-invoke MessageBox, NULL, addr cadena_18, addr Imp, MB_OK
-TAG19:
-FLD dword ptr[b_main]
-FSUB dword ptr[a_main]
-FSTP dword ptr[@aux2]
-FLD @aux2
-FSTP b_main
-FLD f4_0
-FCOM b_main
-FSTSW AX
-SAHF
-JNE TAG31
-invoke MessageBox, NULL, addr cadena_30, addr Imp, MB_OK
-TAG31:
-FLD dword ptr[a_main]
-FMUL dword ptr[b_main]
-FSTP dword ptr[@aux3]
-FLD @aux3
-FSTP b_main
-FLD f8_0
-FCOM b_main
-FSTSW AX
-SAHF
-JNE TAG43
-invoke MessageBox, NULL, addr cadena_42, addr Imp, MB_OK
-TAG43:
-FLDZ
-FLD dword ptr[a_main]
-FCOM
-FSTSW AX 
-SAHF
-JE LabelErrorDIV0
-FLD dword ptr[b_main]
-FDIV a_main
-FSTP dword ptr[@aux4]
-FLD @aux4
-FSTP b_main
-FLD f4_0
-FCOM b_main
-FSTSW AX
-SAHF
-JNE TAG55
-invoke MessageBox, NULL, addr cadena_54, addr Imp, MB_OK
-TAG55:
-FLD f3_40282346E38
-FSTP b_main
-FLD dword ptr[f10_0]
-FADD dword ptr[b_main]
-FCOM dword ptr[MaxFLOAT] 
-FSTSW AX 
-SAHF
-JAE LabelErrorOvSF
-FSTP dword ptr[@aux5]
-FLD @aux5
-FSTP b_main
-JMP FIN
+JMP ErrorTYPE
+MOV AX, i_5
+MOV y_main_test_funcion, AX 
+MOV BX,x_main_test_funcion
+CMP y_main_test_funcion, BX
+JGE TAG15
+invoke MessageBox, NULL, addr cadena_14, addr Imp, MB_OK
+TAG15:
+MOV AX, y_main_test_funcion
+SUB AX, i_1
+MOV @aux1, AX
+MOV AX, @aux1
+MOV y_main_test_funcion, AX 
+MOV AX, x_main_test_funcion
+ADD AX, y_main_test_funcion
+MOV @aux2, AX
+MOV AX, @aux2
+MOV x_main_test_funcion, AX 
+retJMP FIN
 LabelErrorOvSF:
 invoke MessageBox, NULL, addr ErrorOvSF, addr Error, MB_OK
 invoke ExitProcess, 0

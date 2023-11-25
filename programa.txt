@@ -1,28 +1,15 @@
 {
-FLOAT a;b,
-a = 2.0,
-b = 4.0,
+VOID test_funcion(INT param) {
+    INT x,
+    INT y,
+    x = param,
+    y = 5_i,
+    IF (x<y) {
+        PRINT(%then%),
+    } END_IF,
+    x = x + y--,
+    RETURN,
+    },
 
-b = b + a,
-
-IF (b == 6.0) {
-    PRINT(%b es 6.0, suma correcta%),
-} END_IF,
-
-b = b - a,
-IF (b == 4.0) {
-    PRINT(%b es 4.0, resta correcta%),
-} END_IF,
-
-b = b * a,
-IF (b == 8.0) {
-    PRINT(%b es 8.0, mult correcta%),
-} END_IF,
-
-b = b / a,
-IF (b == 4.0) {
-    PRINT(%b es 4.0, div correcta%),
-} END_IF,
-b = 3.40282346E+38,
-b = b + 10.0,
+    test_funcion(3_i),
 }

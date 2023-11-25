@@ -1,6 +1,0 @@
-{
-WHILE (a<b) DO {
-    PRINT(%hola%),
-
-}
-}
