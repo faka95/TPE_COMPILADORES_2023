@@ -534,7 +534,7 @@ self.polacaInversa.setElemento(number)
 
 ;
 
-while_condicion:{self.aux = self.polacaInversa.reference_counter} WHILE '(' condicion ')' DO{
+while_condicion:{self.aux = self.polacaInversa.reference_counter} WHILE {self.polacaInversa.addElemento("TAG"+str(self.aux))} '(' condicion ')' DO{
 self.polacaInversa.addPendingStep(self.polacaInversa.reference_counter)
 self.polacaInversa.addElemento(" ")
 self.polacaInversa.addElemento("BF")
