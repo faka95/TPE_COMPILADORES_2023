@@ -1,2 +1,0 @@
-ERROR Error en sentencia ejecucion 'b' En la linea 10
-ERROR Error en sentencia ejecucion 'b' En la linea 11

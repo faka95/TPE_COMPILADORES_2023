@@ -190,17 +190,20 @@ class CodeGenerator:
         return retorno
 
     def getTipo(self, op):
-        if "." in op:
-            aux = op.split('.')
-            var = aux[0]
-            var2 = aux[-1]
-            #print(var + "." + var2)
-            #print(self.data.variablesPolaca)
-            aux2 = self.data.variablesPolaca.get(var).tipo
-            #print(var2 + "" + aux2)
-            retorno = self.data.declaraciones.get(var2 + "_" + aux2)
+        if op[0].isdigit() or op[0].startswith(".") or op[0].startswith("-"):
+            retorno = self.data.variablesPolaca.get(op).tipo if op in self.data.variablesPolaca else "ERROR FLOAT"  # no sabia que poenr ahí
         else:
-            retorno = self.data.variablesPolaca.get(op).tipo if op in self.data.variablesPolaca else "funcion"
+            if "." in op:  # por si es una clase interfiere con tipo FLOAT
+                aux = op.split('.')
+                var = aux[0]
+                var2 = aux[-1]
+                #print(var + "." + var2)
+                #print(self.data.variablesPolaca)
+                aux2 = self.data.variablesPolaca.get(var).tipo
+                #print(var2 + "" + aux2)
+                retorno = self.data.declaraciones.get(var2 + "_" + aux2)
+            else:
+                retorno = self.data.variablesPolaca.get(op).tipo if op in self.data.variablesPolaca else "funcion"
         return retorno
 
     def getRegistroExterno(self):
@@ -377,46 +380,51 @@ class CodeGenerator:
                 self.operacionFlotante(op1,op2,op)
     def operacionFlotante(self, op1, op2, op):
         if op == "+":
-            self.codigo += "FLD " + op1 + "\n"
+            self.codigo += "FLD dword ptr[" + op1 + "]\n"
             self.last_texto = "FLD " + op1 + "\n"
-            self.codigo += "FADD " + op2 + "\n"
+            self.codigo += "FADD dword ptr[" + op2 + "]\n"
             self.last_texto = "FADD " + op2 + "\n"
             # ErrorOverflow
-            # self.pilaOperandos.insert(0, )
-        elif op == "-":
-            self.codigo += "FLD " + op1 + "\n"
-            self.last_texto = "FLD " + op1 + "\n"
-            self.codigo += "FSUB " + op2 + "\n"
-            self.last_texto = "FSUB " + op2 + "\n"
-        elif op == "*":
-            self.codigo += "FLD " + op1 + "\n"
-            self.last_texto = "FLD " + op1 + "\n"
-            self.codigo += "FMUL " + op2 + "\n"
-            self.last_texto = "FMUL " + op2 + "\n"
-            self.codigo += "FCOM MaxF32 \n"
-            self.last_texto = "FCOM MaxF32 \n"
-            self.codigo += "FSTSW @mem2byte\n"
-            self.last_texto = "FSTSW @mem2byte\n"
+            self.codigo += "FCOM dword ptr[MaxFLOAT] \n"
+            self.codigo += "FSTSW @mem2byte \n"
             if not self.registrosDisponibles[self.Registros.EAX]:
                 self.liberar(self.Registros.EAX, self.tipoRegistros[self.Registros.EAX])
             self.codigo += "MOV EAX , @mem2byte\n"
-            self.last_texto = "MOV EAX , @mem2byte\n"
             self.codigo += "SAHF\n"
-            self.last_texto = "SAHF\n"
+            self.codigo += "JGE LabelErrorOvSF\n"
+        elif op == "-":
+            self.codigo += "FLD dword ptr[" + op1 + "]\n"
+            self.codigo += "FSUB dword ptr[" + op2 + "]\n"
+        elif op == "*":
+            self.codigo += "FLD dword ptr[" + op1 + "]\n"
+            self.codigo += "FMUL dword ptr[" + op2 + "]\n"
         elif op == "/":
             # error division por 0
-            self.codigo += "FLD " + op2 + "\n"
-            self.last_texto = "FLD " + op2 + "\n"
-            self.codigo += "FDIVR " + op1 + "\n"
-            self.last_texto = "FDIVR " + op1 + "\n"
+            self.codigo += "FLDZ\n"
+            self.codigo += "FLD dword ptr[" + op2 + "]\n"
+            self.codigo += "FCOM\n"
+            self.codigo += "FSTSW @mem2byte \n"
+            if not self.registrosDisponibles[self.Registros.EAX]:
+                self.liberar(self.Registros.EAX, self.tipoRegistros[self.Registros.EAX])
+            self.codigo += "MOV EAX , @mem2byte\n"
+            self.codigo += "SAHF\n"
+            self.codigo += "JE LabelErrorDIV0\n"
+            # divido
+            self.codigo += "FLD dword ptr[" + op1 + "]\n"
+            self.codigo += "FDIV " + op1 + "\n"
         elif op == "=":
             self.codigo += "FLD " + op2 + "\n"
-            self.last_texto = "FLD " + op2 + "\n"
             self.codigo += "FSTP " + op1 + "\n"
-            self.last_texto = "FSTP " + op1 + "\n"
-        if op != "=":
-            self.codigo += "FSTP @aux" + str(self.numAux) + "\n"
-            self.last_texto = "FSTP @aux" + str(self.numAux) + "\n"
+
+        if op != "=":  # si no fue una asignasion guardo el resultado en un auxiliar y lo pongo en la pila de operandos
+            aux = "@aux" + str(self.numAux)
+            self.codigo += "FSTP dword ptr[" + aux + "]\n"
+            self.pilaOperandos.insert(0, aux)
+            infoClase = InformacionClase(simbolo=aux, caracteristicas="aux",
+                                         tipo="FLOAT", uso="auxiliar")
+            self.data.setDatos(infoClase)
+            declaracion = self.data.generar_declaracion_asm(infoClase.raw_simbolo, infoClase.tipo)
+            self.data.declaraciones_asm.append(declaracion)
             self.numAux += 1
 
     def comparacion(self):
@@ -442,8 +450,7 @@ class CodeGenerator:
                     self.liberar(self.Registros.EAX, self.tipoRegistros[self.Registros.EAX])
                 self.codigo += "MOV EAX , @mem2byte\n"
                 self.last_texto = "MOV EAX , @mem2byte\n"
-                self.codigo = "SHAF\n"
-                self.last_texto = "SHAF\n"
+                self.codigo += "SAHF\n"
             else:
                 regsitro = self.getRegistroInterno()
                 if tipo == "ULONG":
@@ -507,6 +514,8 @@ class CodeGenerator:
                     else:
                         if self.getTipo(operando1) == "INT":
                             self.asignacionINT(operando1,operando2)
+                        if self.getTipo(operando1) == "FLOAT":
+                            self.operacionFlotante(operando1, operando2, celda)
                         else:
                             if self.getTipo(operando1) != "FLOAT" and self.getTipo(operando1) != "ULONG":
                                 for key,valor in self.data.classes.items():
@@ -594,7 +603,7 @@ class CodeGenerator:
         self.header += "Salida dt ?, 0\n"
         self.header += "Imp db \"Salida por pantalla\", 0\n"
         self.header += "@mem2byte dw ? ; 32 bits\n"
-        self.header += "MaxF32 dw 3.40282347E38 ; 32 bits \n"
+        self.header += "MaxFLOAT dw 3.40282347E38 ; 32 bits \n"
 
     def setFooter(self):
         self.codigo += "LabelErrorOvSF:\n"

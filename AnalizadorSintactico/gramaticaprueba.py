@@ -1,4 +1,4 @@
-# Generated from C:/Users/Tobi/Desktop/Compi/TPE_COMPILADORES_2023/AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
+# Generated from ./AnalizadorSintactico/gramaticaprueba.g4 by ANTLR 4.13.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -3416,12 +3416,19 @@ class gramaticaprueba ( Parser ):
                             self.simbolos.addCaracteristica(text, "tipo", "INT")
                             self.simbolos.addCaracteristica(text, "valor", 1)
                             self.simbolos.addCaracteristica(text, "uso","constante")
-                        elif aux == "INT":
+                        elif aux == "ULONG":
                             text = "_".join(reversed("1_ul".split("_")))
                             self.simbolos.addSimbolo(text)
                             self.polacaInversa.addElemento(text)
                             self.simbolos.addCaracteristica(text, "tipo", "ULONG")
                             self.simbolos.addCaracteristica(text, "valor", 1)
+                            self.simbolos.addCaracteristica(text, "uso","constante")
+                        elif aux == "FLOAT":
+                            text = "1.0"
+                            self.simbolos.addSimbolo(text)
+                            self.polacaInversa.addElemento(text)
+                            self.simbolos.addCaracteristica(text, "tipo", "FLOAT")
+                            self.simbolos.addCaracteristica(text, "valor", 1.0)
                             self.simbolos.addCaracteristica(text, "uso","constante")
 
                         self.polacaInversa.addElemento("-")
