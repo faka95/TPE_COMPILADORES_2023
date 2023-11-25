@@ -7,10 +7,9 @@ from AnalizadorSintactico.gramaticaprueba import gramaticaprueba
 
 
 class CustomTokenSource(TokenSource):
-    def __init__(self,contenido_str,archivo_errores,archivo_salida ):
+    def __init__(self,contenido_str,archivo_errores):
         self.contenido_str = contenido_str
         self.lex = lexico.Lexico(contenido_str, archivo_errores)
-        self.archivo_salida = archivo_salida
         self._factory = CommonTokenFactory.DEFAULT
 
     def nextToken(self):

@@ -13,7 +13,7 @@ class Sintactico:
         self.polaca = None
 
     def start(self):
-            token_source = CustomTokenSource(self.contenido_str,self.archivo_errores,self.archivo_salida)
+            token_source = CustomTokenSource(self.contenido_str,self.archivo_errores)
             token_stream = CommonTokenStream(token_source)
             parser = gramaticaprueba(token_stream)
             customErrorHandler = CustomErrorStrategy()
@@ -30,4 +30,3 @@ class Sintactico:
             nombre_archivo = "programa.asm"
             with open(nombre_archivo, "w") as archivo:
                 archivo.write(codigo)
-            #self.archivo_salida.write(str(parser.polacaInversa.referencias))

@@ -9,7 +9,6 @@ import AnalizadorSemantico.PolacaInversa as Polaca
 }
 @parser::members {
     self.archivo_tabla = open("tabla_de_simbolos.txt", "w")
-    self.archivo_salida = open("salida.txt", "a")
     self.archivo_errores = open("errores.txt", "a")
     self.simbolos = tablasimbolos.TablaDeSimbolos(self.archivo_tabla)
     self.menos_menos = False
