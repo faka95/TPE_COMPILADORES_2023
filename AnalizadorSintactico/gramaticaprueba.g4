@@ -128,10 +128,12 @@ if self.segundaFuncion:
     while self.polacaInversa.reference_counter > self.auxBorrado:
         self.polacaInversa.removeLast()
 self.inFuncion = False
+if $cuerpo_func.faltaRetorno:
+    self.yyerror("SINTACTICO: falta sentencia RETURN en funcion "+$encabezado_funcion.funcion,$encabezado_funcion.line)
 }
 ;
 
-encabezado_funcion returns [funcion]: VOID ID {
+encabezado_funcion returns [funcion, line]: VOID ID {
 if self.inClase and self.inFuncion:
     self.yyerror("SEMANTICO: no se puede anidar funciones dentro de una clase", $ID.line)
     self.auxBorrado = self.polacaInversa.reference_counter
@@ -143,6 +145,7 @@ else:
         self.ambitoActual = self.ambitoActual + ":" + $ID.text
     else:
         self.yyerror(" SEMANTICO: variable " + $ID.text + " ya existe en el ambito actual", $ID.line)
+$line = $ID.line
 }
 ;
 
@@ -158,11 +161,20 @@ self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "funcion_padre", s
 }
 ;
 
-cuerpo_func: {self.inFuncion = True}cuerpo ejecucion_retorno ','
-             | {self.inFuncion = True}ejecucion_retorno ','
+cuerpo_func returns[faltaRetorno]: {self.inFuncion = True}cuerpo ejecucion_retorno {
+$faltaRetorno = $ejecucion_retorno.faltaRet
+}
+             | {self.inFuncion = True}ejecucion_retorno {
+$faltaRetorno = $ejecucion_retorno.faltaRet
+}
 ;
 
-ejecucion_retorno: RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
+ejecucion_retorno returns[faltaRet]: RETURN ',' {
+self.polacaInversa.addElemento("ret")
+$faltaRet = False}  //Agrego BI y una celda vacia. Pero antes de hacer esto esperar respuesta de Paula por multiples cintas.
+                    | {
+self.polacaInversa.addElemento("ret")
+$faltaRet = True}
 ;
 
 
@@ -334,7 +346,6 @@ if  simbolo != "":
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "0":
             self.simbolos.aumentarReferencia(simboloFuncion)
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
-            print(aux)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNC")
         else:
@@ -360,7 +371,6 @@ if  simbolo != "":
         if self.simbolos.getCaracteristica(simboloFuncion, "nroParametros") == "1":
             self.simbolos.aumentarReferencia(simboloFuncion)
             aux = self.polacaInversa.getReferenciaOp('FUNCION' + ' ' + simboloFuncion)
-            print(aux)
             self.polacaInversa.addElemento(aux)
             self.polacaInversa.addElemento("CALLFUNCP")
         else:
