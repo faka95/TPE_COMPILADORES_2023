@@ -51,13 +51,14 @@ class DataGenerator:
         if info.uso == "nombre de clase":
             self.simboloClase[info.simbolo] = info
         elif info.uso == "funcion":
-            self.functions[info.simbolo] = info
+                self.functions[info.raw_simbolo] = info
         elif info.uso == "variable":
-            self.variables[info.simbolo] = info
+            if info.simbolo in self.variables.keys():
+                self.variables[info.raw_simbolo] = info
+            else:
+                self.variables[info.simbolo] = info
             self.variablesPolaca[info.raw_simbolo] = info
-        elif info.uso == "auxiliar":
-            self.variablesPolaca[info.raw_simbolo] = info
-        elif info.uso == "constante":
+        elif info.uso == "auxiliar" or "constante" or "parametro":
             self.variablesPolaca[info.raw_simbolo] = info
 
     def lookForProperty(self, propiedad) -> InformacionClase:
@@ -82,33 +83,30 @@ class DataGenerator:
             for linea in archivo:
                 if linea.strip():  # Ignorar líneas vacías
                     infoclase = self.procesar_linea(linea)
-                    # print(infoclase)
+                    print(infoclase)
                     self.setDatos(infoclase)
 
         for item in self.simboloClase.values():
             if item.simbolo not in self.classes:
                 new_struct = StructGen(item.simbolo)
+                self.classes[item.simbolo] = new_struct
+                #print(item)
                 if item.propiedades is not None:
                     for propiedad in item.propiedades:
                         prop = copy(self.lookForProperty(propiedad))
-                        self.declaraciones[prop.simbolo + "_" + item.simbolo] = prop.tipo
+                        self.declaraciones[prop.simbolo + item.simbolo] = prop.tipo
                         #print(self.declaraciones)
                         declaracion = self.generar_declaracion_asm(prop.simbolo, prop.tipo)
                         new_struct.addField(declaracion)
                         new_struct.aux.append(prop.simbolo)
 
-                if item.clase_herencia is not None:
-                    # print(item.clase_herencia)
-                    list_clases = []
-                    clase = copy(self.simboloClase.get(item.clase_herencia))
-                    list_clases = self.lookForDeepProperty(clase)
-                    #print(list_clases)
-                    for p in list_clases:
-                        declaracion = self.generar_declaracion_asm(p.simbolo + "_" + item.simbolo, p.tipo)
-                        self.declaraciones[p.simbolo + "_" + item.simbolo] = p.tipo
-                        new_struct.addField(declaracion)
-                        new_struct.aux.append(p.simbolo + "_" + item.simbolo)
                 self.classes[item.simbolo] = new_struct
+                if item.clase_herencia is not None:
+                    declaracion = self.generar_declaracion_asm(item.clase_herencia, item.clase_herencia)
+                    new_struct.addField(declaracion)
+                    new_struct.aux.append(item.clase_herencia)
+                self.classes[item.simbolo] = new_struct
+        print(self.classes)
 
         for item in self.variables.values():
             if item.ultimo_ambito == "main":
@@ -117,6 +115,8 @@ class DataGenerator:
             elif item.ultimo_ambito in self.functions:
                 declaracion = self.generar_declaracion_asm(item.raw_simbolo, item.tipo)
                 self.declaraciones_asm.append(declaracion)
+
+
         for item in self.variablesPolaca.values():
             if item.uso == "constante":
                 declaracion = self.generar_declaracion_asm(item.raw_simbolo,item.tipo,item.valor,item.uso)
@@ -124,6 +124,13 @@ class DataGenerator:
             if item.uso == "auxiliares":
                 declaracion = self.generar_declaracion_asm(item.raw_simbolo,item.tipo)
                 self.declaraciones_asm.append(declaracion)
+            elif item.uso == "parametro":
+                declaracion = self.generar_declaracion_asm(item.raw_simbolo,item.tipo)
+                self.declaraciones_asm.append(declaracion)
+            elif item.ultimo_ambito in self.functions.keys():
+                declaracion = self.generar_declaracion_asm(item.raw_simbolo,item.tipo)
+                if declaracion not in self.declaraciones_asm:
+                    self.declaraciones_asm.append(declaracion)
         return self.declaraciones_asm
 
     def getStruct(self):
@@ -149,7 +156,12 @@ class StructGen:
         structs = "     \n".join(" " * espacios_indentacion + linea for linea in self.fields)
         return field + "\n" + structs + "\n" + self.end + "\n"
 
-
+class funcStruct:
+    def __init__(self,name,tipo):
+        self.funcion_name = name + " PROC "
+        #if tipo ==
+        self.end = name + " ENDP"
+    #def addParam(self):
 class Registros:
     def __init__(self):
         self.EAX = "EAX"
@@ -159,12 +171,15 @@ class Registros:
 
 
 class CodeGenerator:
-    def __init__(self, polaca: PolacaInversa):
+    def __init__(self, polaca: PolacaInversa, celdaActual = 1, data = DataGenerator(), value = True):
         self.polaca = polaca
-        self.celdaActual = 1
+        self.celdaActual = celdaActual
         self.operadores = ["+", "-", "*", "/", "BI", "BF", "FUNCION", "ret", "=", "<", "<=", ">=", "==", "!!",
-                           "CALLFUNC", "PRINT",">"]
-        self.codigo = ".code\nstart:\n"
+                           "CALLFUNC", "PRINT",">","CALLFUNCP"]
+        if value:
+            self.codigo = ".code\nstart:\n"
+        else:
+            self.codigo = ""
         self.pilaOperandos = []
         self.Registros = Registros()
         self.registrosDisponibles = {"EAX": True, "EBX": True, "ECX": True, "EDX": True}
@@ -174,11 +189,12 @@ class CodeGenerator:
         self.tags = []
         self.tipoRegistros = {self.Registros.EAX: "", self.Registros.EBX: "", self.Registros.ECX: "", self.Registros.EDX: ""}
         self.ruta_archivo = "tabla_de_simbolos.txt"
-        self.data = DataGenerator()  # Si queres ver si existe una variable,el tipo el ambito, etc. Esta variable
+        self.data = data  # Si queres ver si existe una variable,el tipo el ambito, etc. Esta variable
         # tiene 4 diccionarios con clases, funciones, variablesPolaca etc. Si buscas una variable dada por la polaca,
         # busca en variablesPolaca, por ejemplo, variable.raw_simbolo, que es el simbolo Es el simbolo asi:
         # simbolo_main_clase_b
-        self.declaracion_asm = self.data.procesar_archivo(self.ruta_archivo)
+        if value:
+            self.declaracion_asm = self.data.procesar_archivo(self.ruta_archivo)
         self.last_texto = ""
     def texto(self, text):
         if "." in text:
@@ -343,8 +359,8 @@ class CodeGenerator:
         op2 = self.pilaOperandos.pop(0)
         op1 = self.texto(op1)
         op2 = self.texto(op2)
-        print(self.getTipo(op1))
-        print(self.getTipo(op2))
+        #print(self.getTipo(op1))
+        #print(self.getTipo(op2))
         if self.getTipo(op1) != self.getTipo(op2):
             self.codigo += "JMP ErrorTYPE" + "\n"
             self.last_texto = "JMP ErrorTYPE" + "\n"
@@ -491,7 +507,7 @@ class CodeGenerator:
             if str(celda).startswith("TAG"):
                 self.codigo += celda + ":\n"
                 self.last_texto = celda + ":\n"
-            if celda in self.operadores:
+            if celda in self.operadores or str(celda).startswith("FUNCION"):
                 if celda == "+":
                     self.sumaOResta(celda)
                 elif celda == "-":
@@ -514,10 +530,17 @@ class CodeGenerator:
                     else:
                         self.codigo += "FIN\n"
                         self.last_texto = "FIN\n"
-                elif celda == "FUNCION":
-                    pass  # TODO
+                elif celda.startswith("FUNCION"):
+                    funcion = CodeGenerator(self.polaca,self.celdaActual+1,self.data, False)
+                    codigo,celdaActual = funcion.generarCodigoAssembler()
+                    #for linea in self.data.getStruct():
+                        #print(linea)
+                    self.celdaActual = celdaActual
+                    self.codigo += "FUNCION\n"
+                    self.codigo += codigo + "\n"
                 elif celda == "ret":
-                    self.codigo += "ret"
+                    self.codigo += "ret\n"
+                    return self.codigo,self.celdaActual
                 elif celda == "=":
                     operando1 = self.texto(self.pilaOperandos.pop(0))
                     operando2 = self.texto(self.pilaOperandos.pop(0))
@@ -529,21 +552,23 @@ class CodeGenerator:
                     else:
                         if self.getTipo(operando1) == "INT":
                             self.asignacionINT(operando1,operando2)
-                        if self.getTipo(operando1) == "FLOAT":
+                        elif self.getTipo(operando1) == "FLOAT":
                             self.operacionFlotante(operando1, operando2, celda)
+                        elif self.getTipo(operando1) == "ULONG":
+                            self.asignacion32BIT(operando1,operando2)
                         else:
-                            if self.getTipo(operando1) != "FLOAT" and self.getTipo(operando1) != "ULONG":
+                            if self.getTipo(operando1) != "FLOAT" and self.getTipo(operando1) != "ULONG" and self.getTipo(operando1) != "INT":
                                 for key,valor in self.data.classes.items():
                                     for p in valor.aux:
                                         variable1 = operando1 + "." + p
                                         variable2 = operando2 + "." + p
+                                        #self.codigo+= self.getTipo(variable1)
                                         if self.getTipo(variable1) == "INT":
                                             self.asignacionINT(variable1,variable2)
-                                        else:
+                                        elif self.getTipo(variable1) == "ULONG":
                                             self.asignacion32BIT(variable1,variable2)
-                            #self.liberar(self.Registros.EAX, self.tipoRegistros[self.Registros.EAX])
-                            else:
-                                self.asignacion32BIT(operando1,operando2)
+                                        elif self.getTipo(variable1) == "FLOAT":
+                                            self.operacionFlotante(variable1,variable2,celda)
                 elif celda == "<":
                     self.comparacion()
                     self.codigo += "JGE "
@@ -569,9 +594,23 @@ class CodeGenerator:
                     self.codigo += "JLE "
                     self.last_texto = "JLE "
                 elif celda == "CALLFUNC":
-                    pass  # TODO
+                    operando1 = self.pilaOperandos.pop(0)
+                    self.codigo += "CALL TAG" + str(operando1)
                 elif celda == "CALLFUNCP":
-                    pass
+                    operando1 = self.pilaOperandos.pop(0)
+                    operando2 = self.pilaOperandos.pop(0)
+                    registro = self.getRegistroExterno()
+                    if self.getTipo(operando2) == "INT":
+                        if registro == "EAX":
+                            registro = "AX"
+                        else:
+                            registro = "DX"
+                    self.codigo += "MOV " + registro + ", " + operando2 + "\n"
+                    self.last_texto += "MOV " + registro + ", " + operando2 + "\n"
+                    self.codigo += "PUSH " + registro + "\n"
+                    self.last_texto += "PUSH " + registro + "\n"
+                    self.codigo += "CALL TAG" + str(operando1) + "\n"
+                    self.last_texto += "CALL TAG" + str(operando1) + "\n"
                 elif celda == "PRINT":
                     cadena = self.pilaOperandos.pop(0)
                     cadena = str(cadena).removeprefix("%")
@@ -644,7 +683,7 @@ class CodeGenerator:
         self.setHeader()
         # Unir las declaraciones para formar la sección .data del código Assembler
         self.generarCodigoAssembler()
-        print(self.declaracion_asm)
+        #print(self.declaracion_asm)
         self.codigo_asm_data = "\n".join("\n" + linea for linea in self.data.getStruct()) + "\n" + "\n".join(self.declaracion_asm)
         self.setFooter()
         return self.header + "\n" + self.codigo_asm_data + "\n" + self.codigo + "\n"

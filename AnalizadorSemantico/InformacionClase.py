@@ -2,7 +2,7 @@ import ast
 
 
 class InformacionClase:
-    def __init__(self, simbolo, caracteristicas, uso=None, referencias=None, ambito_de_clase=None, propiedades=None, miembros_de_clase=None, numero_de_herencias=None, clase_herencia=None, tipo=None, tipoparametro=None, nroparametros=None, valor = None, propiedades_heredadas = None, funcion_padre = None):
+    def __init__(self, simbolo, caracteristicas, uso=None, referencias=None, ambito_de_clase=None, propiedades=None, miembros_de_clase=None, numero_de_herencias=None, clase_herencia=None, tipo=None, tipoparametro=None, nroparametros=None, valor = None, propiedades_heredadas = None, funcion_padre = None,miembros = None):
         self.raw_simbolo = simbolo.replace(":", "_")
         self.simbolo = self.extraer_simbolo(simbolo)
         self.caracteristicas = caracteristicas
@@ -15,7 +15,7 @@ class InformacionClase:
         if self.ultimo_ambito is None:
             self.procesar_ambito(simbolo)
         self.propiedades = self.convertir_a_lista(propiedades) if propiedades is not None else None
-        self.miembros = self.convertir_a_lista(miembros_de_clase) if miembros_de_clase is not None else None
+        self.miembros = self.convertir_a_lista(miembros) if miembros is not None else None
         self.num_herencias = numero_de_herencias
         self.clase_herencia = self.extraer_simbolo(clase_herencia) if clase_herencia is not None else None
         self.tipo_parametro = tipoparametro

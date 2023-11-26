@@ -28,7 +28,10 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.segundaFuncion = False
     self.auxBorrado = -1
     self.auxAnterior = 0
-
+    self.flag = 0
+    self.error = False
+    self.errorCondicion = False
+    self.flagCondicion = 0
 
 def yyerror(self, texto, linea):
     if linea != 0:
@@ -165,7 +168,7 @@ ejecucion_retorno: RETURN {self.polacaInversa.addElemento("ret")}  //Agrego BI y
 
 declaracion_clase: encabezado_clase '{' componentes_clase '}' ',' {
 self.reducirAmbito()
-self.inClass = False
+self.inClase = False
 }
 ;
 
@@ -175,7 +178,7 @@ self.clasesDeclaradas.append($ID.text)
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "uso", "nombre de clase")
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "ambito de clase", self.ambitoActual + ":" + $ID.text)
 self.ambitoActual = self.ambitoActual + ":" + $ID.text
-self.inClass = True
+self.inClase = True
 }
 ;
 
@@ -200,11 +203,15 @@ self.listaVar = []
 
 componente_func: declaracion_func {
 componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros de clase")
+componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros")
 if isinstance(componentesActuales, list):
     componentesActuales.append(self.auxIDFunc[:self.auxIDFunc.find(":")])
+    componentes = [self.auxIDFunc.replace(":","_")]
 else:
     componentesActuales = [self.auxIDFunc[:self.auxIDFunc.find(":")]]
+    componentes = [self.auxIDFunc.replace(":","_")]
     self.simbolos.addCaracteristica(self.auxIDClass, "miembros de clase", componentesActuales)
+    self.simbolos.addCaracteristica(self.auxIDClass, "miembros", componentes)
 }
 ;
 
@@ -249,7 +256,7 @@ ejecucion: asignacion ','
            | ERROR ',' {self.yyerror("SINTACTICO: error en sentencia ejecutable", $ERROR.line)}
 ;
 
-asignacion: ID '=' expresion {
+asignacion: {self.flag = self.polacaInversa.reference_counter} ID '=' expresion {
 identificador = self.verificarId($ID.text + self.ambitoActual)
 if identificador != "":
     if identificador in self.declaracionesVariables.keys():
@@ -260,14 +267,22 @@ if identificador != "":
     self.polacaInversa.addElemento("=")
 else:
     self.yyerror("SEMANTICO: identificador " + $ID.text + " no declarado en un ambito valido", $ID.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-        | uso_clase '=' {uso = self.polacaInversa.removeLast()} expresion {
+        | {self.flag = self.polacaInversa.reference_counter} uso_clase '=' {uso = self.polacaInversa.removeLast()} expresion {
 self.polacaInversa.addElemento(uso)
 self.polacaInversa.addElemento("=")
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
 ;
 
-invocacion: ID '(' expresion ')' {
+invocacion: {self.flag = self.polacaInversa.reference_counter} ID '(' expresion ')' {
 identificador = self.verificarId($ID.text + self.ambitoActual)
 if identificador != "":
     if self.simbolos.getCaracteristica(identificador, "uso") == "funcion":
@@ -282,8 +297,12 @@ if identificador != "":
         self.yyerror("SEMANTICO: identificador no es una funcion", $ID.line)
 else:
     self.yyerror("SEMANTICO: funcion no declarada en un ambito valido", $ID.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-            | ID '(' ')' {
+            | {self.flag = self.polacaInversa.reference_counter} ID '(' ')' {
 identificador = self.verificarId($ID.text + self.ambitoActual)
 if identificador != "":
     if self.simbolos.getCaracteristica(identificador, "uso") == "funcion":
@@ -298,8 +317,12 @@ if identificador != "":
         self.yyerror("SEMANTICO: identificador no es una funcion", $ID.line)
 else:
     self.yyerror("SEMANTICO: funcion no declarada en un ambito valido", $ID.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-            | clase=ID '.' funcion=ID '(' ')' {
+            | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' funcion=ID '(' ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -320,8 +343,12 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + claseAmbito, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-            | clase=ID '.' funcion=ID '(' expresion ')' {
+            | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' funcion=ID '(' expresion ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -342,8 +369,12 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $funcion.text + " no encontrado en clase " + claseAmbito, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-        | clase=ID '.' herencia=ID '.' funcion=ID '(' ')' {
+        | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' herencia=ID '.' funcion=ID '(' ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -367,8 +398,12 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia.text, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-        | clase=ID '.' herencia=ID '.' funcion=ID '(' expresion ')' {
+        | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' herencia=ID '.' funcion=ID '(' expresion ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -392,8 +427,12 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia.text, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-        | clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' ')' {
+        | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -421,8 +460,12 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia1.text, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
-        | clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' expresion ')' {
+        | {self.flag = self.polacaInversa.reference_counter} clase=ID '.' herencia1=ID '.' herencia2=ID '.' funcion=ID '(' expresion ')' {
 simbolo = self.verificarId($clase.text + self.ambitoActual)
 if  simbolo != "":
     self.simbolos.aumentarReferencia(simbolo)
@@ -450,16 +493,26 @@ if  simbolo != "":
         self.yyerror("SEMANTICO: " + $clase.text + " no hereda de " + $herencia1.text, $clase.line)
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+if self.error is True:
+    while   self.polacaInversa.reference_counter != self.flag:
+        self.polacaInversa.removeLast()
+    self.error = False
 }
 ;
 
-seleccion: if_condicion bloque_control posible_else END_IF {
+seleccion: {self.flagCondicion = self.polacaInversa.reference_counter
+} if_condicion bloque_control posible_else END_IF {
 if self.elseaux is False:
     number = self.polacaInversa.getLastPendingStep()
     self.polacaInversa.setElemento(number)
 else:
     self.elseaux = False
-} //Agrego valor que sigue de la cinta en la celdad el tope de la Pila. Y desapilo
+if self.errorCondicion is True:
+    while   self.polacaInversa.reference_counter != self.flagCondicion:
+        self.polacaInversa.removeLast()
+    self.errorCondicion = False
+}
+ //Agrego valor que sigue de la cinta en la celdad el tope de la Pila. Y desapilo
 ;
 posible_else: else bloque_control {
 number = self.polacaInversa.getLastPendingStep()
@@ -488,7 +541,11 @@ bloque_control: '{' cuerpo_ejecucion '}'
 ;
 
 condicion: expresion comparador expresion {
-self.polacaInversa.addElemento($comparador.text)}
+self.polacaInversa.addElemento($comparador.text)
+if self.error is True:
+    self.errorCondicion = True
+    self.error = False
+}
 ;
 
 comparador: '<'
@@ -504,12 +561,16 @@ self.polacaInversa.addElemento($CADENA.text)
 self.polacaInversa.addElemento("PRINT")
 }
 ;
-while: while_condicion bloque_control {
+while: {self.flagCondicion = self.polacaInversa.reference_counter} while_condicion bloque_control {
 number = self.polacaInversa.getLastPendingStep()
 self.polacaInversa.addElemento(self.aux)
 self.polacaInversa.addElemento("BI")
 self.aux = self.auxAnterior
 self.polacaInversa.setElemento(number)
+if self.errorCondicion is True:
+    while   self.polacaInversa.reference_counter != self.flagCondicion:
+        self.polacaInversa.removeLast()
+    self.errorCondicion = False
 }
 
 ;
@@ -648,6 +709,7 @@ if identificador != "":
         self.menos_menos = False
 else:
     self.yyerror("SEMANTICO: id " + $ID.text + " no existe en un ambito valido", $ID.line)
+    self.error = True
 
 }
             | uso_clase
@@ -672,8 +734,10 @@ if idClase != "":
             self.polacaInversa.addElemento(str(clase))
     else:
         self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + idClase, $clase.line)
+        self.error = True
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+    self.error = True
 }
         | clase=ID '.' herencia= ID '.' atributo=ID {
 idClase = self.verificarId($clase.text + self.ambitoActual)
@@ -689,10 +753,13 @@ if idClase != "":
             self.polacaInversa.addElemento(str(clase))
         else:
             self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
+            self.error = True
     else:
         self.yyerror("SEMANTICO: clase " + idClase + " no hereda de " + $herencia.text, $clase.line)
+        self.error = True
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+    self.error = True
 }
         | clase=ID '.' herencia1= ID '.' herencia2= ID '.' atributo=ID {
 idClase = self.verificarId($clase.text + self.ambitoActual)
@@ -710,11 +777,15 @@ if idClase != "":
                 self.polacaInversa.addElemento(str(clase))
             else:
                 self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
+                self.error = True
         else:
             self.yyerror("SEMANTICO: clase " + $herencia1.text + " no hereda de " + $herencia2.text, $clase.line)
+            self.error = True
     else:
         self.yyerror("SEMANTICO: clase " + idClase + " no hereda de " + $herencia1.text, $clase.line)
+        self.error = True
 else:
     self.yyerror("SEMANTICO: variable " + $clase.text + "no fue declarada en un ambito valido", $clase.line)
+    self.error = True
 }
 ;

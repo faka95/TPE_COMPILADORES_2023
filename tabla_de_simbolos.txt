@@ -1,7 +1,15 @@
-Simbolo: test_funcion:main - Caracteristicas: uso: funcion - referencias: 2 - tipoParametro: INT - nroParametros: 1 - 
-Simbolo: param:main:test_funcion - Caracteristicas: tipo: INT - referencias: 2 - uso: parametro - funcion_padre: test_funcion:main - 
-Simbolo: x:main:test_funcion - Caracteristicas: tipo: INT - referencias: 5 - uso: variable - 
-Simbolo: y:main:test_funcion - Caracteristicas: tipo: INT - referencias: 4 - uso: variable - 
+Simbolo: clase_b:main - Caracteristicas: uso: nombre de clase - referencias: 1 - ambito de clase: :main:clase_b - propiedades: ['property1', 'propertyc2'] - 
+Simbolo: property1:main:clase_b - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: propertyc2:main:clase_b - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: clase_c:main - Caracteristicas: uso: nombre de clase - referencias: 2 - ambito de clase: :main:clase_c - propiedades: ['property1', 'propertyc2'] - numero de herencias: 1 - clase herencia: clase_b:main - propiedades heredadas: ['property1', 'propertyc2'] - 
+Simbolo: property1:main:clase_c - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: propertyc2:main:clase_c - Caracteristicas: tipo: FLOAT - referencias: 1 - uso: variable - 
+Simbolo: c1:main - Caracteristicas: tipo: clase_c - referencias: 1 - uso: variable - 
+Simbolo: b:main - Caracteristicas: tipo: INT - referencias: 17 - uso: variable - 
+Simbolo: a:main - Caracteristicas: tipo: INT - referencias: 5 - uso: variable - 
+Simbolo: i_6 - Caracteristicas: tipo: INT - referencias: 1 - valor: 6 - uso: constante - 
 Simbolo: i_5 - Caracteristicas: tipo: INT - referencias: 1 - valor: 5 - uso: constante - 
-Simbolo: i_1 - Caracteristicas: referencias: 1 - tipo: INT - valor: 1 - uso: constante - 
+Simbolo: i_1 - Caracteristicas: referencias: 3 - tipo: INT - valor: 1 - uso: constante - 
+Simbolo: i_4 - Caracteristicas: tipo: INT - referencias: 1 - valor: 4 - uso: constante - 
 Simbolo: i_3 - Caracteristicas: tipo: INT - referencias: 1 - valor: 3 - uso: constante - 
+Simbolo: i_10 - Caracteristicas: tipo: INT - referencias: 1 - valor: 10 - uso: constante - 
