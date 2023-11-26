@@ -749,7 +749,7 @@ if idClase != "":
         if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
             atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
             self.simbolos.aumentarReferencia(atributo)
-            clase = $clase.text + self.ambitoActual + "." + $herencia.text + "." + $atributo.text
+            clase = $clase.text + self.ambitoActual + "." + $herencia.text + "_" + "." + $atributo.text
             self.polacaInversa.addElemento(str(clase))
         else:
             self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)
@@ -773,7 +773,7 @@ if idClase != "":
             if $atributo.text in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
                 atributo = $atributo.text + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
                 self.simbolos.aumentarReferencia(atributo)
-                clase = $clase.text + self.ambitoActual + "." + $herencia1.text + "." + $herencia2.text + "." + $atributo.text
+                clase = $clase.text + self.ambitoActual + "." + $herencia1.text + "_" + "." + $herencia2.text + "_" + "." + $atributo.text
                 self.polacaInversa.addElemento(str(clase))
             else:
                 self.yyerror("SEMANTICO: propiedad " + $atributo.text + " no encontrada en clase " + claseHerencia, $clase.line)

@@ -1,6 +1,6 @@
 {
 CLASS clase_b {
-    FLOAT property1,
+    INT property1,
     FLOAT propertyc2,
     },
 CLASS clase_c {
@@ -12,7 +12,7 @@ CLASS clase_c {
 clase_c c1,
 INT a;b,
 b = 6_i,
-
+c1.clase_b.property1 = 1_i,
 IF (b == 6_i){
 	PRINT(%then%),
 } END_IF,

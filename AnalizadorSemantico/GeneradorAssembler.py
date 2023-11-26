@@ -102,7 +102,7 @@ class DataGenerator:
 
                 self.classes[item.simbolo] = new_struct
                 if item.clase_herencia is not None:
-                    declaracion = self.generar_declaracion_asm(item.clase_herencia, item.clase_herencia)
+                    declaracion = self.generar_declaracion_asm(item.clase_herencia+"_", item.clase_herencia)
                     new_struct.addField(declaracion)
                     new_struct.aux.append(item.clase_herencia)
                 self.classes[item.simbolo] = new_struct

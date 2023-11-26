@@ -3251,7 +3251,7 @@ class gramaticaprueba ( Parser ):
                         if (None if localctx.atributo is None else localctx.atributo.text) in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
                             atributo = (None if localctx.atributo is None else localctx.atributo.text) + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
                             self.simbolos.aumentarReferencia(atributo)
-                            clase = (None if localctx.clase is None else localctx.clase.text) + self.ambitoActual + "." + (None if localctx.herencia is None else localctx.herencia.text) + "." + (None if localctx.atributo is None else localctx.atributo.text)
+                            clase = (None if localctx.clase is None else localctx.clase.text) + self.ambitoActual + "." + (None if localctx.herencia is None else localctx.herencia.text) + "_" + "." + (None if localctx.atributo is None else localctx.atributo.text)
                             self.polacaInversa.addElemento(str(clase))
                         else:
                             self.yyerror("SEMANTICO: propiedad " + (None if localctx.atributo is None else localctx.atributo.text) + " no encontrada en clase " + claseHerencia, (0 if localctx.clase is None else localctx.clase.line))
@@ -3293,7 +3293,7 @@ class gramaticaprueba ( Parser ):
                             if (None if localctx.atributo is None else localctx.atributo.text) in self.simbolos.getCaracteristica(claseHerencia, "propiedades"):
                                 atributo = (None if localctx.atributo is None else localctx.atributo.text) + self.simbolos.getCaracteristica(claseHerencia, "ambito de clase")
                                 self.simbolos.aumentarReferencia(atributo)
-                                clase = (None if localctx.clase is None else localctx.clase.text) + self.ambitoActual + "." + (None if localctx.herencia1 is None else localctx.herencia1.text) + "." + (None if localctx.herencia2 is None else localctx.herencia2.text) + "." + (None if localctx.atributo is None else localctx.atributo.text)
+                                clase = (None if localctx.clase is None else localctx.clase.text) + self.ambitoActual + "." + (None if localctx.herencia1 is None else localctx.herencia1.text) + "_" + "." + (None if localctx.herencia2 is None else localctx.herencia2.text) + "_" + "." + (None if localctx.atributo is None else localctx.atributo.text)
                                 self.polacaInversa.addElemento(str(clase))
                             else:
                                 self.yyerror("SEMANTICO: propiedad " + (None if localctx.atributo is None else localctx.atributo.text) + " no encontrada en clase " + claseHerencia, (0 if localctx.clase is None else localctx.clase.line))
