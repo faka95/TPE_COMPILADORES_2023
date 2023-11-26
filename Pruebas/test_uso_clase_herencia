@@ -3,8 +3,8 @@ CLASS otra_herencia {
     INT otra_property,
 
     VOID asd() {
-    PRINT(%asd%),
-    RETURN,
+        PRINT(%asd%),
+        RETURN,
     },
 },
 

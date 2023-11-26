@@ -1,12 +1,16 @@
 {
-VOID test_funcion( INT param) {
+VOID test_funcion(INT param) {
     INT x,
-    INT y,
-    x = param,
-    y = 5_i,
-    x = x + y--,
+    x = param + 1_i,
+    PRINT(%funcion1%),
     RETURN,
-    },
+},
 
-    test_funcion(3_i),
+VOID test_funcion_2() {
+    PRINT(%funcion2%),
+    RETURN,
+},
+
+test_funcion(3_i),
+test_funcion_2(),
 }

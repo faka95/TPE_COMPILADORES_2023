@@ -21,6 +21,7 @@ VOID funcion() {
         RETURN,
         },
 
+    anidacion_valida(),
     RETURN,
 },
 }

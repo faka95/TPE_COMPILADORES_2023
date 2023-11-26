@@ -14,4 +14,9 @@ CLASS clase_herencia_tres {
     clase_herencia_dos,
 },
 
+CLASS clase {
+    INT property,
+    clase_herencia_tres,
+}
+
 }

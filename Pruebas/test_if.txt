@@ -1,15 +1,15 @@
 {
+INT a;b,
+a = 3_i,
+b = 10_i,
 IF (a<b) {
     PRINT(%then%),
 } END_IF,
-}
 
-// test if_else
-{
-IF (a<b) {
+IF (a>b) {
     PRINT(%then%),
 } ELSE {
-    a = a--,
     PRINT(%else%),
 } END_IF,
+
 }
