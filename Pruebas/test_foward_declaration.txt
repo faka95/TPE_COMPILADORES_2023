@@ -1,17 +1,18 @@
 {
 CLASS test_clase {
-    clase_foward,
+    clase_foward property,
+
+    VOID metodo() {
+        property.metodo_foward(),
+        RETURN,
+    },
 },
 
 CLASS clase_foward {
-    INT propoerty_foward,
     VOID metodo_foward() {
         PRINT(%metodo de clase_foward%),
         RETURN,
     },
 },
-
-test_clase a,
-a.clase_foward.metodo_foward(),
 
 }
