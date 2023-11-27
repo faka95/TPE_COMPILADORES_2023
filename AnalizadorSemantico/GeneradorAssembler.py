@@ -106,7 +106,6 @@ class DataGenerator:
                     new_struct.addField(declaracion)
                     new_struct.aux.append(item.clase_herencia)
                 self.classes[item.simbolo] = new_struct
-        print(self.classes)
 
         for item in self.variables.values():
             if item.ultimo_ambito == "main":
@@ -177,7 +176,7 @@ class CodeGenerator:
         self.operadores = ["+", "-", "*", "/", "BI", "BF", "FUNCION", "ret", "=", "<", "<=", ">=", "==", "!!",
                            "CALLFUNC", "PRINT",">","CALLFUNCP"]
         if value:
-            self.codigo = ".code\nstart:\n"
+            self.codigo = "\n.code\nstart:\n"
         else:
             self.codigo = ""
         self.pilaOperandos = []
@@ -187,6 +186,7 @@ class CodeGenerator:
         self.numAux = 1
         self.header = ""
         self.tags = []
+        self.codigoFunciones = ""
         self.tipoRegistros = {self.Registros.EAX: "", self.Registros.EBX: "", self.Registros.ECX: "", self.Registros.EDX: ""}
         self.ruta_archivo = "tabla_de_simbolos.txt"
         self.data = data  # Si queres ver si existe una variable,el tipo el ambito, etc. Esta variable
@@ -531,16 +531,16 @@ class CodeGenerator:
                         self.codigo += "FIN\n"
                         self.last_texto = "FIN\n"
                 elif celda.startswith("FUNCION"):
-                    funcion = CodeGenerator(self.polaca,self.celdaActual+1,self.data, False)
-                    codigo,celdaActual = funcion.generarCodigoAssembler()
-                    #for linea in self.data.getStruct():
-                        #print(linea)
-                    self.celdaActual = celdaActual
-                    self.codigo += "FUNCION\n"
-                    self.codigo += codigo + "\n"
+                    self.codigoFunciones += "TAG" + str(self.celdaActual) + ":\n"
+                    self.codigoFunciones += "POP EAX \n"
+                    funcion = CodeGenerator(self.polaca, self.celdaActual+1, self.data, False)
+                    tupla = funcion.generarCodigoAssembler()
+                    self.codigoFunciones += tupla[0] + "\n"
+                    self.celdaActual = tupla[1]
                 elif celda == "ret":
                     self.codigo += "ret\n"
-                    return self.codigo,self.celdaActual
+                    self.last_texto += "ret\n"
+                    return self.codigo, self.celdaActual
                 elif celda == "=":
                     operando1 = self.texto(self.pilaOperandos.pop(0))
                     operando2 = self.texto(self.pilaOperandos.pop(0))
@@ -595,7 +595,8 @@ class CodeGenerator:
                     self.last_texto = "JLE "
                 elif celda == "CALLFUNC":
                     operando1 = self.pilaOperandos.pop(0)
-                    self.codigo += "CALL TAG" + str(operando1)
+                    self.codigo += "CALL TAG" + str(operando1) + "\n"
+                    self.last_texto = "CALL TAG" + str(operando1) + "\n"
                 elif celda == "CALLFUNCP":
                     operando1 = self.pilaOperandos.pop(0)
                     operando2 = self.pilaOperandos.pop(0)
@@ -625,8 +626,8 @@ class CodeGenerator:
                 #print("else", celda)
                 self.pilaOperandos.insert(0,celda)
             self.celdaActual += 1
-        self.codigo += "JMP FIN\n"
-        self.last_texto = "JMP FIN\n"
+        self.codigo += "JMP FIN\n\n"
+        self.last_texto = "JMP FIN\n\n"
     def asignacionINT(self,operando1,operando2):
             # self.liberar(self.Registros.EAX, self.tipoRegistros[self.Registros.EAX])
             # print(operando1,operando2)
@@ -685,5 +686,6 @@ class CodeGenerator:
         self.generarCodigoAssembler()
         #print(self.declaracion_asm)
         self.codigo_asm_data = "\n".join("\n" + linea for linea in self.data.getStruct()) + "\n" + "\n".join(self.declaracion_asm)
+        self.codigo += self.codigoFunciones + "\n"
         self.setFooter()
         return self.header + "\n" + self.codigo_asm_data + "\n" + self.codigo + "\n"

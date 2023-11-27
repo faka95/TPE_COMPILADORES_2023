@@ -32,6 +32,7 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.error = False
     self.errorCondicion = False
     self.flagCondicion = 0
+    self.herenciasFoward = {}
 
 def yyerror(self, texto, linea):
     if linea != 0:
@@ -96,6 +97,7 @@ self.listaVar = []
             }
             | declaracion_clase  {
 }
+            | ERROR ',' {self.yyerror("SINTACTICO: error en declaración", $ERROR.line)}
 ;
 
 declaracion_var returns [line, t]: tipo lista_variable ',' {
@@ -181,16 +183,39 @@ $faltaRet = True}
 declaracion_clase: encabezado_clase '{' componentes_clase '}' ',' {
 self.reducirAmbito()
 self.inClase = False
+clase = ""
+if self.getIdSinAmbito(self.auxIDClass) in self.herenciasFoward.values():
+    for key in self.herenciasFoward:
+        if self.herenciasFoward[key] == self.getIdSinAmbito(self.auxIDClass):
+            identificador = key
+            herenciasActuales = self.simbolos.getCaracteristica(identificador, "numero de herencias")
+            if isinstance(herenciasActuales, int):
+                if herenciasActuales < 2:
+                    self.simbolos.aumentarReferencia(identificador)
+                    self.simbolos.addCaracteristica(identificador, "numero de herencias", herenciasActuales + 1)
+                    self.simbolos.addCaracteristica(identificador, "clase herencia", self.auxIDClass)
+                    propiedades = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
+                    if isinstance(propiedades, list):
+                        self.simbolos.addCaracteristica(identificador, "propiedades heredadas", propiedades)
+                else:
+                    self.yyerror("SEMANTICO: se exeden los niveles de herencia", $encabezado_clase.line)
+            else:
+                self.simbolos.addCaracteristica(identificador, "numero de herencias", 1)
+                self.simbolos.addCaracteristica(identificador, "clase herencia", self.auxIDClass)
+                propiedades = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
+                if isinstance(propiedades, list):
+                    self.simbolos.addCaracteristica(identificador, "propiedades heredadas", propiedades)
 }
 ;
 
-encabezado_clase: CLASS ID {
+encabezado_clase returns [line]: CLASS ID {
 self.auxIDClass = $ID.text + self.ambitoActual
 self.clasesDeclaradas.append($ID.text)
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "uso", "nombre de clase")
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "ambito de clase", self.ambitoActual + ":" + $ID.text)
 self.ambitoActual = self.ambitoActual + ":" + $ID.text
 self.inClase = True
+$line = $ID.line
 }
 ;
 
@@ -253,6 +278,7 @@ else:
         self.clasesUsadas[simbolo] += 1
     else:
         self.clasesUsadas[simbolo] = 1
+    self.herenciasFoward[self.auxIDClass] = $ID.text
 }
 ;
 
