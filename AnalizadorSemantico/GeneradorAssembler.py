@@ -91,7 +91,7 @@ class DataGenerator:
             if item.simbolo not in self.classes:
                 new_struct = StructGen(item.simbolo)
                 self.classes[item.simbolo] = new_struct
-                print(item)
+                #print(item)
                 if item.propiedades is not None:
                     for propiedad in item.propiedades:
                         prop = copy(self.lookForProperty(propiedad))
@@ -99,17 +99,25 @@ class DataGenerator:
                         #print(self.declaraciones)
                         declaracion = self.generar_declaracion_asm(prop.simbolo, prop.tipo)
                         if declaracion != None:
+                            print("hola")
                             new_struct.addField(declaracion)
                             new_struct.aux.append(prop.simbolo)
                         else:
+                            print("hola1")
                             new_struct.uses_foward = prop.tipo
                             self.foward[new_struct] = prop
 
                 self.classes[item.simbolo] = new_struct
                 if item.clase_herencia is not None:
                     declaracion = self.generar_declaracion_asm(item.clase_herencia+"_", item.clase_herencia)
-                    new_struct.addField(declaracion)
-                    new_struct.aux.append(item.clase_herencia)
+                    if declaracion != None:
+                        new_struct.addField(declaracion)
+                        new_struct.aux.append(item.clase_herencia)
+                    else:
+                        new_struct.uses_foward = item.clase_herencia
+                        self.foward[new_struct] = item
+
+                print(new_struct.fields)
                 self.classes[item.simbolo] = new_struct
 
         for item in self.variables.values():
@@ -136,15 +144,16 @@ class DataGenerator:
                 if declaracion not in self.declaraciones_asm:
                     self.declaraciones_asm.append(declaracion)
             print(self.classes)
-            print(self.declaraciones_asm)
+            #print(self.declaraciones_asm)
         return self.declaraciones_asm
 
     def getStruct(self):
         for item,valor in self.foward.items():
-            item.addField(self.generar_declaracion_asm(valor.simbolo,valor.tipo))
+            item.addField(self.generar_declaracion_asm(valor.clase_herencia + "_",valor.clase_herencia))
 
         structures = []
         for a in self.classes.values():
+            print(a)
             if a.uses_foward == None:
                 structures.append(a.toStr())
         for a in self.classes.values():

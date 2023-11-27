@@ -18,19 +18,25 @@ Salida dt ?, 0
 Imp db "Salida por pantalla", 0
 @mem2byte dd ? ; 32 bits
 MaxFLOAT dd 3.40282347E38 ; 32 bits 
-cadena_3 db "HOLA", 0
+cadena_3 db "metodo de clase_foward", 0
 
 
-avion STRUCT
+clase_foward STRUCT
     unknown DW ?     
-    alas DW ?
-avion ENDS
+    propoerty_foward DW ?
+clase_foward ENDS
 
-j_main DW ?
-alas_main_avion DW ?
-i_1 DW 1
+
+test_clase STRUCT
+    unknown DW ?     
+    clase_foward_ clase_foward <?>
+test_clase ENDS
+
+a_main test_clase <?>
+propoerty_foward_main_clase_foward DW ?
 .code
 start:
+CALL TAG1
 JMP FIN
 TAG1:
 invoke MessageBox, NULL, addr cadena_3, addr Imp, MB_OK
