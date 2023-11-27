@@ -32,7 +32,11 @@ import AnalizadorSemantico.PolacaInversa as Polaca
     self.error = False
     self.errorCondicion = False
     self.flagCondicion = 0
-
+    self.flagFuncion = 0
+    self.claseduplicada = False
+    self.flagClase = 0
+    self.ambitoaux = ""
+    self.herenciasFoward = {}
 def yyerror(self, texto, linea):
     if linea != 0:
         self.archivo_errores.write(str("ERROR " + texto + " En la linea " + str(linea) + "\n"))
@@ -72,6 +76,16 @@ for key in self.declaracionesVariables.keys():
 for clase in self.clasesUsadas.keys():
     if clase not in self.clasesDeclaradas:
         self.yyerror("SEMANTICO: clase " + clase + " fue usada sin declarar", 0)
+        list = []
+
+        for item in self.simbolos.simbolos:
+            aux = self.simbolos.simbolos[item]
+            if "tipo" in aux:
+                if self.simbolos.simbolos[item]["tipo"] == clase:
+                    list.append(item)
+        for a in list:
+            del self.simbolos.simbolos[a]
+
     else:
         referencias = self.clasesUsadas[clase]
 
@@ -117,19 +131,24 @@ $line = $ID.line
 }
 ;
 
-declaracion_func: encabezado_funcion {
+declaracion_func: {self.flagFuncion = self.polacaInversa.reference_counter} encabezado_funcion {
 if self.inFuncion and self.inClase:
     self.segundaFuncion = True
 if (not self.inClase) or (not self.inFuncion):
-    self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
+    if $encabezado_funcion.funcion != "":
+        self.polacaInversa.addElemento(('FUNCION' + ' ' + $encabezado_funcion.funcion))
 } parametro '{' cuerpo_func '}' ',' {
-self.reducirAmbito()
+if $encabezado_funcion.funcion != "":
+    self.reducirAmbito()
 if self.segundaFuncion:
     while self.polacaInversa.reference_counter > self.auxBorrado:
         self.polacaInversa.removeLast()
 self.inFuncion = False
 if $cuerpo_func.faltaRetorno:
     self.yyerror("SINTACTICO: falta sentencia RETURN en funcion "+$encabezado_funcion.funcion,$encabezado_funcion.line)
+if $encabezado_funcion.funcion == "":
+    while self.polacaInversa.reference_counter != self.flagFuncion:
+        self.polacaInversa.removeLast()
 }
 ;
 
@@ -137,6 +156,7 @@ encabezado_funcion returns [funcion, line]: VOID ID {
 if self.inClase and self.inFuncion:
     self.yyerror("SEMANTICO: no se puede anidar funciones dentro de una clase", $ID.line)
     self.auxBorrado = self.polacaInversa.reference_counter
+    $funcion = ""
 else:
     if not self.simbolos.isKey($ID.text + self.ambitoActual):
         self.auxIDFunc = $ID.text + self.ambitoActual
@@ -144,6 +164,7 @@ else:
         $funcion = $ID.text + self.ambitoActual
         self.ambitoActual = self.ambitoActual + ":" + $ID.text
     else:
+        $funcion = ""
         self.yyerror(" SEMANTICO: variable " + $ID.text + " ya existe en el ambito actual", $ID.line)
 $line = $ID.line
 }
@@ -178,19 +199,61 @@ $faltaRet = True}
 ;
 
 
-declaracion_clase: encabezado_clase '{' componentes_clase '}' ',' {
-self.reducirAmbito()
+declaracion_clase: {self.flagClase = self.polacaInversa.reference_counter} encabezado_clase '{' componentes_clase '}' ',' {
+if self.claseduplicada:
+    while self.polacaInversa.reference_counter != self.flagClase:
+        self.polacaInversa.removeLast()
+    lista = []
+    for item in self.simbolos.simbolos.keys():
+        if item.endswith("BORRAR_ERROR"):
+            lista.append(item)
+    for item in lista:
+        del self.simbolos.simbolos[item]
+    self.ambitoActual = self.ambitoaux
+    self.claseduplicada = False
+else:
+    self.reducirAmbito()
+    clase = ""
+    if self.getIdSinAmbito(self.auxIDClass) in self.herenciasFoward.values():
+        for key in self.herenciasFoward:
+            if self.herenciasFoward[key] == self.getIdSinAmbito(self.auxIDClass):
+                identificador = key
+                herenciasActuales = self.simbolos.getCaracteristica(identificador, "numero de herencias")
+                if isinstance(herenciasActuales, int):
+                    if herenciasActuales < 2:
+                        self.simbolos.aumentarReferencia(identificador)
+                        self.simbolos.addCaracteristica(identificador, "numero de herencias", herenciasActuales + 1)
+                        self.simbolos.addCaracteristica(identificador, "clase herencia", self.auxIDClass)
+                        propiedades = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
+                        if isinstance(propiedades, list):
+                            self.simbolos.addCaracteristica(identificador, "propiedades heredadas", propiedades)
+                    else:
+                        self.yyerror("SEMANTICO: se exeden los niveles de herencia", $encabezado_clase.line)
+                else:
+                    self.simbolos.addCaracteristica(identificador, "numero de herencias", 1)
+                    self.simbolos.addCaracteristica(identificador, "clase herencia", self.auxIDClass)
+                    propiedades = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
+                    if isinstance(propiedades, list):
+                        self.simbolos.addCaracteristica(identificador, "propiedades heredadas", propiedades)
 self.inClase = False
 }
+
 ;
 
-encabezado_clase: CLASS ID {
+encabezado_clase returns [line]: CLASS ID {
+if self.simbolos.isKey($ID.text + self.ambitoActual):
+    self.claseduplicada = True
 self.auxIDClass = $ID.text + self.ambitoActual
 self.clasesDeclaradas.append($ID.text)
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "uso", "nombre de clase")
 self.simbolos.addCaracteristica($ID.text + self.ambitoActual, "ambito de clase", self.ambitoActual + ":" + $ID.text)
-self.ambitoActual = self.ambitoActual + ":" + $ID.text
+if self.claseduplicada:
+    self.ambitoaux = self.ambitoActual
+    self.ambitoActual = "BORRAR_ERROR"
+else:
+    self.ambitoActual = self.ambitoActual + ":" + $ID.text
 self.inClase = True
+$line = $ID.line
 }
 ;
 
@@ -203,56 +266,60 @@ componentes_clase: componente_var
 ;
 
 componente_var: declaracion_var {
-componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
-if isinstance(componentesActuales, list):
-    for value in self.listaVar:
-        componentesActuales.append(value)
-else:
-    self.simbolos.addCaracteristica(self.auxIDClass, "propiedades", self.listaVar)
-self.listaVar = []
+if not self.claseduplicada:
+    componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "propiedades")
+    if isinstance(componentesActuales, list):
+        for value in self.listaVar:
+            componentesActuales.append(value)
+    else:
+        self.simbolos.addCaracteristica(self.auxIDClass, "propiedades", self.listaVar)
+    self.listaVar = []
 }
 ;
 
 componente_func: declaracion_func {
-componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros de clase")
-componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros")
-if isinstance(componentesActuales, list):
-    componentesActuales.append(self.auxIDFunc[:self.auxIDFunc.find(":")])
-    componentes = [self.auxIDFunc.replace(":","_")]
-else:
-    componentesActuales = [self.auxIDFunc[:self.auxIDFunc.find(":")]]
-    componentes = [self.auxIDFunc.replace(":","_")]
-    self.simbolos.addCaracteristica(self.auxIDClass, "miembros de clase", componentesActuales)
-    self.simbolos.addCaracteristica(self.auxIDClass, "miembros", componentes)
+if not self.claseduplicada:
+    componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros de clase")
+    componentesActuales = self.simbolos.getCaracteristica(self.auxIDClass, "miembros")
+    if isinstance(componentesActuales, list):
+        componentesActuales.append(self.auxIDFunc[:self.auxIDFunc.find(":")])
+        componentes = [self.auxIDFunc.replace(":","_")]
+    else:
+        componentesActuales = [self.auxIDFunc[:self.auxIDFunc.find(":")]]
+        componentes = [self.auxIDFunc.replace(":","_")]
+        self.simbolos.addCaracteristica(self.auxIDClass, "miembros de clase", componentesActuales)
+        self.simbolos.addCaracteristica(self.auxIDClass, "miembros", componentes)
 }
 ;
 
 componente_herencia: ID ',' {
-identificador = self.verificarId($ID.text + self.ambitoActual)
-if identificador != "":
-    herenciasActuales = self.simbolos.getCaracteristica(identificador, "numero de herencias")
-    if isinstance(herenciasActuales, int):
-        if herenciasActuales < 2:
-            self.simbolos.aumentarReferencia(identificador)
-            self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", herenciasActuales + 1)
+if not self.claseduplicada:
+    identificador = self.verificarId($ID.text + self.ambitoActual)
+    if identificador != "":
+        herenciasActuales = self.simbolos.getCaracteristica(identificador, "numero de herencias")
+        if isinstance(herenciasActuales, int):
+            if herenciasActuales < 2:
+                self.simbolos.aumentarReferencia(identificador)
+                self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", herenciasActuales + 1)
+                self.simbolos.addCaracteristica(self.auxIDClass, "clase herencia", identificador)
+                propiedades = self.simbolos.getCaracteristica(identificador, "propiedades")
+                if isinstance(propiedades, list):
+                    self.simbolos.addCaracteristica(self.auxIDClass, "propiedades heredadas", propiedades)
+            else:
+                self.yyerror("SEMANTICO: se exeden los niveles de herencia", $ID.line)
+        else:
+            self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", 1)
             self.simbolos.addCaracteristica(self.auxIDClass, "clase herencia", identificador)
             propiedades = self.simbolos.getCaracteristica(identificador, "propiedades")
             if isinstance(propiedades, list):
                 self.simbolos.addCaracteristica(self.auxIDClass, "propiedades heredadas", propiedades)
+    else:
+        simbolo = $ID.text
+        if simbolo in self.clasesUsadas.keys():
+            self.clasesUsadas[simbolo] += 1
         else:
-            self.yyerror("SEMANTICO: se exeden los niveles de herencia", $ID.line)
-    else:
-        self.simbolos.addCaracteristica(self.auxIDClass, "numero de herencias", 1)
-        self.simbolos.addCaracteristica(self.auxIDClass, "clase herencia", identificador)
-        propiedades = self.simbolos.getCaracteristica(identificador, "propiedades")
-        if isinstance(propiedades, list):
-            self.simbolos.addCaracteristica(self.auxIDClass, "propiedades heredadas", propiedades)
-else:
-    simbolo = $ID.text
-    if simbolo in self.clasesUsadas.keys():
-        self.clasesUsadas[simbolo] += 1
-    else:
-        self.clasesUsadas[simbolo] = 1
+            self.clasesUsadas[simbolo] = 1
+        self.herenciasFoward[self.auxIDClass] = $ID.text
 }
 ;
 
@@ -664,7 +731,8 @@ guion = $NUM_FLOAT.text.replace(".","_")
 guion = guion.replace("-","_")
 self.simbolos.addSimbolo("f_" + guion)
 aux = float($NUM_FLOAT.text)
-self.simbolos.addCaracteristica("f_" + guion, "valor", str("-" + aux))
+self.simbolos.addCaracteristica("f_" + guion, "valor","-" + str(aux))
+self.simbolos.addCaracteristica("f_" + guion, "tipo", "FLOAT")
 self.polacaInversa.addElemento("f_"+guion)
 }
         | NUM_INT {

@@ -5,11 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98fef319-4702-4215-bf45-fd4264fecdcb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Pruebas/test_error_declaraciones_invalidas.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pruebas/test_error_tipos.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/errores.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/programa.asm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/programa.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/programa.obj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/salida.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/tabla_de_simbolos.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnalizadorSemantico/InformacionClase.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSemantico/InformacionClase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.g4" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.interp" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.interp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_declaraciones_validas.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_declaraciones_validas.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_error_division_cero.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_error_division_cero.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_error_overflow_float.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_error_overflow_float.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_foward_declaration.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_foward_declaration.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_menos_menos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_menos_menos.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pruebas/test_tipos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Pruebas/test_tipos.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/Analysis-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/EXE-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/GUI.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/GUI.pkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/PKG-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/PYZ-00.pyz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/PYZ-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/Tree-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/Tree-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/Tree-01.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/Tree-01.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/Tree-02.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/Tree-02.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/base_library.zip" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/base_library.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/GUI/xref-GUI.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/GUI/xref-GUI.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/GUI.exe" beforeDir="false" afterPath="$PROJECT_DIR$/dist/GUI.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errores.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errores.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programa.asm" beforeDir="false" afterPath="$PROJECT_DIR$/programa.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programa.exe" beforeDir="false" afterPath="$PROJECT_DIR$/programa.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programa.obj" beforeDir="false" afterPath="$PROJECT_DIR$/programa.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programa.txt" beforeDir="false" afterPath="$PROJECT_DIR$/programa.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/salida.txt" beforeDir="false" afterPath="$PROJECT_DIR$/salida.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabla_de_simbolos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tabla_de_simbolos.txt" afterDir="false" />
@@ -40,22 +71,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Assembler",
-    "last_opened_file_path": "C:/Users/Tobi/Desktop/Compi/TPE_COMPILADORES_2023/main.py",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "debugger.dataViews.python.type.renderers",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Assembler&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tobi/Desktop/Compi/TPE_COMPILADORES_2023/main.py&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;debugger.dataViews.python.type.renderers&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.main">
     <configuration name="GeneradorAssembler" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TPE_COMPILADORES_2023" />
@@ -116,7 +147,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="&quot;C:\Users\Tobi\Desktop\Compi\TPE_COMPILADORES_2023\programa.txt&quot;" />
+      <option name="PARAMETERS" value="&quot;C:\Users\Tobi\Desktop\Compi\TPE_COMPILADORES_2023\Pruebas\test_foward_declaration.txt&quot;" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -152,7 +183,7 @@
       <workItem from="1699900495392" duration="9188000" />
       <workItem from="1700331626752" duration="299000" />
       <workItem from="1700830469421" duration="66644000" />
-      <workItem from="1700935106501" duration="52280000" />
+      <workItem from="1700935106501" duration="94535000" />
     </task>
     <servers />
   </component>
@@ -167,83 +198,93 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3247</line>
+          <line>3346</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3244</line>
+          <line>3343</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3245</line>
+          <line>3344</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3246</line>
+          <line>3345</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3248</line>
+          <line>3347</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3249</line>
+          <line>3348</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3251</line>
+          <line>3350</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3252</line>
+          <line>3351</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
-          <line>3253</line>
+          <line>3352</line>
           <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>545</line>
-          <option name="timeStamp" value="68" />
+          <line>264</line>
+          <option name="timeStamp" value="92" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>544</line>
-          <option name="timeStamp" value="69" />
+          <line>146</line>
+          <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>543</line>
-          <option name="timeStamp" value="70" />
+          <line>147</line>
+          <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>548</line>
-          <option name="timeStamp" value="71" />
+          <line>148</line>
+          <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>551</line>
-          <option name="timeStamp" value="72" />
+          <line>149</line>
+          <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>552</line>
-          <option name="timeStamp" value="73" />
+          <line>151</line>
+          <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/AnalizadorSemantico/GeneradorAssembler.py</url>
-          <line>553</line>
-          <option name="timeStamp" value="74" />
+          <line>150</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
+          <line>1118</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/AnalizadorSintactico/gramaticaprueba.py</url>
+          <line>1119</line>
+          <option name="timeStamp" value="124" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -254,15 +295,9 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="self.celdaActual" />
-        <watch expression="self.pilaOperandos" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Gramatica_py$main.coverage" NAME="main Coverage Results" MODIFIED="1700989562697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Gramatica_py$main.coverage" NAME="main Coverage Results" MODIFIED="1701063517457" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/AddChar_py$main.coverage" NAME="main Coverage Results" MODIFIED="1696712153959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Gramatica_py$try.coverage" NAME="main Coverage Results" MODIFIED="1700936566959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Gramatica_py$GeneradorAssembler.coverage" NAME="GeneradorAssembler Coverage Results" MODIFIED="1700985219907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AnalizadorSemantico" />

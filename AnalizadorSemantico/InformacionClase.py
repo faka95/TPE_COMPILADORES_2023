@@ -22,7 +22,8 @@ class InformacionClase:
         self.nro_parametros = nroparametros
         self.valor = valor
         self.propiedades_heredadas = self.convertir_a_lista(propiedades_heredadas) if propiedades_heredadas is not None else None
-        self.funcion_padre = funcion_padre
+
+        self.funcion_padre = funcion_padre.replace(":","_") if funcion_padre is not None else None
     def convertir_a_lista(self,cadena):
         try:
             lista = ast.literal_eval(cadena)

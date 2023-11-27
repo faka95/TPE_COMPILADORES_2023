@@ -1,53 +1,43 @@
 {
-CLASS clase_b {
-    INT property1,
-    FLOAT propertyc2,
+CLASS clase {
+    INT i,
+    VOID funcion1(INT param) {
+        INT j,
+        j = param,
+        PRINT(%ESTE ES LA FUNCION CLASE_UNO%),
+        RETURN,
     },
-CLASS clase_c {
-    FLOAT property1,
-    FLOAT propertyc2,
-    clase_b,
-    },
-
-clase_c c1,
-INT a;b,
-b = 6_i,
-c1.clase_b.property1 = 1_i,
-IF (b == 6_i){
-	PRINT(%then%),
-} END_IF,
-
-IF (b == 5_i) {
-    PRINT(%then%),
-} ELSE {
-    b = b--,
-    PRINT(%else%),
-} END_IF,
-
-IF (b == 5_i) {
-    PRINT(%vale 5%),
-} END_IF,
-
-b = b - 1_i,
-
-IF (b == 4_i) {
-    PRINT(%vale 4%),
-} END_IF,
-
-IF (b == 4_i) {
-	PRINT(%VALE 4 TODAVIA%),
-	b = b--,
-	IF	(b == 3_i) {
-		PRINT(%VALE 3 AHORA%),
-	} END_IF,
-} END_IF,
-a = 5_i,
-WHILE (a !! 1_i) DO {
-	a = a--,
-	PRINT(%A, VALE 1 MENOS%),
-	WHILE (b !! 10_i) DO {
-		b = b + 1_i,
-		PRINT(%B, AUMENTANDOO%),
-	},
 },
+
+CLASS clase_dos {
+    VOID funcion1(ULONG param) {
+        ULONG j,
+        j = param,
+        PRINT(%ESTE ES LA FUNCION CLASE_DOS%),
+        RETURN,
+    },
+    clase,
+},
+
+INT x;y,
+clase_dos z,
+x = 1_i,
+y = 2_i,
+
+z.funcion1(5_ul),
+z.clase.funcion1(y),
+x = x*y,
+
+VOID funcion2() {
+    INT j,
+    PRINT(%ESTA ES LA FUNCION 3%),
+    VOID funcion3() {
+        j = j +1_i,
+        PRINT(%ESTA ES LA FUNCION 4%),
+        RETURN,
+    },
+    funcion3(),
+    RETURN,
+},
+funcion2(),
 }
