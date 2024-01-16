@@ -1,43 +1,28 @@
 {
-CLASS clase {
-    INT i,
-    VOID funcion1(INT param) {
-        INT j,
-        j = param,
-        PRINT(%ESTE ES LA FUNCION CLASE_UNO%),
+CLASS test_clase {
+    clase_foward,
+},
+
+CLASS clase_foward {
+    INT propoerty_foward,
+    VOID metodo_foward() {
+        PRINT(%metodo de clase_foward%),
         RETURN,
     },
 },
 
-CLASS clase_dos {
-    VOID funcion1(ULONG param) {
-        ULONG j,
-        j = param,
-        PRINT(%ESTE ES LA FUNCION CLASE_DOS%),
+CLASS super {
+    INT propoerty_super,
+    VOID metodo_super() {
+        PRINT(%metodo de super%),
         RETURN,
     },
-    clase,
 },
 
-INT x;y,
-clase_dos z,
-x = 1_i,
-y = 2_i,
-
-z.funcion1(5_ul),
-z.clase.funcion1(y),
-x = x*y,
-
-VOID funcion2() {
-    INT j,
-    PRINT(%ESTA ES LA FUNCION 3%),
-    VOID funcion3() {
-        j = j +1_i,
-        PRINT(%ESTA ES LA FUNCION 4%),
-        RETURN,
-    },
-    funcion3(),
-    RETURN,
+CLASS sub {
+    super,
 },
-funcion2(),
+
+test_clase a,
+a.clase_foward.metodo_foward(),
 }
